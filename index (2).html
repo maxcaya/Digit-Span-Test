@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#111111" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<title>Digit Span Test</title>
+<style>
+:root{
+  --bg:#f3f3f3; --card:#fff; --text:#111; --muted:#666;
+  --line:#d7d7d7; --ok:#237a3d; --bad:#a82f2f;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100dvh;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  -webkit-text-size-adjust:100%;
+  overscroll-behavior-y:none;
+}
+button,input,select{
+  min-height:48px;
+  touch-action:manipulation;
+}
+button{
+  -webkit-tap-highlight-color:transparent;
+}
+input{
+  font-size:16px;
+}
+.shell{
+  max-width:880px;
+  margin:32px auto;
+  padding:0 18px;
+}
+.page{
+  display:none;
+  min-height:min(78vh, 820px);
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:34px;
+  box-shadow:0 5px 18px rgba(0,0,0,.05);
+}
+.page.active{display:block}
+h1,h2{margin-top:0}
+h1{font-size:30px}
+h2{font-size:26px}
+p{line-height:1.55}
+.muted{color:var(--muted)}
+.instructions{
+  border:1px solid var(--line);
+  background:#fafafa;
+  border-radius:12px;
+  padding:18px 20px;
+  margin:18px 0 24px;
+}
+.instructions ul{margin-bottom:0}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:14px;
+  margin-top:20px;
+}
+label{
+  display:block;
+  font-size:14px;
+  font-weight:700;
+  margin-bottom:6px;
+}
+input,select,button{
+  width:100%;
+  font-size:16px;
+  border-radius:9px;
+  padding:11px;
+}
+input,select{border:1px solid #bbb;background:#fff}
+button{
+  border:none;
+  background:#111;
+  color:#fff;
+  font-weight:700;
+  cursor:pointer;
+}
+button.secondary{
+  background:#fff;
+  color:#111;
+  border:1px solid #aaa;
+}
+button:disabled{opacity:.45;cursor:not-allowed}
+.actions{
+  display:flex;
+  gap:10px;
+  margin-top:22px;
+}
+.center{text-align:center}
+.modeTag{
+  display:inline-block;
+  padding:6px 10px;
+  border:1px solid #bbb;
+  border-radius:999px;
+  font-size:14px;
+  margin-bottom:16px;
+  background:#fafafa;
+}
+#digit, #practiceDigit{
+  width:clamp(250px, 48vw, 340px);
+  height:clamp(180px, 34vw, 230px);
+  margin:24px auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:3px solid #111;
+  border-radius:14px;
+  background:#fff;
+  font-size:clamp(110px, 20vw, 145px);
+  line-height:1;
+  font-weight:700;
+  font-variant-numeric:tabular-nums;
+  user-select:none;
+  -webkit-user-select:none;
+}
+#status{
+  min-height:30px;
+  font-size:18px;
+  color:#444;
+  margin-bottom:10px;
+}
+.answerRow{
+  display:flex;
+  gap:10px;
+  max-width:520px;
+  margin:0 auto;
+}
+.answerRow input{
+  flex:1;
+  text-align:center;
+  font-size:24px;
+  letter-spacing:5px;
+}
+.answerRow button{width:150px}
+.feedback{
+  height:30px;
+  margin-top:12px;
+  font-weight:700;
+}
+.ok{color:var(--ok)} .bad{color:var(--bad)}
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  margin-top:24px;
+}
+.stat{
+  border:1px solid var(--line);
+  background:#fafafa;
+  border-radius:10px;
+  padding:12px;
+}
+.stat b{
+  display:block;
+  font-size:23px;
+  margin-top:4px;
+}
+.summary{
+  display:grid;
+  gap:12px;
+  margin-top:20px;
+}
+.summaryRow{
+  display:flex;
+  justify-content:space-between;
+  border:1px solid var(--line);
+  border-radius:10px;
+  padding:14px;
+  background:#fafafa;
+}
+.progress{
+  font-size:14px;
+  color:#666;
+  margin-bottom:12px;
+}
+.small{
+  font-size:13px;
+  color:#666;
+  line-height:1.45;
+}
+@media(max-width:680px){
+  .shell{
+    margin:0 auto;
+    padding:0;
+    max-width:none;
+  }
+  .page{
+    min-height:100dvh;
+    border-radius:0;
+    border-left:0;
+    border-right:0;
+    padding:24px 18px calc(24px + env(safe-area-inset-bottom));
+    box-shadow:none;
+  }
+  h1{font-size:26px}
+  h2{font-size:24px}
+  .grid,.stats{grid-template-columns:1fr}
+  .actions,.answerRow{flex-direction:column}
+  .answerRow{width:100%;max-width:420px}
+  .answerRow button{width:100%}
+  .answerRow input{
+    width:100%;
+    min-height:58px;
+    font-size:28px;
+  }
+  #digit, #practiceDigit{
+    width:min(78vw,310px);
+    height:min(52vw,210px);
+    font-size:min(32vw,130px);
+    margin:20px auto;
+  }
+  .instructions{
+    padding:16px;
+  }
+  .stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+@media(min-width:681px) and (max-width:1024px){
+  .shell{max-width:780px}
+  .page{min-height:88dvh}
+  #digit, #practiceDigit{
+    width:330px;
+    height:225px;
+    font-size:140px;
+  }
+}
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- PAGE 1: PARTICIPANT DATA -->
+  <section id="participantPage" class="page active">
+    <h1>Digit Span Test</h1>
+    <p class="muted">Datos del participante</p>
+
+    <div class="instructions">
+      <h3>Registro previo</h3>
+      <p>Completa los siguientes datos antes de comenzar la evaluación.</p>
+    </div>
+
+    <div class="grid">
+      <div style="grid-column:1/-1">
+        <label for="fullName">Nombre completo</label>
+        <input id="fullName" type="text" placeholder="Nombre y apellido" required />
+      </div>
+
+      <div>
+        <label for="gender">Género</label>
+        <select id="gender" required>
+          <option value="">Seleccionar</option>
+          <option value="Hombre">Hombre</option>
+          <option value="Mujer">Mujer</option>
+          <option value="Otro">Otro</option>
+          <option value="Prefiero no responder">Prefiero no responder</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="birthDate">Fecha de nacimiento</label>
+        <input id="birthDate" type="date" required />
+      </div>
+
+      <div>
+        <label for="notes">Observación breve (opcional)</label>
+        <input id="notes" type="text" placeholder="Ej. uso de lentes, interrupciones, etc." />
+      </div>
+    </div>
+
+    <div class="actions">
+      <button id="continueToInstructions">Continuar</button>
+      <button id="developerAccess" class="secondary">Desarrolladores</button>
+    </div>
+  </section>
+
+  <!-- PAGE 2: GENERAL INSTRUCTIONS -->
+  <section id="setupPage" class="page">
+    <h1>Digit Span Test</h1>
+    <p class="muted">Batería visual de memoria numérica · compatible con celular, tablet y computador</p>
+
+    <div class="instructions">
+      <h3>Instrucciones generales</h3>
+      <ul>
+        <li>Observa los números que aparecerán uno por uno.</li>
+        <li>No los anotes ni uses el celular.</li>
+        <li>Al terminar la secuencia, escribe tu respuesta según la instrucción de cada prueba.</li>
+        <li>Antes de cada prueba harás un ejercicio de práctica que no cuenta para el resultado.</li>
+        <li>En cada nivel tienes <b>2 intentos</b>. Si fallas uno, ese intento se pierde.</li>
+        <li>La prueba comienza cuando estés listo y presiones <b>“Empezar test”</b>.</li>
+      </ul>
+    </div>
+
+    <div class="actions">
+      <button id="beginBattery">Empezar test</button>
+      <button id="fullscreenBtn" class="secondary">Pantalla completa</button>
+      <button id="backToParticipant" class="secondary">Volver</button>
+    </div>
+  </section>
+
+  <!-- PAGE 2: MODE INTRO -->
+  <section id="introPage" class="page">
+    <div class="progress" id="introProgress"></div>
+    <div class="modeTag" id="introModeTag"></div>
+    <h2 id="introTitle"></h2>
+
+    <div class="instructions">
+      <h3>Instrucciones</h3>
+      <p id="introInstruction"></p>
+      <p id="introExample"></p>
+    </div>
+
+    <p>Primero realizarás una práctica breve. Esta práctica no cuenta para el resultado final.</p>
+
+    <div class="actions">
+      <button id="startPractice">Comenzar práctica</button>
+    </div>
+  </section>
+
+  <!-- PAGE 3: PRACTICE -->
+  <section id="practicePage" class="page center">
+    <div class="progress" id="practiceProgress"></div>
+    <div class="modeTag" id="practiceModeTag"></div>
+    <h2>Práctica</h2>
+    <div id="practiceStatus"></div>
+    <div id="practiceDigit"></div>
+
+    <div class="answerRow">
+      <input id="practiceAnswer" inputmode="numeric" autocomplete="off" placeholder="Respuesta" disabled />
+      <button id="practiceSubmit" disabled>Responder</button>
+    </div>
+    <div id="practiceFeedback" class="feedback"></div>
+  </section>
+
+  <!-- PAGE 4: READY -->
+  <section id="readyPage" class="page center">
+    <div class="progress" id="readyProgress"></div>
+    <div class="modeTag" id="readyModeTag"></div>
+    <h2 id="readyTitle"></h2>
+
+    <div class="instructions" style="text-align:left">
+      <h3>Antes de empezar</h3>
+      <p id="readyInstruction"></p>
+      <p>Cuando estés listo para iniciar el test real, presiona el botón de abajo.</p>
+    </div>
+
+    <div class="actions" style="justify-content:center">
+      <button id="startRealTest" style="max-width:360px">Empezar test</button>
+    </div>
+  </section>
+
+  <!-- PAGE 5: TEST -->
+  <section id="testPage" class="page center">
+    <div class="progress" id="testProgress"></div>
+    <div class="modeTag" id="testModeTag"></div>
+
+    <div id="status"></div>
+    <div id="digit"></div>
+
+    <div class="answerRow">
+      <input id="answer" inputmode="numeric" autocomplete="off" placeholder="Respuesta" disabled />
+      <button id="submit" disabled>Responder</button>
+    </div>
+    <div id="feedback" class="feedback"></div>
+
+    <div class="stats">
+      <div class="stat"><span>Longitud</span><b id="sLength">—</b></div>
+      <div class="stat"><span>Aciertos</span><b id="sCorrect">0</b></div>
+      <div class="stat"><span>Errores</span><b id="sWrong">0</b></div>
+      <div class="stat"><span>Span máximo</span><b id="sSpan">—</b></div>
+    </div>
+  </section>
+
+  <!-- PAGE 6: MODE COMPLETE -->
+  <section id="modeCompletePage" class="page center">
+    <div class="progress" id="completeProgress"></div>
+    <div class="modeTag" id="completeModeTag"></div>
+    <h2>Test completado</h2>
+    <p id="completeText"></p>
+
+    <div class="actions" style="justify-content:center">
+      <button id="nextMode" style="max-width:360px">Ir al siguiente test</button>
+    </div>
+  </section>
+
+  <!-- PAGE 7: FINAL -->
+  <section id="finalPage" class="page">
+    <h2>Batería completada</h2>
+    <p class="muted">Resultados resumidos</p>
+    <div id="saveStatus" class="instructions" style="margin-top:18px">
+      <b>Estado:</b> esperando envío de resultados.
+    </div>
+
+    <div id="summary" class="summary"></div>
+
+    <div class="actions">
+      <button id="csv">Exportar resultados CSV</button>
+      <button id="restart" class="secondary">Nueva batería</button>
+    </div>
+
+    <p class="small">
+      Las prácticas están identificadas en el archivo exportado con la columna “practice”.
+    </p>
+  </section>
+
+  <!-- DEVELOPER LOGIN -->
+  <section id="developerLoginPage" class="page">
+    <h2>Acceso desarrolladores</h2>
+    <p class="muted">Área de administración del Digit Span Test</p>
+
+    <div class="instructions">
+      <h3>Ingreso</h3>
+      <p>Introduce la contraseña de desarrollador para continuar.</p>
+    </div>
+
+    <div style="max-width:420px">
+      <label for="developerPassword">Contraseña</label>
+      <input id="developerPassword" type="password" placeholder="Contraseña" autocomplete="off" />
+      <div id="developerError" class="feedback"></div>
+    </div>
+
+    <div class="actions">
+      <button id="developerLogin">Ingresar</button>
+      <button id="developerBack" class="secondary">Volver</button>
+    </div>
+  </section>
+
+  <!-- DEVELOPER PANEL -->
+  <section id="developerPage" class="page">
+    <h2>Panel de desarrolladores</h2>
+    <p class="muted">Administración y revisión de resultados</p>
+    <div class="instructions">
+      <h3>Google Sheets</h3>
+      <p id="devGoogleStatus"><b>Configurado:</b> los resultados se envían automáticamente al finalizar cada batería.</p>
+      <div class="actions">
+        <button id="testGoogleConnection">Probar conexión con Google Sheets</button>
+      </div>
+      <div id="googleConnectionResult" class="feedback"></div>
+      <p class="small">La prueba crea un registro identificado como <b>PRUEBA_CONEXION</b> en la hoja. Puedes eliminarlo después.</p>
+    </div>
+
+    <div class="instructions">
+      <h3>Configuración del test</h3>
+      <p>Estos parámetros se aplicarán a las próximas pruebas. Los valores recomendados están optimizados para distintos tamaños de pantalla.</p>
+
+      <div class="grid">
+        <div>
+          <label for="cfgStartLength">Longitud inicial</label>
+          <input id="cfgStartLength" type="number" min="1" max="12" value="3">
+        </div>
+        <div>
+          <label for="cfgTrials">Intentos por longitud</label>
+          <input id="cfgTrials" type="number" min="1" max="10" value="2">
+        </div>
+        <div>
+          <label for="cfgDigitMs">Tiempo por dígito (ms)</label>
+          <input id="cfgDigitMs" type="number" min="100" max="5000" step="50" value="1000">
+        </div>
+        <div>
+          <label for="cfgGapMs">Pausa entre dígitos (ms)</label>
+          <input id="cfgGapMs" type="number" min="0" max="5000" step="50" value="250">
+        </div>
+        <div>
+          <label for="cfgMaxLength">Longitud máxima</label>
+          <input id="cfgMaxLength" type="number" min="2" max="30" value="12">
+        </div>
+        <div>
+          <label for="cfgPreDelay">Espera antes de secuencia (ms)</label>
+          <input id="cfgPreDelay" type="number" min="0" max="5000" step="50" value="500">
+        </div>
+        <div>
+          <label for="cfgWidth">Ancho del cuadro (px)</label>
+          <input id="cfgWidth" type="number" min="150" max="900" value="350">
+        </div>
+        <div>
+          <label for="cfgHeight">Alto del cuadro (px)</label>
+          <input id="cfgHeight" type="number" min="120" max="700" value="240">
+        </div>
+        <div>
+          <label for="cfgFontSize">Tamaño del número (px)</label>
+          <input id="cfgFontSize" type="number" min="40" max="400" value="150">
+        </div>
+        <div>
+          <label for="cfgPracticeFeedback">Feedback en práctica</label>
+          <select id="cfgPracticeFeedback">
+            <option value="true" selected>Mostrar</option>
+            <option value="false">Ocultar</option>
+          </select>
+        </div>
+      </div>
+
+      <h3 style="margin-top:24px">Pruebas activas y orden</h3>
+      <div class="grid">
+        <div><label><input id="cfgForward" type="checkbox" checked style="width:auto"> Forward</label></div>
+        <div><label><input id="cfgBackward" type="checkbox" checked style="width:auto"> Backward</label></div>
+        <div><label><input id="cfgAscending" type="checkbox" checked style="width:auto"> Menor → Mayor</label></div>
+        <div><label><input id="cfgDescending" type="checkbox" checked style="width:auto"> Mayor → Menor</label></div>
+      </div>
+
+      <div class="actions">
+        <button id="saveConfig">Guardar configuración</button>
+        <button id="resetConfig" class="secondary">Restaurar valores recomendados</button>
+      </div>
+      <div id="configSaved" class="feedback"></div>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><span>Intentos guardados</span><b id="devAttempts">0</b></div>
+      <div class="stat"><span>Tests completos</span><b id="devCompleted">0</b></div>
+      <div class="stat"><span>Participante actual</span><b id="devParticipant" style="font-size:16px">—</b></div>
+      <div class="stat"><span>Edad</span><b id="devAge">—</b></div>
+    </div>
+
+    <div style="overflow-x:auto;margin-top:24px">
+      <table>
+        <thead>
+          <tr>
+            <th>Modo</th>
+            <th>Práctica</th>
+            <th>Longitud</th>
+            <th>Secuencia</th>
+            <th>Respuesta</th>
+            <th>Correcto</th>
+            <th>TR (ms)</th>
+          </tr>
+        </thead>
+        <tbody id="developerResultsBody"></tbody>
+      </table>
+    </div>
+
+    <div class="actions">
+      <button id="developerExport">Exportar CSV</button>
+      <button id="developerExit" class="secondary">Salir</button>
+    </div>
+
+    <p class="small">
+      Este acceso está pensado para administración básica. La contraseña queda incluida dentro del archivo HTML y no reemplaza un sistema de autenticación seguro para publicación en internet.
+    </p>
+  </section>
+
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+
+let TEST_ORDER = ["forward","backward","ascending","descending"];
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxnE-VrTDGeODgIL3_635-ZaO2V7ueFTZkqMRnC3xXiB16zxZyjpUoS2Y2F5GJIkO85/exec";
+let CONFIG = {
+  digitMs: 1000,
+  gapMs: 250,
+  startLength: 3,
+  trialsPerLength: 2,
+  maxLength: 12,
+  preSequenceDelay: 500,
+  practicePreDelay: 600,
+  showPracticeFeedback: true,
+  showTestFeedback: false,
+  stimulusWidth: 350,
+  stimulusHeight: 240,
+  stimulusFontSize: 150
+};
+
+const PRACTICE_SEQS = {
+  forward:[[3,8,1]],
+  backward:[[4,7,2]],
+  ascending:[[6,2,9]],
+  descending:[[1,8,4]]
+};
+
+const INFO = {
+  forward:{
+    title:"Digit Span Forward",
+    tag:"Forward",
+    instruction:"Repite los números exactamente en el mismo orden en que aparecieron.",
+    example:"Ejemplo: si aparecen 4 – 7 – 2, debes responder 472."
+  },
+  backward:{
+    title:"Digit Span Backward",
+    tag:"Backward",
+    instruction:"Repite los números en el orden inverso.",
+    example:"Ejemplo: si aparecen 4 – 7 – 2, debes responder 274."
+  },
+  ascending:{
+    title:"Digit Span: menor a mayor",
+    tag:"Menor → Mayor",
+    instruction:"Ordena los números desde el menor hasta el mayor.",
+    example:"Ejemplo: si aparecen 6 – 2 – 9, debes responder 269."
+  },
+  descending:{
+    title:"Digit Span: mayor a menor",
+    tag:"Mayor → Menor",
+    instruction:"Ordena los números desde el mayor hasta el menor.",
+    example:"Ejemplo: si aparecen 1 – 8 – 4, debes responder 841."
+  }
+};
+
+let state = {
+  currentTestIndex:0,
+  phase:"idle",
+  practiceIndex:0,
+  length:3,
+  trial:0,
+  trialsPerLength:2,
+  levelCorrect:0,
+  sequence:[],
+  results:[],
+  responseStart:0,
+  maxSpan:null,
+  correct:0,
+  wrong:0,
+  summaries:[],
+  evaluationId:null,
+  saveCompleted:false
+};
+
+function currentMode(){ return TEST_ORDER[state.currentTestIndex]; }
+function info(){ return INFO[currentMode()]; }
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+
+function showPage(id){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+  $(id).classList.add("active");
+  window.scrollTo(0,0);
+}
+
+function progressText(){
+  return `Test ${state.currentTestIndex+1} de ${TEST_ORDER.length}`;
+}
+
+function expected(seq,mode){
+  if(mode==="forward") return [...seq];
+  if(mode==="backward") return [...seq].reverse();
+  if(mode==="ascending") return [...seq].sort((a,b)=>a-b);
+  if(mode==="descending") return [...seq].sort((a,b)=>b-a);
+}
+
+function generateSequence(n){
+  const a=[];
+  for(let i=0;i<n;i++) a.push(Math.floor(Math.random()*10));
+  return a;
+}
+
+function normalizeAnswer(s){
+  return s.replace(/\D/g,"").split("").filter(Boolean).map(Number);
+}
+
+function arraysEqual(a,b){
+  return a.length===b.length && a.every((v,i)=>v===b[i]);
+}
+
+function fillIntro(){
+  $("introProgress").textContent=progressText();
+  $("introModeTag").textContent=info().tag;
+  $("introTitle").textContent=info().title;
+  $("introInstruction").textContent=info().instruction;
+  $("introExample").textContent=info().example;
+}
+
+function fillReady(){
+  $("readyProgress").textContent=progressText();
+  $("readyModeTag").textContent=info().tag;
+  $("readyTitle").textContent=info().title;
+  $("readyInstruction").textContent=info().instruction;
+}
+
+function updateStats(){
+  $("sLength").textContent=state.length;
+  $("sCorrect").textContent=state.correct;
+  $("sWrong").textContent=state.wrong;
+  $("sSpan").textContent=state.maxSpan ?? "—";
+}
+
+async function presentPractice(){
+  state.phase="practice";
+  $("practiceProgress").textContent=progressText();
+  $("practiceModeTag").textContent=info().tag;
+  $("practiceStatus").textContent="Observa la secuencia.";
+  $("practiceFeedback").textContent="";
+  $("practiceAnswer").value="";
+  $("practiceAnswer").disabled=true;
+  $("practiceSubmit").disabled=true;
+
+  state.sequence=[...PRACTICE_SEQS[currentMode()][state.practiceIndex]];
+  await sleep(600);
+  for(const d of state.sequence){
+    $("practiceDigit").textContent=d;
+    await sleep(CONFIG.digitMs);
+    $("practiceDigit").textContent="";
+    await sleep(CONFIG.gapMs);
+  }
+
+  $("practiceStatus").textContent=info().instruction;
+  $("practiceAnswer").disabled=false;
+  $("practiceSubmit").disabled=false;
+  $("practiceAnswer").focus();
+  state.responseStart=performance.now();
+}
+
+async function submitPractice(){
+  if($("practiceAnswer").disabled) return;
+
+  const ans=normalizeAnswer($("practiceAnswer").value);
+  const exp=expected(state.sequence,currentMode());
+  const ok=arraysEqual(ans,exp);
+  const rt=Math.round(performance.now()-state.responseStart);
+
+  state.results.push({
+    participant:participantData().fullName,
+    gender:participantData().gender,
+    birthDate:participantData().birthDate,
+    age:participantData().age,
+    notes:participantData().notes,
+    mode:currentMode(),
+    practice:true,
+    length:state.sequence.length,
+    trial:state.practiceIndex+1,
+    sequence:[...state.sequence],
+    answer:ans,
+    expected:exp,
+    correct:ok,
+    rt,
+    timestamp:new Date().toISOString()
+  });
+
+  $("practiceAnswer").disabled=true;
+  $("practiceSubmit").disabled=true;
+  if(CONFIG.showPracticeFeedback){
+    $("practiceFeedback").className=ok?"feedback ok":"feedback bad";
+    $("practiceFeedback").textContent=ok
+      ? "Práctica correcta"
+      : `Práctica incorrecta · Respuesta esperada: ${exp.join("")}`;
+  }else{
+    $("practiceFeedback").textContent="";
+  }
+
+  await sleep(1000);
+
+  state.practiceIndex++;
+
+  if(state.practiceIndex < PRACTICE_SEQS[currentMode()].length){
+    presentPractice();
+  }else{
+    state.practiceIndex=0;
+    fillReady();
+    showPage("readyPage");
+  }
+}
+
+async function startTest(){
+  state.phase="test";
+  state.length=CONFIG.startLength;
+  state.trial=0;
+  state.levelCorrect=0;
+  state.correct=0;
+  state.wrong=0;
+  state.maxSpan=null;
+
+  $("testProgress").textContent=progressText();
+  $("testModeTag").textContent=info().tag;
+  updateStats();
+  showPage("testPage");
+  await sleep(500);
+  presentTestSequence();
+}
+
+async function presentTestSequence(){
+  $("answer").value="";
+  $("feedback").textContent="";
+  $("answer").disabled=true;
+  $("submit").disabled=true;
+
+  $("status").textContent=`Observa la secuencia · intento ${state.trial+1}/${CONFIG.trialsPerLength}`;
+
+  state.sequence=generateSequence(state.length);
+
+  await sleep(CONFIG.preSequenceDelay);
+
+  for(const d of state.sequence){
+    $("digit").textContent=d;
+    await sleep(CONFIG.digitMs);
+    $("digit").textContent="";
+    await sleep(CONFIG.gapMs);
+  }
+
+  $("status").textContent=info().instruction;
+  $("answer").disabled=false;
+  $("submit").disabled=false;
+  $("answer").focus();
+  state.responseStart=performance.now();
+}
+
+async function submitTest(){
+  if($("answer").disabled) return;
+
+  const ans=normalizeAnswer($("answer").value);
+  const exp=expected(state.sequence,currentMode());
+  const ok=arraysEqual(ans,exp);
+  const rt=Math.round(performance.now()-state.responseStart);
+
+  state.results.push({
+    participant:participantData().fullName,
+    gender:participantData().gender,
+    birthDate:participantData().birthDate,
+    age:participantData().age,
+    notes:participantData().notes,
+    mode:currentMode(),
+    practice:false,
+    length:state.length,
+    trial:state.trial+1,
+    sequence:[...state.sequence],
+    answer:ans,
+    expected:exp,
+    correct:ok,
+    rt,
+    timestamp:new Date().toISOString()
+  });
+
+  $("answer").disabled=true;
+  $("submit").disabled=true;
+
+  if(ok){
+    state.correct++;
+    state.levelCorrect++;
+    state.maxSpan=Math.max(state.maxSpan ?? 0,state.length);
+  }else{
+    state.wrong++;
+  }
+
+  updateStats();
+
+  // Sin feedback correcto/incorrecto durante el test real
+  $("feedback").textContent="";
+  state.trial++;
+
+  await sleep(450);
+
+  if(state.trial < CONFIG.trialsPerLength){
+    presentTestSequence();
+    return;
+  }
+
+  // Los dos intentos del nivel siempre se consumen.
+  // Un acierto no borra ni recupera un intento fallado.
+  if(state.levelCorrect===0){
+    finishCurrentTest();
+  }else{
+    state.length++;
+    state.trial=0;
+    state.levelCorrect=0;
+
+    if(state.length>CONFIG.maxLength){
+      finishCurrentTest();
+    }else{
+      presentTestSequence();
+    }
+  }
+}
+
+function finishCurrentTest(){
+  state.summaries.push({
+    mode:currentMode(),
+    title:info().title,
+    maxSpan:state.maxSpan,
+    correct:state.correct,
+    wrong:state.wrong
+  });
+
+  $("completeProgress").textContent=progressText();
+  $("completeModeTag").textContent=info().tag;
+  $("completeText").textContent=
+    `${info().title} finalizado. Span máximo: ${state.maxSpan ?? "sin aciertos"}.`;
+
+  $("nextMode").textContent =
+    state.currentTestIndex < TEST_ORDER.length-1
+      ? "Ir al siguiente test"
+      : "Ver resultados finales";
+
+  showPage("modeCompletePage");
+}
+
+function nextMode(){
+  if(state.currentTestIndex < TEST_ORDER.length-1){
+    state.currentTestIndex++;
+    fillIntro();
+    showPage("introPage");
+  }else{
+    renderFinal();
+    showPage("finalPage");
+  }
+}
+
+
+function generateEvaluationId(){
+  const now=new Date();
+  const stamp=now.toISOString().replace(/[-:.TZ]/g,"");
+  const rnd=Math.random().toString(36).slice(2,7).toUpperCase();
+  return `DS-${stamp}-${rnd}`;
+}
+
+function buildGooglePayload(){
+  const p=participantData();
+
+  if(!state.evaluationId){
+    state.evaluationId=generateEvaluationId();
+  }
+
+  const results={};
+  state.summaries.forEach(s=>{
+    results[s.mode]={
+      maxSpan:s.maxSpan,
+      correct:s.correct,
+      wrong:s.wrong
+    };
+  });
+
+  return {
+    evaluation_id:state.evaluationId,
+    participant:{
+      full_name:p.fullName,
+      gender:p.gender,
+      birth_date:p.birthDate,
+      age:p.age,
+      notes:p.notes
+    },
+    results:results,
+    trials:state.results.map(r=>({
+      mode:r.mode,
+      practice:r.practice,
+      length:r.length,
+      trial:r.trial,
+      sequence:r.sequence,
+      answer:r.answer,
+      expected:r.expected,
+      correct:r.correct,
+      rt:r.rt
+    })),
+    client_info:{
+      user_agent:navigator.userAgent,
+      screen_width:window.screen.width,
+      screen_height:window.screen.height,
+      viewport_width:window.innerWidth,
+      viewport_height:window.innerHeight,
+      device_pixel_ratio:window.devicePixelRatio || 1
+    },
+    protocol:{
+      start_length:CONFIG.startLength,
+      trials_per_length:CONFIG.trialsPerLength,
+      digit_time_ms:CONFIG.digitMs,
+      inter_digit_gap_ms:CONFIG.gapMs,
+      max_length:CONFIG.maxLength,
+      modes:TEST_ORDER
+    }
+  };
+}
+
+async function saveToGoogleSheets(){
+  const status=$("saveStatus");
+  if(!status) return;
+
+  if(state.saveCompleted){
+    status.innerHTML="<b>✓ Resultados guardados correctamente.</b>";
+    return;
+  }
+
+  status.innerHTML="<b>Guardando resultados...</b>";
+
+  try{
+    const payload=buildGooglePayload();
+
+    // text/plain avoids a CORS preflight with Google Apps Script.
+    await fetch(GOOGLE_SCRIPT_URL,{
+      method:"POST",
+      headers:{
+        "Content-Type":"text/plain;charset=utf-8"
+      },
+      body:JSON.stringify(payload),
+      mode:"no-cors"
+    });
+
+    // With no-cors the response body cannot be read, but a successful fetch
+    // means the request was dispatched to Apps Script.
+    state.saveCompleted=true;
+    status.innerHTML="<b>✓ Resultados enviados a Google Sheets.</b><br><span class='small'>ID evaluación: "+state.evaluationId+"</span>";
+  }catch(error){
+    console.error(error);
+    status.innerHTML="<b style='color:#a82f2f'>No se pudieron guardar los resultados.</b><br><span class='small'>Puedes intentar nuevamente.</span><div style='margin-top:10px'><button id='retrySave' class='secondary'>Reintentar guardado</button></div>";
+    setTimeout(()=>{
+      const btn=$("retrySave");
+      if(btn) btn.addEventListener("click",saveToGoogleSheets);
+    },0);
+  }
+}
+
+function renderFinal(){
+  $("summary").innerHTML="";
+  state.summaries.forEach(s=>{
+    const div=document.createElement("div");
+    div.className="summaryRow";
+    div.innerHTML=
+      `<span><b>${s.title}</b><br><span class="muted">${s.correct} aciertos · ${s.wrong} errores</span></span>
+       <span><b>Span ${s.maxSpan ?? "—"}</b></span>`;
+    $("summary").appendChild(div);
+  });
+  saveToGoogleSheets();
+}
+
+function exportCSV(){
+  if(!state.results.length){
+    alert("Todavía no hay resultados.");
+    return;
+  }
+
+  const head=[
+    "full_name","gender","birth_date","age","notes",
+    "mode","practice","length","trial","sequence","answer","expected","correct",
+    "reaction_time_ms","digit_time_ms","inter_digit_gap_ms","timestamp"
+  ];
+
+  const rows=state.results.map(r=>[
+    r.participant,r.gender,r.birthDate,r.age,r.notes,
+    r.mode,r.practice?1:0,r.length,r.trial,
+    r.sequence.join(""),r.answer.join(""),r.expected.join(""),
+    r.correct?1:0,r.rt,CONFIG.digitMs,CONFIG.gapMs,r.timestamp
+  ]);
+
+  const csv=[head,...rows]
+    .map(row=>row.map(v=>`"${String(v).replaceAll('"','""')}"`).join(","))
+    .join("\n");
+
+  const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  const safeName=(participantData().fullName || "participante").replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ_-]+/g,"_");
+  a.download=`digit_span_${safeName}.csv`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+
+function calculateAge(dateString){
+  if(!dateString) return "";
+  const birth=new Date(dateString+"T00:00:00");
+  const today=new Date();
+  let age=today.getFullYear()-birth.getFullYear();
+  const m=today.getMonth()-birth.getMonth();
+  if(m<0 || (m===0 && today.getDate()<birth.getDate())) age--;
+  return age;
+}
+
+function participantData(){
+  return {
+    fullName:$("fullName").value.trim(),
+    gender:$("gender").value,
+    birthDate:$("birthDate").value,
+    age:calculateAge($("birthDate").value),
+    notes:$("notes").value.trim()
+  };
+}
+
+function validateParticipant(){
+  const p=participantData();
+  if(!p.fullName || !p.gender || !p.birthDate){
+    alert("Completa los campos obligatorios antes de continuar.");
+    return false;
+  }
+  if(p.age < 0 || p.age > 120){
+    alert("Revisa la fecha de nacimiento.");
+    return false;
+  }
+  return true;
+}
+
+function beginBattery(){
+  state.currentTestIndex=0;
+  state.results=[];
+  state.summaries=[];
+  state.evaluationId=null;
+  state.saveCompleted=false;
+  state.trialsPerLength=CONFIG.trialsPerLength;
+  fillIntro();
+  showPage("introPage");
+}
+
+
+
+const DEVELOPER_PASSWORD = "demonunab";
+
+
+function applyStimulusSize(){
+  const els=[$("digit"),$("practiceDigit")];
+  els.forEach(el=>{
+    if(!el) return;
+    el.style.width=CONFIG.stimulusWidth+"px";
+    el.style.height=CONFIG.stimulusHeight+"px";
+    el.style.fontSize=CONFIG.stimulusFontSize+"px";
+  });
+}
+
+function loadConfigControls(){
+  $("cfgStartLength").value=CONFIG.startLength;
+  $("cfgTrials").value=CONFIG.trialsPerLength;
+  $("cfgDigitMs").value=CONFIG.digitMs;
+  $("cfgGapMs").value=CONFIG.gapMs;
+  $("cfgMaxLength").value=CONFIG.maxLength;
+  $("cfgPreDelay").value=CONFIG.preSequenceDelay;
+  $("cfgWidth").value=CONFIG.stimulusWidth;
+  $("cfgHeight").value=CONFIG.stimulusHeight;
+  $("cfgFontSize").value=CONFIG.stimulusFontSize;
+  $("cfgPracticeFeedback").value=String(CONFIG.showPracticeFeedback);
+
+  $("cfgForward").checked=TEST_ORDER.includes("forward");
+  $("cfgBackward").checked=TEST_ORDER.includes("backward");
+  $("cfgAscending").checked=TEST_ORDER.includes("ascending");
+  $("cfgDescending").checked=TEST_ORDER.includes("descending");
+}
+
+function saveDeveloperConfig(){
+  const order=[];
+  if($("cfgForward").checked) order.push("forward");
+  if($("cfgBackward").checked) order.push("backward");
+  if($("cfgAscending").checked) order.push("ascending");
+  if($("cfgDescending").checked) order.push("descending");
+
+  if(!order.length){
+    alert("Debe quedar al menos una modalidad activa.");
+    return;
+  }
+
+  CONFIG.startLength=Number($("cfgStartLength").value);
+  CONFIG.trialsPerLength=Number($("cfgTrials").value);
+  CONFIG.digitMs=Number($("cfgDigitMs").value);
+  CONFIG.gapMs=Number($("cfgGapMs").value);
+  CONFIG.maxLength=Number($("cfgMaxLength").value);
+  CONFIG.preSequenceDelay=Number($("cfgPreDelay").value);
+  CONFIG.stimulusWidth=Number($("cfgWidth").value);
+  CONFIG.stimulusHeight=Number($("cfgHeight").value);
+  CONFIG.stimulusFontSize=Number($("cfgFontSize").value);
+  CONFIG.showPracticeFeedback=$("cfgPracticeFeedback").value==="true";
+  TEST_ORDER=order;
+
+  state.trialsPerLength=CONFIG.trialsPerLength;
+  applyStimulusSize();
+
+  $("configSaved").className="feedback ok";
+  $("configSaved").textContent="Configuración guardada.";
+  setTimeout(()=>$("configSaved").textContent="",1800);
+}
+
+function resetDeveloperConfig(){
+  CONFIG={
+    digitMs:1000, gapMs:250, startLength:3, trialsPerLength:2,
+    maxLength:12, preSequenceDelay:500, practicePreDelay:600,
+    showPracticeFeedback:true, showTestFeedback:false,
+    stimulusWidth:350, stimulusHeight:240, stimulusFontSize:150
+  };
+  TEST_ORDER=["forward","backward","ascending","descending"];
+  loadConfigControls();
+  applyStimulusSize();
+  $("configSaved").className="feedback ok";
+  $("configSaved").textContent="Valores recomendados restaurados.";
+}
+
+function updateDeveloperPanel(){
+  const p=participantData();
+  $("devAttempts").textContent=state.results.length;
+  $("devCompleted").textContent=state.summaries.length;
+  $("devParticipant").textContent=p.fullName || "—";
+  $("devAge").textContent=p.age === "" ? "—" : p.age;
+
+  const body=$("developerResultsBody");
+  body.innerHTML="";
+
+  if(!state.results.length){
+    const tr=document.createElement("tr");
+    tr.innerHTML='<td colspan="7" class="muted">Todavía no hay resultados guardados en esta sesión.</td>';
+    body.appendChild(tr);
+    return;
+  }
+
+  state.results.forEach(r=>{
+    const tr=document.createElement("tr");
+    tr.innerHTML=`
+      <td>${INFO[r.mode]?.tag || r.mode}</td>
+      <td>${r.practice ? "Sí" : "No"}</td>
+      <td>${r.length}</td>
+      <td>${r.sequence.join("")}</td>
+      <td>${r.answer.join("")}</td>
+      <td>${r.correct ? "Sí" : "No"}</td>
+      <td>${r.rt}</td>
+    `;
+    body.appendChild(tr);
+  });
+}
+
+function attemptDeveloperLogin(){
+  const pass=$("developerPassword").value;
+  if(pass===DEVELOPER_PASSWORD){
+    $("developerError").textContent="";
+    $("developerPassword").value="";
+    loadConfigControls();
+    updateDeveloperPanel();
+    showPage("developerPage");
+  }else{
+    $("developerError").className="feedback bad";
+    $("developerError").textContent="Contraseña incorrecta.";
+  }
+}
+
+
+$("developerAccess").addEventListener("click",()=>{
+  $("developerPassword").value="";
+  $("developerError").textContent="";
+  showPage("developerLoginPage");
+});
+
+$("developerLogin").addEventListener("click",attemptDeveloperLogin);
+
+$("developerPassword").addEventListener("keydown",e=>{
+  if(e.key==="Enter") attemptDeveloperLogin();
+});
+
+$("developerBack").addEventListener("click",()=>{
+  showPage("participantPage");
+});
+
+$("developerExit").addEventListener("click",()=>{
+  showPage("participantPage");
+});
+
+$("developerExport").addEventListener("click",exportCSV);
+
+$("saveConfig").addEventListener("click",saveDeveloperConfig);
+$("resetConfig").addEventListener("click",resetDeveloperConfig);
+
+$("continueToInstructions").addEventListener("click",()=>{
+  if(validateParticipant()) showPage("setupPage");
+});
+
+$("backToParticipant").addEventListener("click",()=>{
+  showPage("participantPage");
+});
+
+
+
+async function testGoogleSheetsConnection(){
+  const btn=$("testGoogleConnection");
+  const out=$("googleConnectionResult");
+  btn.disabled=true;
+  out.className="feedback";
+  out.textContent="Probando conexión...";
+
+  const testId="CONNECTION-"+Date.now();
+  const payload={
+    evaluation_id:testId,
+    participant:{
+      full_name:"PRUEBA_CONEXION",
+      gender:"Otro",
+      birth_date:"",
+      age:"",
+      notes:"Registro automático generado desde el panel de desarrolladores para comprobar la conexión."
+    },
+    results:{},
+    trials:[],
+    protocol:{
+      connection_test:true,
+      digit_time_ms:CONFIG.digitMs,
+      inter_digit_gap_ms:CONFIG.gapMs
+    }
+  };
+
+  try{
+    await fetch(GOOGLE_SCRIPT_URL,{
+      method:"POST",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify(payload),
+      mode:"no-cors"
+    });
+    out.className="feedback ok";
+    out.innerHTML="✓ Solicitud enviada. Revisa la pestaña <b>Participantes</b> y busca <b>PRUEBA_CONEXION</b>.";
+  }catch(error){
+    console.error(error);
+    out.className="feedback bad";
+    out.textContent="No se pudo enviar la prueba de conexión.";
+  }finally{
+    btn.disabled=false;
+  }
+}
+
+async function requestFullscreenSafe(){
+  try{
+    const el=document.documentElement;
+    if(document.fullscreenElement){
+      await document.exitFullscreen();
+      return;
+    }
+    if(el.requestFullscreen){
+      await el.requestFullscreen();
+    }else if(el.webkitRequestFullscreen){
+      el.webkitRequestFullscreen();
+    }
+  }catch(err){
+    console.log("Pantalla completa no disponible:",err);
+  }
+}
+
+$("beginBattery").addEventListener("click",beginBattery);
+$("fullscreenBtn").addEventListener("click",requestFullscreenSafe);
+$("testGoogleConnection").addEventListener("click",testGoogleSheetsConnection);
+
+$("startPractice").addEventListener("click",()=>{
+  showPage("practicePage");
+  presentPractice();
+});
+
+$("practiceSubmit").addEventListener("click",submitPractice);
+$("practiceAnswer").addEventListener("keydown",e=>{
+  if(e.key==="Enter") submitPractice();
+});
+
+$("startRealTest").addEventListener("click",startTest);
+
+$("submit").addEventListener("click",submitTest);
+$("answer").addEventListener("keydown",e=>{
+  if(e.key==="Enter") submitTest();
+});
+
+$("nextMode").addEventListener("click",nextMode);
+$("csv").addEventListener("click",exportCSV);
+$("restart").addEventListener("click",()=>location.reload());
+</script>
+</body>
+</html>
