@@ -405,8 +405,29 @@ th{background:#f6f6f6}
       <input id="birthDate" type="date">
     </div>
     <div style="grid-column:1/-1">
-      <label for="notes">Observación (opcional)</label>
-      <input id="notes" type="text" placeholder="Observaciones de la evaluación">
+      <label for="school">Colegio</label>
+      <select id="school" required>
+        <option value="">Selecciona tu colegio</option>
+        <option>Santiago College</option>
+        <option>Lincoln International Academy Chicureo</option>
+        <option>Craighouse School</option>
+      </select>
+    </div>
+    <div>
+      <label for="grade">Nivel</label>
+      <select id="grade" required>
+        <option value="">Selecciona tu nivel</option>
+        <option value="5">5°</option>
+        <option value="6">6°</option>
+      </select>
+    </div>
+    <div>
+      <label for="classLetter">Letra</label>
+      <input id="classLetter" type="text" required autocomplete="off" autocapitalize="characters" placeholder="Ejemplo: B">
+    </div>
+    <div>
+      <label for="listNumber">Número de lista</label>
+      <input id="listNumber" type="text" inputmode="numeric" pattern="[0-9]*" required autocomplete="off" placeholder="Del 1 al 99">
     </div>
   </div>
   <div class="actions">
@@ -507,6 +528,8 @@ th{background:#f6f6f6}
 <section id="finalPage" class="page">
   <h2>Batería completada</h2>
   <p class="muted">Resultados resumidos</p>
+  <p id="resultSchool" class="muted"></p>
+  <p id="resultParticipant" class="small"></p>
   <div id="saveStatus" class="instructions"><b>Guardando resultados…</b></div>
   <div id="summary" class="summary"></div>
   <div class="actions">
@@ -607,12 +630,14 @@ const $=id=>document.getElementById(id);
 const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbxnE-VrTDGeODgIL3_635-ZaO2V7ueFTZkqMRnC3xXiB16zxZyjpUoS2Y2F5GJIkO85/exec";
 const DEVELOPER_PASSWORD="demonunab";
 
+const SCHOOL_CODES={"Santiago College":"SC","Lincoln International Academy Chicureo":"LIA","Craighouse School":"CHS"};
+const SCHOOLS=Object.keys(SCHOOL_CODES);
 let TEST_ORDER=["forward","backward","ascending","descending"];
 let CONFIG={rate:.9,gap:250,betweenTrialsMs:2000,startLength:3,trials:2,maxLength:12};
 let state={
   currentTestIndex:0, practiceIndex:0, length:3, trial:0, levelCorrect:0,
   sequence:[], results:[], summaries:[], responseStart:0, maxSpan:null,
-  correct:0, wrong:0, evaluationId:null, saveCompleted:false, quick:false
+  correct:0, wrong:0, evaluationId:null, saveCompleted:false, quick:false, identification:null
 };
 
 const PRACTICE={
@@ -640,10 +665,32 @@ function ageFromBirth(s){
   if(m<0||(m===0&&t.getDate()<b.getDate()))a--;
   return a;
 }
+function normalizeIdentification(){
+  $("classLetter").value=$("classLetter").value.trim().toUpperCase().normalize("NFC");
+  $("listNumber").value=$("listNumber").value.replace(/\s/g,"");
+}
+function validClassLetter(value){return /^\p{L}$/u.test(value)}
+function validListNumber(value){return /^[0-9]+$/.test(value)&&Number(value)>=1&&Number(value)<=99}
+function identificationFromForm(){
+  normalizeIdentification();
+  const school=$("school").value,grade=$("grade").value,classLetter=$("classLetter").value,listValue=$("listNumber").value;
+  const valid=SCHOOLS.includes(school)&&["5","6"].includes(grade)&&validClassLetter(classLetter)&&validListNumber(listValue);
+  return {school,grade,classLetter,listNumber:validListNumber(listValue)?Number(listValue):null,
+    participantCode:valid?`${SCHOOL_CODES[school]}-${grade}${classLetter}-${String(Number(listValue)).padStart(3,"0")}`:""};
+}
+function validateIdentification(){
+  normalizeIdentification();
+  if(!SCHOOLS.includes($("school").value)){alert("Selecciona tu colegio para continuar.");$("school").focus();return false}
+  if(!["5","6"].includes($("grade").value)){alert("Selecciona tu nivel para continuar.");$("grade").focus();return false}
+  if(!validClassLetter($("classLetter").value)){alert("Ingresa una sola letra del curso.");$("classLetter").focus();return false}
+  if(!validListNumber($("listNumber").value)){alert("Ingresa un número de lista entero entre 1 y 99.");$("listNumber").focus();return false}
+  return true;
+}
 function participant(){
-  return {fullName:$("fullName").value.trim(),gender:$("gender").value,birthDate:$("birthDate").value,age:ageFromBirth($("birthDate").value),notes:$("notes").value.trim()};
+  return {fullName:$("fullName").value.trim(),gender:$("gender").value,birthDate:$("birthDate").value,age:ageFromBirth($("birthDate").value),...(state.identification??identificationFromForm()),notes:$("notes")?.value.trim()??""};
 }
 function validateParticipant(){
+  if(!validateIdentification())return false;
   const p=participant();
   if(!p.fullName||!p.gender||!p.birthDate){alert("Completa nombre, género y fecha de nacimiento.");return false}
   return true;
@@ -965,6 +1012,9 @@ function nextMode(){
   else{renderFinal();showPage("finalPage")}
 }
 function renderFinal(){
+  const p=participant();
+  $("resultSchool").textContent=`Colegio: ${p.school}`;
+  $("resultParticipant").textContent=`Curso: ${p.grade}°${p.classLetter} · Número de lista: ${p.listNumber} · Código del participante: ${p.participantCode}`;
   $("summary").innerHTML="";
   state.summaries.forEach(s=>{
     const d=document.createElement("div");d.className="summaryRow";
@@ -987,7 +1037,7 @@ function payload(){
   state.summaries.forEach(s=>res[s.mode]={maxSpan:s.maxSpan,correct:s.correct,wrong:s.wrong});
   return {
     evaluation_id:state.evaluationId,
-    participant:{full_name:p.fullName,gender:p.gender,birth_date:p.birthDate,age:p.age,notes:p.notes},
+    participant:{full_name:p.fullName,gender:p.gender,birth_date:p.birthDate,age:p.age,school:p.school,grade:p.grade,class_letter:p.classLetter,list_number:p.listNumber,participant_code:p.participantCode,notes:p.notes},
     results:res,
     trials:state.results,
     protocol:{presentation_mode:"audio",voice_source:"browser_speech_synthesis",language:"es-CL",rate:CONFIG.rate,gap_ms:CONFIG.gap,between_trials_ms:CONFIG.betweenTrialsMs,start_length:CONFIG.startLength,trials_per_length:CONFIG.trials,max_length:CONFIG.maxLength,modes:TEST_ORDER}
@@ -1006,8 +1056,8 @@ async function saveToGoogle(){
 function exportCSV(){
   if(!state.results.length){alert("No hay resultados.");return}
   const p=participant();
-  const head=["nombre","genero","fecha_nacimiento","edad","modo","practica","longitud","intento","secuencia","respuesta","esperada","correcto","tr_ms"];
-  const rows=state.results.map(r=>[p.fullName,p.gender,p.birthDate,p.age,r.mode,r.practice?1:0,r.length,r.trial,r.sequence.join(""),r.answer.join(""),r.expected.join(""),r.correct?1:0,r.rt]);
+  const head=["nombre","genero","fecha_nacimiento","edad","modo","practica","longitud","intento","secuencia","respuesta","esperada","correcto","tr_ms","colegio","nivel","letra","numero_lista","codigo_participante"];
+  const rows=state.results.map(r=>[p.fullName,p.gender,p.birthDate,p.age,r.mode,r.practice?1:0,r.length,r.trial,r.sequence.join(""),r.answer.join(""),r.expected.join(""),r.correct?1:0,r.rt,p.school,p.grade,p.classLetter,p.listNumber,p.participantCode]);
   const csv=[head,...rows].map(row=>row.map(v=>`"${String(v).replaceAll('"','""')}"`).join(",")).join("\n");
   const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));a.download="digit_span.csv";a.click();
 }
@@ -1038,8 +1088,10 @@ async function googleTest(){
 }
 
 $("continueToInstructions").onclick=()=>{if(validateParticipant())showPage("instructionsPage")};
+$("classLetter").addEventListener("input",normalizeIdentification);
+$("listNumber").addEventListener("input",normalizeIdentification);
 $("backParticipant").onclick=()=>showPage("participantPage");
-$("beginBattery").onclick=()=>{state.currentTestIndex=0;state.results=[];state.summaries=[];state.evaluationId=null;state.saveCompleted=false;state.quick=false;fillIntro();showPage("introPage")};
+$("beginBattery").onclick=()=>{if(!validateParticipant())return;state.identification=identificationFromForm();state.currentTestIndex=0;state.results=[];state.summaries=[];state.evaluationId=null;state.saveCompleted=false;state.quick=false;fillIntro();showPage("introPage")};
 $("startPractice").onclick=()=>{showPage("practicePage");presentPractice()};
 $("practiceSubmit").onclick=submitPractice;
 bindHardNumericLimit($("practiceAnswer"));
@@ -1065,7 +1117,7 @@ $("devExport").onclick=exportCSV;
 $("saveConfig").onclick=saveDev;
 $("resetConfig").onclick=()=>{CONFIG={rate:.9,gap:250,betweenTrialsMs:2000,startLength:3,trials:2,maxLength:12};TEST_ORDER=["forward","backward","ascending","descending"];loadDev();$("configSaved").className="feedback ok";$("configSaved").textContent="Valores recomendados restaurados."};
 $("testAudio").onclick=async()=>{const out=$("developerToolResult");try{out.textContent="Reproduciendo 3, 8, 1…";await speakSequence([3,8,1],{textContent:""});out.className="feedback ok";out.textContent="✓ Audio funcionando."}catch(e){out.className="feedback bad";out.textContent="No se pudo reproducir audio."}};
-$("quickTest").onclick=()=>{state.quick=true;TEST_ORDER=["forward"];CONFIG.startLength=3;CONFIG.trials=1;CONFIG.maxLength=3;if(!$("fullName").value)$("fullName").value="PRUEBA DESARROLLADOR";if(!$("gender").value)$("gender").value="Otro";if(!$("birthDate").value)$("birthDate").value="2014-01-01";state.currentTestIndex=0;state.results=[];state.summaries=[];fillIntro();showPage("introPage")};
+$("quickTest").onclick=()=>{if(!validateIdentification())return;state.identification=identificationFromForm();state.evaluationId=null;state.saveCompleted=false;state.quick=true;TEST_ORDER=["forward"];CONFIG.startLength=3;CONFIG.trials=1;CONFIG.maxLength=3;if(!$("fullName").value)$("fullName").value="PRUEBA DESARROLLADOR";if(!$("gender").value)$("gender").value="Otro";if(!$("birthDate").value)$("birthDate").value="2014-01-01";state.currentTestIndex=0;state.results=[];state.summaries=[];fillIntro();showPage("introPage")};
 $("testGoogle").onclick=googleTest;
 
 if("speechSynthesis" in window) speechSynthesis.getVoices();
