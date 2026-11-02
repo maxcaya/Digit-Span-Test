@@ -45,6 +45,14 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - Límites de pruebas: datos ficticios; motor de voz y temporizadores simulados, solicitudes HTTP interceptadas sin escribir en Google. Las capturas y script están fuera del repositorio. Sin prueba de audio físico ni almacenamiento remoto.
 - Verificación y riesgos: git diff --check y revisión del alcance. Solo navegador; las validaciones siguen siendo evadibles y los riesgos de auditoría permanecen abiertos. No se añade validación de servidor, recuperación, contexto de año escolar, integración de YAP-SL ni despliegue. Sin commit ni push.
 
+
+## 2026-11-02 — Separación de la prueba rápida del flujo de identificación
+
+- Archivo principal: `index.html`.
+- Implementación: el manejador de `quickTest` deja de llamar a `validateIdentification()` y usa un estado de identificación vacío exclusivo para la prueba interna. También deja de modificar los campos públicos `fullName`, `gender` y `birthDate`.
+- Resultado final: `renderFinal()` trata la prueba rápida antes de leer los datos del participante y muestra “Prueba interna de desarrollador / Sin datos de participante”. El flujo rápido mantiene la garantía existente de no llamar a `saveToGoogle()`.
+- Regresión esperada: el flujo normal conserva `validateParticipant()` y `validateIdentification()`, por lo que Colegio, Nivel, Letra, Número de lista, Nombre, Género y Fecha de nacimiento siguen siendo obligatorios para una evaluación real.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
