@@ -36,6 +36,14 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - Pruebas: pasaron 72 combinaciones de colegio/nivel/letra/número; rechazo de campos vacíos, letras inválidas y números cero, negativos, decimales, texto y fuera de rango. Pasaron los tres ejemplos solicitados en baterías completas de las cuatro modalidades, y la comprobación del resultado, CSV, envío simulado, nueva batería y prueba rápida. Se revisaron vistas de computador y teléfono.
 - Límites: ninguna respuesta real se envió a Google; audio y red simulados. El receptor podría ignorar los campos nuevos y no se ha verificado su guardado. Sin integración con YAP-SL, Vercel, servidor ni recuperación; sin commit, push ni publicación.
 
+
+## 2026-11-02 — Prueba rápida de desarrollador independiente del participante
+
+- Qué pidió el usuario: poder ejecutar la prueba rápida desde Desarrolladores sin haber seleccionado colegio ni completado la identificación del participante.
+- Qué cambió: la prueba rápida ya no valida Colegio, Nivel, Letra ni Número de lista y tampoco rellena Nombre, Género o Fecha de nacimiento con datos ficticios.
+- Qué debería notar el usuario: al entrar a Desarrolladores y pulsar “Prueba rápida”, la prueba comienza directamente. Al terminar indica que fue una prueba interna, sin datos de participante y sin envío a Google Sheets.
+- Qué no cambió: las evaluaciones reales siguen exigiendo todos los datos obligatorios antes de comenzar.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
