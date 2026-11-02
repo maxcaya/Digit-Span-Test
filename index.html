@@ -1012,9 +1012,6 @@ function nextMode(){
   else{renderFinal();showPage("finalPage")}
 }
 function renderFinal(){
-  const p=participant();
-  $("resultSchool").textContent=`Colegio: ${p.school}`;
-  $("resultParticipant").textContent=`Curso: ${p.grade}°${p.classLetter} · Número de lista: ${p.listNumber} · Código del participante: ${p.participantCode}`;
   $("summary").innerHTML="";
   state.summaries.forEach(s=>{
     const d=document.createElement("div");d.className="summaryRow";
@@ -1022,9 +1019,14 @@ function renderFinal(){
     $("summary").appendChild(d);
   });
   if(state.quick){
+    $("resultSchool").textContent="Prueba interna de desarrollador";
+    $("resultParticipant").textContent="Sin datos de participante";
     $("saveStatus").innerHTML="<b>Prueba rápida completada.</b><br><span class='small'>No fue enviada a Google Sheets.</span>";
     state.quick=false;return;
   }
+  const p=participant();
+  $("resultSchool").textContent=`Colegio: ${p.school}`;
+  $("resultParticipant").textContent=`Curso: ${p.grade}°${p.classLetter} · Número de lista: ${p.listNumber} · Código del participante: ${p.participantCode}`;
   saveToGoogle();
 }
 
@@ -1117,7 +1119,7 @@ $("devExport").onclick=exportCSV;
 $("saveConfig").onclick=saveDev;
 $("resetConfig").onclick=()=>{CONFIG={rate:.9,gap:250,betweenTrialsMs:2000,startLength:3,trials:2,maxLength:12};TEST_ORDER=["forward","backward","ascending","descending"];loadDev();$("configSaved").className="feedback ok";$("configSaved").textContent="Valores recomendados restaurados."};
 $("testAudio").onclick=async()=>{const out=$("developerToolResult");try{out.textContent="Reproduciendo 3, 8, 1…";await speakSequence([3,8,1],{textContent:""});out.className="feedback ok";out.textContent="✓ Audio funcionando."}catch(e){out.className="feedback bad";out.textContent="No se pudo reproducir audio."}};
-$("quickTest").onclick=()=>{if(!validateIdentification())return;state.identification=identificationFromForm();state.evaluationId=null;state.saveCompleted=false;state.quick=true;TEST_ORDER=["forward"];CONFIG.startLength=3;CONFIG.trials=1;CONFIG.maxLength=3;if(!$("fullName").value)$("fullName").value="PRUEBA DESARROLLADOR";if(!$("gender").value)$("gender").value="Otro";if(!$("birthDate").value)$("birthDate").value="2014-01-01";state.currentTestIndex=0;state.results=[];state.summaries=[];fillIntro();showPage("introPage")};
+$("quickTest").onclick=()=>{state.identification={school:"",grade:"",classLetter:"",listNumber:null,participantCode:""};state.evaluationId=null;state.saveCompleted=false;state.quick=true;TEST_ORDER=["forward"];CONFIG.startLength=3;CONFIG.trials=1;CONFIG.maxLength=3;state.currentTestIndex=0;state.results=[];state.summaries=[];fillIntro();showPage("introPage")};
 $("testGoogle").onclick=googleTest;
 
 if("speechSynthesis" in window) speechSynthesis.getVoices();
