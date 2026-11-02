@@ -29,9 +29,29 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - Alcance: revisión del navegador y comprobaciones locales ficticias sin red. Las recomendaciones no seleccionan todavía una arquitectura ni autorizan correcciones. La seguridad y permisos del receptor de Google permanecen pendientes; tampoco se afirma que esta copia sea la última remota.
 - Decisión reemplazada: ninguna. D-001 se conserva como registro de la configuración inicial; su autorización de commit y subida no se extiende a esta tarea. D-002 continúa vigente.
 
+## D-004 — Colegio obligatorio y cambio controlado de identificación
+
+- Fecha: 2026-11-02 (Chile).
+- Estado: ampliada y reemplazada parcialmente por D-005 respecto del alcance de identificación; se conserva el historial y los criterios de aplicación única y Observaciones fuera de pantalla pública.
+- Decisión: una única aplicación pública sin cuentas ni separación de usos; conservar nombre, género y fecha de nacimiento, añadir Colegio obligatorio limitado a Santiago College, Lincoln International Academy Chicureo y Craighouse School, y retirar Observaciones de la pantalla pública sin romper su campo interno.
+- Implementación autorizada ahora: solo el campo, su validación en el navegador, asociación al iniciar la batería, resultado final, CSV y participant.school en el envío actual; actualizar contexto y ambos historiales. Mantener modalidades, diseño general e integración actual.
+- Motivo: identificar el colegio de cada evaluación mediante una selección sencilla y preparar los datos sin mezclar este cambio con la implementación de seguridad.
+- Límites: sin servidor nuevo, cambios del receptor de Google, Vercel, recuperación, commit, push, merge ni publicación. El plan de seguridad continúa pendiente; no se afirma guardado real del colegio en Google.
+- Decisión reemplazada: ninguna registrada. Las propuestas conversacionales de modos separados e invitaciones se descartan por la instrucción posterior del usuario. D-003 se conserva como antecedente de la tarea de auditoría; su restricción de no modificar index.html no se extiende a este cambio expresamente autorizado. La referencia de auditoría permanece en el commit e9fb6fc7b1c07c9642c9a9c127992fb6664d2f5e.
+
+## D-005 — Identificación común mediante código automático
+
+- Fecha: 2026-11-02 (Chile).
+- Estado: vigente.
+- Decisión: ampliar identificación obligatoria con nivel 5°/6°, letra libre normalizada a mayúscula (una sola letra, sin espacios exteriores) y número de lista entero 1–99, además del colegio. Generar automáticamente SC/LIA/CHS-NIVEL+LETRA-NUMERO de tres dígitos, sin campo manual ni visualización en la pantalla inicial. Conservar los demás datos actuales.
+- Motivo: usar posteriormente el mismo código para relacionar Digit Span y YAP-SL sin pedir que el participante lo copie o escriba.
+- Alcance implementado: validación en navegador, identificación fijada al comenzar, resumen final, CSV y contenido enviado mediante la integración actual. evaluation_id se mantiene separado para cada evaluación. La prueba rápida de desarrollo usa identificación válida propia y reinicia su ID, conservando su comportamiento de no enviar al finalizar.
+- Límites: sin integración con YAP-SL ni revisión del formulario, receptor nuevo, servidor, recuperación, Vercel, commit, push ni publicación. No se resuelven por este cambio falsificación, persistencia ni confirmación remota de guardado. Los códigos pueden repetirse entre años y no prueban identidad; el contexto común de estudio/año se definirá antes de cruzar períodos distintos.
+- Decisión reemplazada: amplía y reemplaza parcialmente D-004, que limitaba el cambio a Colegio. Se mantienen aplicación única, ausencia de cuentas, retiro de Observaciones y demás límites. La restricción de D-003 corresponde a la tarea histórica de auditoría.
+
 ## Pendientes sin decisión definitiva
 
-Selección final de modalidades; correspondencia de menor a mayor con secuenciación; justificación de mayor a menor; incorporación eventual de nivel educacional, mano dominante y horas de sueño. Consultar CONTEXTO_PROYECTO.md. Los asuntos de SEGURIDAD.md requieren auditoría y no se consideran resueltos.
+Selección final de modalidades; correspondencia de menor a mayor con secuenciación; justificación de mayor a menor; incorporación eventual de mano dominante y horas de sueño. El nivel 5°/6° queda confirmado por D-005; integración con YAP-SL y contexto de estudio/año siguen pendientes. Consultar CONTEXTO_PROYECTO.md. Los asuntos de SEGURIDAD.md requieren auditoría y no se consideran resueltos.
 
 ## Cómo reemplazar una decisión
 
@@ -41,3 +61,5 @@ Conservar la entrada anterior marcándola como reemplazada, enlazar la nueva dec
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
 - 2026-11-02 (Chile): auditoría local de seguridad documentada sin cambios de funcionamiento; alcance y límites registrados en D-003.
+- 2026-11-02 (Chile): Colegio obligatorio, Observaciones retirado de la pantalla pública y pruebas del recorrido actual; decisión D-004.
+- 2026-11-02 (Chile): D-005 amplía D-004 con identificación común automática y nivel confirmado, sin integrar YAP-SL.
