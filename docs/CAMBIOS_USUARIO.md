@@ -77,6 +77,19 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - Campos exigidos: nombre completo, género, fecha de nacimiento, colegio, nivel, letra y número de lista.
 - Validación: se mantiene además la comprobación al intentar avanzar, por lo que no se modifica el flujo posterior ni la evaluación.
 
+## 2026-11-03 — Velocidad de voz normalizada
+
+- Cambio: la velocidad de pronunciación de los números pasa de 0,9 a 1,0, correspondiente a una velocidad normal de síntesis de voz.
+- Se mantiene exactamente la pausa de 250 ms entre números.
+- No se modifican secuencias, puntuación, tiempos entre intentos ni lógica de evaluación.
+
+## 2026-11-03 — Prueba de audio antes de la evaluación
+
+- Cambio: después de las instrucciones generales aparece una pantalla de “Prueba de audio” antes de la primera modalidad.
+- Funcionamiento: el participante pulsa “Probar audio” y escucha tres números de ejemplo con la misma voz y configuración del test. Puede repetir el audio y ajustar el volumen del dispositivo.
+- El botón para continuar se habilita solo después de una reproducción correcta.
+- Esta prueba de audio no cuenta como práctica, no genera resultados y no se guarda en Google Sheets.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.

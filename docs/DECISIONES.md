@@ -77,6 +77,15 @@ Conservar la entrada anterior marcándola como reemplazada, enlazar la nueva dec
 - Reemplaza: ninguna decisión de protocolo. Actualiza la ubicación de la identificación descrita en D-004/D-005: ahora sigue a una bienvenida. D-006 conserva niveles 4°/5°; se mantiene la separación actual de Prueba rápida sin datos ni envío.
 - Autorización de esta tarea: modificar index.html y documentación, nueva rama, commit y push; sin merge a main ni despliegue solicitado.
 
+## D-008 — Comprobación de audio antes de iniciar la batería
+
+- Fecha: 2026-11-03 (Chile).
+- Estado: vigente.
+- Decisión: incorporar una prueba de audio obligatoria entre las instrucciones generales y la primera modalidad. El participante debe reproducir un ejemplo antes de poder continuar, y puede repetirlo para ajustar el volumen.
+- Motivo: confirmar de forma práctica que la voz se escucha con claridad antes de iniciar una evaluación dependiente del audio.
+- Alcance: la comprobación reutiliza la misma síntesis y configuración de voz que la evaluación, pero no cuenta como práctica, intento ni resultado y no se incorpora al guardado.
+- No cambia: secuencias evaluadas, puntuación, criterios de finalización, prácticas, payload, CSV ni Google Sheets.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
@@ -85,3 +94,4 @@ Conservar la entrada anterior marcándola como reemplazada, enlazar la nueva dec
 - 2026-11-02 (Chile): D-005 amplía D-004 con identificación común automática y nivel confirmado, sin integrar YAP-SL.
 - 2026-11-02 (Chile): D-006 corrige los niveles permitidos de 5°/6° a 4°/5°.
 - 2026-11-03 (Chile): presentación guiada y navegación documentadas; protocolo y lógica de evaluación conservados (D-007).
+- 2026-11-03 (Chile): comprobación de audio previa a la batería incorporada sin afectar resultados (D-008).
