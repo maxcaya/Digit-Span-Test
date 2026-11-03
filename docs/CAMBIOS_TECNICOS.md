@@ -1,7 +1,7 @@
 # Cambios técnicos
 
 Creación: 2026-11-02 (Chile, America/Santiago).
-Última modificación: 2026-11-02 (Chile, America/Santiago).
+Última modificación: 2026-11-03 (Chile, America/Santiago).
 
 ## 2026-11-02 — Configuración inicial de documentación
 
@@ -45,9 +45,23 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - Límites de pruebas: datos ficticios; motor de voz y temporizadores simulados, solicitudes HTTP interceptadas sin escribir en Google. Las capturas y script están fuera del repositorio. Sin prueba de audio físico ni almacenamiento remoto.
 - Verificación y riesgos: git diff --check y revisión del alcance. Solo navegador; las validaciones siguen siendo evadibles y los riesgos de auditoría permanecen abiertos. No se añade validación de servidor, recuperación, contexto de año escolar, integración de YAP-SL ni despliegue. Sin commit ni push.
 
+## 2026-11-03 — Bienvenida e instrucciones por modalidad
+
+- Archivos: index.html, README.md, docs/CONTEXTO_PROYECTO.md, docs/DECISIONES.md, docs/CAMBIOS_USUARIO.md y docs/CAMBIOS_TECNICOS.md. Sin dependencias ni framework nuevos.
+- Implementación: welcomePage es la única sección activa al cargar; startEvaluation abre participantPage. Se reemplazan textos de instructionsPage y botón beginBattery. introPage presenta título, subtítulo opcional, explicación y ejemplos en tarjetas con un indicador Sección N de total. MODE_PRESENTATION contiene solo textos visuales; INFO, PRACTICE, CONFIG y TEST_ORDER originales permanecen idénticos para evitar modificar títulos de resultados o protocolo. nextMode y secuencia práctica/preparación/prueba/finalización permanecen intactos.
+- Diseño: estilos limitados a bienvenida e introducciones; mismas variables de color. Ejemplos en dos columnas en escritorio y una en móvil. Acceso a Desarrolladores también en bienvenida; no se modifica devLogin ni demás herramientas.
+- Excepciones explícitas al alcance visual: opciones de grade y sus dos comprobaciones cambian de 5/6 a 4/5, sin cambiar algoritmo de código. quickTest deja de exigir validateIdentification; mantiene el resto de su recorrido. renderFinal conserva state.quick=true después de mostrar el resultado rápido, impidiendo que renderizados sucesivos lo envíen; beginBattery sigue reiniciando quick=false para evaluaciones normales. No se modifica saveToGoogle ni la comunicación con Google.
+- Decisión: D-006 reemplaza parcialmente D-005; README y contexto reflejan los niveles actuales y el flujo. La edad prevista comunicada antes queda por confirmar respecto del nuevo nivel, sin inferir una edad diferente.
+- Pruebas estáticas: comparación contra 589bb4a5b516034a7f1ee4207441dca73d6c5ae1: 38 funciones existentes idénticas, incluidas generación de secuencias, expected, prácticas, envío de respuestas, puntuación, progresión, audio, payload, exportCSV, saveToGoogle y herramientas fuera de Prueba rápida. Se comprobaron idénticos CONFIG, INFO, PRACTICE, TEST_ORDER, destino de envío, mecanismo de acceso y variables de paleta. Las cuatro funciones modificadas son fillIntro, identificationFromForm y validateIdentification (niveles) y renderFinal (solo mantener marca de prueba rápida).
+- Pruebas de navegador: script temporal /tmp/probar-presentacion.cjs, Playwright/Chromium en 1100 × 900 y 390 × 844. Dos baterías completas: bienvenida oculta formulario, no reproduce ni envía; identificación y validación 4°/5° frente a 6°; seis instrucciones generales; las cuatro introducciones, subtítulos, ejemplos y contadores; práctica fallada no permite avanzar; prácticas, preparación, tres intentos reales por modalidad y pantalla completada. Cada batería produjo cinco prácticas (una repetida), doce intentos reales y cuatro resúmenes (span 3, un acierto, dos errores). Se comprobó código SC-4B-012 / SC-5B-012, payload enviado una vez, CSV descargado con 17 registros y reinicio a bienvenida.
+- Prueba de Desarrolladores: acceso real mediante el formulario existente, Prueba rápida con colegio/nivel/letra/lista vacíos, Sección 1 de 1 y final sin envío. Dos renderizados adicionales tampoco envían. Sin errores JavaScript; anchura de página y botones comprobada en todas las etapas; capturas de bienvenida, generales e introducciones de escritorio/móvil revisadas visualmente.
+- Límites: solo datos ficticios, motor de voz y temporizadores simulados para automatización y POST interceptado sin escritura remota. No se verificó audio físico ni receptor Google. Script y capturas fuera del repositorio. La auditoría de seguridad se conserva sin cambios y sus hallazgos siguen abiertos.
+- Verificación final: revisar diff y git diff --check; incluir únicamente los seis archivos previstos; commit y push a presentacion-guiada-digit-span, sin merge ni publicación manual.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
 - 2026-11-02 (Chile): auditoría local de seguridad documentada sin cambios de funcionamiento; alcance y límites registrados en D-003.
 - 2026-11-02 (Chile): Colegio obligatorio, Observaciones retirado de la pantalla pública y pruebas del recorrido actual; decisión D-004.
 - 2026-11-02 (Chile): identificación común automática, validaciones de curso y lista, datos en resultado/CSV/envío y pruebas; decisión D-005.
+- 2026-11-03 (Chile): presentación y navegación guiadas, niveles 4°/5° y Prueba rápida sin identificación; protocolo conservado (D-006).

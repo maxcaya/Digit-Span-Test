@@ -1,11 +1,11 @@
 # Digit Span
 
 Creación: 2026-11-02 (Chile, America/Santiago).
-Última modificación: 2026-11-02 (Chile, America/Santiago).
+Última modificación: 2026-11-03 (Chile, America/Santiago).
 
 Aplicación utilizada como parte de un seminario de licenciatura en Educación Física sobre la relación entre actividad física y memoria de trabajo en escolares. La actividad física se evalúa mediante YAP-SL y Digit Span se utiliza para evaluar memoria numérica/memoria de trabajo.
 
-La aplicación será manejada por un evaluador con participantes previstos de aproximadamente 10 a 12 años, de 5.º y 6.º básico. La referencia académica es Digit Span / Dígitos del WISC-V; la equivalencia de las modalidades actuales con el instrumento estándar requiere confirmación.
+La aplicación se utiliza actualmente con un evaluador y admite identificación de 4.º y 5.º básico, según la actualización solicitada el 2026-11-03. La referencia académica es Digit Span / Dígitos del WISC-V; la equivalencia de las modalidades actuales con el instrumento estándar requiere confirmación.
 
 ## Documentación
 
@@ -18,8 +18,11 @@ La aplicación será manejada por un evaluador con participantes previstos de ap
 - [Cambios explicados al usuario](docs/CAMBIOS_USUARIO.md).
 - [Cambios técnicos](docs/CAMBIOS_TECNICOS.md).
 
-Esta configuración inicial agrega documentación. No cambia el funcionamiento, no valida académicamente la aplicación y no resuelve los asuntos de seguridad pendientes. No usar datos personales reales para pruebas ni incluir secretos en la documentación.
+La configuración inicial agregó documentación; los cambios posteriores incorporan identificación automática y presentación guiada antes de cada modalidad. Ese flujo se documenta en docs/CONTEXTO_PROYECTO.md. La evaluación conserva sus reglas de puntuación, secuencias y audio.
+
+La configuración inicial fue documental. Ni esa configuración ni los cambios de presentación validan académicamente la aplicación o resuelven los asuntos de seguridad pendientes. No usar datos personales reales para pruebas ni incluir secretos en la documentación.
 
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
+- 2026-11-03 (Chile): actualización de niveles vigentes y descripción de presentación guiada; sin cambios en protocolo de evaluación.

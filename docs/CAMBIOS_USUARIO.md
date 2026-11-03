@@ -1,7 +1,7 @@
 # Cambios para el usuario
 
 Creación: 2026-11-02 (Chile, America/Santiago).
-Última modificación: 2026-11-02 (Chile, America/Santiago).
+Última modificación: 2026-11-03 (Chile, America/Santiago).
 
 ## 2026-11-02 — Configuración inicial de documentación
 
@@ -36,9 +36,19 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - Pruebas: pasaron 72 combinaciones de colegio/nivel/letra/número; rechazo de campos vacíos, letras inválidas y números cero, negativos, decimales, texto y fuera de rango. Pasaron los tres ejemplos solicitados en baterías completas de las cuatro modalidades, y la comprobación del resultado, CSV, envío simulado, nueva batería y prueba rápida. Se revisaron vistas de computador y teléfono.
 - Límites: ninguna respuesta real se envió a Google; audio y red simulados. El receptor podría ignorar los campos nuevos y no se ha verificado su guardado. Sin integración con YAP-SL, Vercel, servidor ni recuperación; sin commit, push ni publicación.
 
+## 2026-11-03 — Presentación guiada de Digit Span
+
+- Qué pidió el usuario: bienvenida antes de los datos personales, instrucciones generales claras y explicación independiente antes de cada modalidad; conservar colores y funcionamiento de evaluación. También solicitó niveles únicamente 4°/5° y Prueba rápida sin datos del participante, sin envío a Google.
+- Por qué: una experiencia más guiada, formal y académica, comprensible en computador y teléfono.
+- Qué cambió: al abrir se ve «Digit Span Test / Evaluación de memoria de trabajo» y «Comenzar evaluación». Luego se completa identificación, se leen instrucciones generales y se continúa a la introducción de cada sección. Cada introducción contiene ejemplos de lo que se escucha y responde y «Sección N de total». Tras completar una modalidad aparecen las instrucciones de la siguiente antes de su práctica.
+- Qué se conserva: colores, datos y validaciones (salvo el cambio explícito de niveles), formato automático del código, prácticas, secuencias, audio, puntuación, intentos, finalización, resultados, CSV y envío existente. Las herramientas de Desarrolladores son accesibles desde bienvenida e identificación; Prueba rápida puede finalizar sin completar datos y sin enviar.
+- Pruebas: recorrido completo de las cuatro modalidades en Chromium en escritorio y móvil; práctica incorrecta exige repetir, resúmenes y CSV correctos, contenido de envío simulado correcto. Se comprobaron niveles 4°/5°, rechazo de 6°, ejemplos y progreso, nueva batería, acceso al panel y Prueba rápida vacía sin envío incluso al volver a mostrar su resultado. Sin errores JavaScript ni desbordamiento horizontal; capturas revisadas.
+- Límites: datos ficticios, voz y temporizadores simulados y solicitudes a Google interceptadas. No se verificó audio físico ni guardado remoto. No se certifica validez académica ni se resuelven los pendientes de seguridad. Se autoriza commit y push de esta rama, sin merge a main ni despliegue manual.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
 - 2026-11-02 (Chile): auditoría local de seguridad documentada sin cambios de funcionamiento; alcance y límites registrados en D-003.
 - 2026-11-02 (Chile): Colegio obligatorio, Observaciones retirado de la pantalla pública y pruebas del recorrido actual; decisión D-004.
 - 2026-11-02 (Chile): identificación común automática, validaciones de curso y lista, datos en resultado/CSV/envío y pruebas; decisión D-005.
+- 2026-11-03 (Chile): presentación y navegación guiadas, niveles 4°/5° y Prueba rápida sin identificación; protocolo conservado (D-006).

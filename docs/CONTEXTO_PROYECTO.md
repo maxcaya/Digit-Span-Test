@@ -1,15 +1,15 @@
 # Contexto del proyecto
 
 Creación: 2026-11-02 (Chile, America/Santiago).
-Última modificación: 2026-11-02 (Chile, America/Santiago).
+Última modificación: 2026-11-03 (Chile, America/Santiago).
 
 El seminario analiza la relación entre actividad física y memoria de trabajo en escolares. La actividad física se evalúa mediante YAP-SL. Digit Span se utiliza para evaluar memoria numérica/memoria de trabajo.
 
-Participantes previstos: escolares de aproximadamente 10 a 12 años, de 5.º y 6.º básico. Actualmente la aplicación es manejada por un evaluador; el objetivo aprobado es una única aplicación pública accesible por enlace, sin cuentas ni inicio de sesión, que también permita uso individual en el futuro.
+Participantes previstos: escolares de 4.º y 5.º básico, según actualización explícita del usuario del 2026-11-03. La edad aproximada de 10 a 12 años fue comunicada antes de este cambio; su correspondencia con los niveles actuales queda pendiente de confirmación. Actualmente la aplicación es manejada por un evaluador; el objetivo aprobado es una única aplicación pública accesible por enlace, sin cuentas ni inicio de sesión, que también permita uso individual en el futuro.
 
 ## Identificación y colegios del seminario
 
-La pantalla inicial conserva nombre completo, género y fecha de nacimiento, y exige colegio, nivel (5° o 6°), letra de curso y número de lista. Observaciones no se solicita al participante público; se conserva compatibilidad interna mediante un valor vacío.
+La pantalla de identificación, posterior a la bienvenida, conserva nombre completo, género y fecha de nacimiento, y exige colegio, nivel (4° o 5°), letra de curso y número de lista. Observaciones no se solicita al participante público; se conserva compatibilidad interna mediante un valor vacío.
 
 Los únicos colegios admitidos son:
 
@@ -19,13 +19,21 @@ Los únicos colegios admitidos son:
 
 Los desplegables comienzan con «Selecciona tu colegio» y «Selecciona tu nivel», sin valor válido. Letra es texto libre obligatorio: se recortan espacios exteriores, se convierte a mayúscula y se comprueba exactamente una letra; números, símbolos y varias letras se rechazan. Número de lista elimina espacios, acepta solo dígitos y debe representar un entero entre 1 y 99; rechaza cero, negativos, decimales y notación exponencial.
 
-Después de validar se genera internamente COLEGIO-NIVEL+LETRA-NUMERO_LISTA: SC para Santiago College, LIA para Lincoln International Academy Chicureo y CHS para Craighouse School; nivel sin °, letra mayúscula y número con tres dígitos. Ejemplos: SC-5B-012, LIA-6A-007 y CHS-5C-021. No hay campo para escribir, copiar ni consultar el código en la pantalla inicial.
+Después de validar se genera internamente COLEGIO-NIVEL+LETRA-NUMERO_LISTA: SC para Santiago College, LIA para Lincoln International Academy Chicureo y CHS para Craighouse School; nivel sin °, letra mayúscula y número con tres dígitos. Ejemplos actuales: SC-5B-012, LIA-4A-007 y CHS-5C-021. El formato de generación no cambia; 6° deja de admitirse por instrucción explícita del usuario. No hay campo para escribir, copiar ni consultar el código en la pantalla inicial.
 
 Los cuatro valores y el código quedan fijados al comenzar la batería, aparecen en el resultado final, se incorporan a cada fila del CSV y al objeto participant del envío actual (school, grade, class_letter, list_number y participant_code). evaluation_id continúa siendo un identificador independiente para cada evaluación; el código de participante puede repetirse al evaluar de nuevo a la misma persona.
 
 El código será el identificador común entre Digit Span y YAP-SL para cruzar sus resultados. Todavía no se integra con Google Forms ni se añade un botón de YAP-SL. Se deben revisar sus preguntas, columnas, automatizaciones y permisos antes de definir esa integración. El código no acredita identidad ni pertenencia al colegio; requiere datos consistentes y podría repetirse entre años escolares. Antes de cruzar bases de diferentes períodos se deberá acordar un contexto común de estudio/año.
 
 El cambio actual se limita al navegador. No incorpora validación del servidor, recuperación de evaluaciones, confirmación de guardado, cambios del receptor de Google ni despliegue en Vercel. Esas mejoras siguen pendientes. La inclusión de estos campos en el envío no demuestra que el receptor existente los guarde en columnas.
+
+## Presentación guiada vigente
+
+Al abrir la aplicación se muestra una bienvenida titulada «Digit Span Test», con el subtítulo «Evaluación de memoria de trabajo» y el botón «Comenzar evaluación». El formulario del participante permanece oculto hasta pulsarlo. Tras validar identificación se muestran las instrucciones generales y el botón «Entendido, continuar».
+
+Cada modalidad comienza con su propia introducción, explicación y ejemplo visual «Escuchas / Respondes»: Forward (mismo orden), Backward (orden inverso), ordenar de menor a mayor y ordenar de mayor a menor. Un indicador discreto muestra «Sección N de total» según las modalidades activas. Después siguen práctica, preparación de la prueba real, prueba y modalidad completada; al continuar se presenta la introducción siguiente. El resultado y el guardado conservan su funcionamiento normal.
+
+Este cambio modifica presentación y navegación; no cambia el protocolo de evaluación, puntuación, secuencias, prácticas, intentos, criterios de finalización, audio, formato de código, payload ni CSV. Como ajustes expresos se actualizan los niveles de identificación a 4°/5° y se permite Prueba rápida de Desarrolladores sin completar datos del participante. Las herramientas se pueden abrir desde bienvenida o identificación. La Prueba rápida conserva su bandera de simulación al mostrar resultados para no enviar a Google, incluso si se vuelve a mostrar el final.
 
 ## Objetivo de despliegue aprobado y alcance actual
 
@@ -44,7 +52,7 @@ Modalidades actuales:
 
 La referencia académica es Digit Span / Dígitos del WISC-V. No todas las modalidades actuales pueden asumirse automáticamente como parte estándar del instrumento. Siguen pendientes la selección final de modalidades, la correspondencia de menor a mayor con secuenciación y la justificación de mayor a menor. No afirmar equivalencia, validez ni puntuaciones normativas sin la revisión académica correspondiente.
 
-Nivel educacional (5° y 6°) ya es un requisito confirmado para identificar al participante. Mano dominante y horas de sueño siguen sin confirmación; no incorporarlas por suposición.
+Nivel educacional (4° y 5°) es el requisito vigente para identificar al participante, reemplazando los niveles 5°/6° de D-005 mediante D-006. Mano dominante y horas de sueño siguen sin confirmación; no incorporarlas por suposición.
 
 No usar datos personales reales para pruebas. Los hallazgos de almacenamiento, envío y recuperación están documentados en SEGURIDAD.md y siguen pendientes de solución; esa auditoría conserva la referencia al código anterior a este cambio.
 
@@ -53,3 +61,4 @@ No usar datos personales reales para pruebas. Los hallazgos de almacenamiento, e
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
 - 2026-11-02 (Chile): requisito aprobado de una única aplicación pública; tres colegios documentados, Colegio obligatorio y Observaciones retirado de la pantalla inicial.
 - 2026-11-02 (Chile): nivel, letra y número de lista obligatorios; código interno común previsto para Digit Span y YAP-SL, con ID independiente por evaluación y sin integrar todavía los instrumentos.
+- 2026-11-03 (Chile): bienvenida y navegación guiada por sección, niveles 4°/5° y Prueba rápida sin identificación ni envío; protocolo de evaluación conservado (D-006).

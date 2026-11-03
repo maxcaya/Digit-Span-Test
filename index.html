@@ -365,10 +365,22 @@ th{background:#f6f6f6}
   opacity:1;
   background:#f3f3f3;
 }
-#participantPage{
+#participantPage,
+#welcomePage{
   position:relative;
 }
+#welcomePage .welcomeContent{max-width:650px;margin:60px auto 48px}
+#welcomePage .welcomeSubtitle{font-size:21px;font-weight:400;color:var(--muted)}
+#welcomePage .welcomeText{font-size:18px;line-height:1.7;margin:26px 0 34px}
+#introPage .introSubtitle{font-size:19px;color:var(--muted);margin-top:-8px}
+.guideExamples{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:24px}
+.guideExample{padding:18px;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+.guideExample dt{font-size:14px;color:var(--muted);margin-bottom:12px}
+.guideExample dd{margin:0;font-size:24px;font-weight:700;line-height:1.5;overflow-wrap:anywhere}
+#introPage .practiceNote{margin:24px 0;max-width:650px}
 @media(max-width:680px){
+  #welcomePage .welcomeContent{margin:28px auto 48px}
+  .guideExamples{grid-template-columns:1fr;gap:12px}
   .developerCorner{
     right:12px;
     bottom:10px;
@@ -382,7 +394,17 @@ th{background:#f6f6f6}
 <body>
 <div class="shell">
 
-<section id="participantPage" class="page active">
+<section id="welcomePage" class="page active">
+  <div class="welcomeContent">
+    <h1>Digit Span Test</h1>
+    <h2 class="welcomeSubtitle">Evaluación de memoria de trabajo</h2>
+    <p class="welcomeText">Esta evaluación mide la capacidad de recordar y manipular secuencias numéricas. Escucharás una serie de números y deberás responder según la instrucción de cada modalidad. La evaluación contiene distintas secciones y recibirás instrucciones antes de comenzar cada una.</p>
+    <button id="startEvaluation">Comenzar evaluación</button>
+  </div>
+  <button id="welcomeDeveloperAccess" class="developerCorner">Desarrolladores</button>
+</section>
+
+<section id="participantPage" class="page">
   <h1>Digit Span Test</h1>
   <p class="muted">Datos del participante</p>
   <div class="grid">
@@ -417,8 +439,8 @@ th{background:#f6f6f6}
       <label for="grade">Nivel</label>
       <select id="grade" required>
         <option value="">Selecciona tu nivel</option>
+        <option value="4">4°</option>
         <option value="5">5°</option>
-        <option value="6">6°</option>
       </select>
     </div>
     <div>
@@ -437,36 +459,35 @@ th{background:#f6f6f6}
 </section>
 
 <section id="instructionsPage" class="page">
-  <h1>Digit Span Test</h1>
-  <p class="muted">Batería auditiva de memoria numérica</p>
+  <h1>Instrucciones generales</h1>
   <div class="instructions">
-    <h3>Instrucciones generales</h3>
     <ul>
-      <li>Escucha atentamente los números que se dirán en voz alta.</li>
-      <li>No anotes los números mientras los escuchas.</li>
-      <li>Cuando termine la secuencia, escribe tu respuesta según la instrucción de cada prueba. El campo acepta exactamente la misma cantidad de dígitos que escuchaste.</li>
-      <li>Antes de cada prueba harás una práctica que no cuenta para el resultado.</li>
-      <li>En cada longitud hay <b>2 intentos</b>. Un intento fallado se pierde.</li>
-      <li>Cada prueba termina al acumular <b>2 errores</b> en total.</li>
-      <li>La prueba comienza cuando estés listo y presiones <b>“Empezar test”</b>.</li>
+      <li>Escucha atentamente cada secuencia de números.</li>
+      <li>Espera a que termine la reproducción antes de responder.</li>
+      <li>Responde siguiendo la instrucción correspondiente a cada sección.</li>
+      <li>Antes de cada modalidad realizarás una práctica.</li>
+      <li>La práctica no forma parte del resultado.</li>
+      <li>Mantén la atención durante toda la evaluación.</li>
     </ul>
   </div>
   <div class="actions">
-    <button id="beginBattery">Empezar test</button>
+    <button id="beginBattery">Entendido, continuar</button>
     <button id="backParticipant" class="secondary">Volver</button>
   </div>
 </section>
 
 <section id="introPage" class="page">
   <div id="introProgress" class="progress"></div>
-  <div id="introTag" class="modeTag"></div>
   <h2 id="introTitle"></h2>
+  <p id="introSubtitle" class="introSubtitle"></p>
   <div class="instructions">
-    <h3>Instrucciones</h3>
     <p id="introInstruction"></p>
-    <p id="introExample"></p>
+    <dl class="guideExamples">
+      <div class="guideExample"><dt>Escuchas:</dt><dd id="introHeard"></dd></div>
+      <div class="guideExample"><dt>Respondes:</dt><dd id="introResponse"></dd></div>
+    </dl>
   </div>
-  <p>Primero harás una práctica. No cuenta para el resultado. Debes responderla correctamente para comenzar la prueba.</p>
+  <p class="practiceNote">Primero harás una práctica. No cuenta para el resultado. Debes responderla correctamente para comenzar la prueba.</p>
   <button id="startPractice">Comenzar práctica</button>
 </section>
 
@@ -650,6 +671,14 @@ const INFO={
   descending:{tag:"Mayor → Menor",title:"Digit Span: mayor a menor",instruction:"Ordena los números desde el mayor hasta el menor.",example:"Si escuchas 1 – 8 – 4, responde 841."}
 };
 
+// Textos de presentación: separados de INFO para conservar títulos de resultados y protocolo.
+const MODE_PRESENTATION={
+  forward:{title:"Digit Span Forward",subtitle:"Mismo orden",instruction:"Escucharás una secuencia de números. Debes ingresarlos en el mismo orden en que los escuchaste.",heard:"3 – 8 – 1",response:"3 – 8 – 1"},
+  backward:{title:"Digit Span Backward",subtitle:"Orden inverso",instruction:"Escucharás una secuencia de números. Debes ingresarlos en el orden inverso al que los escuchaste.",heard:"3 – 8 – 1",response:"1 – 8 – 3"},
+  ascending:{title:"Ordenar de menor a mayor",subtitle:"",instruction:"Escucharás una secuencia de números. Debes ingresar los números ordenados desde el menor hasta el mayor.",heard:"7 – 2 – 5",response:"2 – 5 – 7"},
+  descending:{title:"Ordenar de mayor a menor",subtitle:"",instruction:"Escucharás una secuencia de números. Debes ingresar los números ordenados desde el mayor hasta el menor.",heard:"7 – 2 – 5",response:"7 – 5 – 2"}
+};
+
 function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
 function currentMode(){return TEST_ORDER[state.currentTestIndex]}
 function info(){return INFO[currentMode()]}
@@ -674,14 +703,14 @@ function validListNumber(value){return /^[0-9]+$/.test(value)&&Number(value)>=1&
 function identificationFromForm(){
   normalizeIdentification();
   const school=$("school").value,grade=$("grade").value,classLetter=$("classLetter").value,listValue=$("listNumber").value;
-  const valid=SCHOOLS.includes(school)&&["5","6"].includes(grade)&&validClassLetter(classLetter)&&validListNumber(listValue);
+  const valid=SCHOOLS.includes(school)&&["4","5"].includes(grade)&&validClassLetter(classLetter)&&validListNumber(listValue);
   return {school,grade,classLetter,listNumber:validListNumber(listValue)?Number(listValue):null,
     participantCode:valid?`${SCHOOL_CODES[school]}-${grade}${classLetter}-${String(Number(listValue)).padStart(3,"0")}`:""};
 }
 function validateIdentification(){
   normalizeIdentification();
   if(!SCHOOLS.includes($("school").value)){alert("Selecciona tu colegio para continuar.");$("school").focus();return false}
-  if(!["5","6"].includes($("grade").value)){alert("Selecciona tu nivel para continuar.");$("grade").focus();return false}
+  if(!["4","5"].includes($("grade").value)){alert("Selecciona tu nivel para continuar.");$("grade").focus();return false}
   if(!validClassLetter($("classLetter").value)){alert("Ingresa una sola letra del curso.");$("classLetter").focus();return false}
   if(!validListNumber($("listNumber").value)){alert("Ingresa un número de lista entero entre 1 y 99.");$("listNumber").focus();return false}
   return true;
@@ -814,11 +843,14 @@ async function speakSequence(seq,box){
 }
 
 function fillIntro(){
-  $("introProgress").textContent=progressText();
-  $("introTag").textContent=info().tag;
-  $("introTitle").textContent=info().title;
-  $("introInstruction").textContent=info().instruction;
-  $("introExample").textContent=info().example;
+  const presentation=MODE_PRESENTATION[currentMode()];
+  $("introProgress").textContent=`Sección ${state.currentTestIndex+1} de ${TEST_ORDER.length}`;
+  $("introTitle").textContent=presentation.title;
+  $("introSubtitle").textContent=presentation.subtitle;
+  $("introSubtitle").hidden=!presentation.subtitle;
+  $("introInstruction").textContent=presentation.instruction;
+  $("introHeard").textContent=presentation.heard;
+  $("introResponse").textContent=presentation.response;
 }
 function fillReady(){
   $("readyProgress").textContent=progressText();
@@ -1023,7 +1055,7 @@ function renderFinal(){
   });
   if(state.quick){
     $("saveStatus").innerHTML="<b>Prueba rápida completada.</b><br><span class='small'>No fue enviada a Google Sheets.</span>";
-    state.quick=false;return;
+    return;
   }
   saveToGoogle();
 }
@@ -1087,6 +1119,8 @@ async function googleTest(){
   catch(e){out.className="feedback bad";out.textContent="No se pudo enviar."}
 }
 
+$("startEvaluation").onclick=()=>showPage("participantPage");
+$("welcomeDeveloperAccess").onclick=()=>showPage("developerLoginPage");
 $("continueToInstructions").onclick=()=>{if(validateParticipant())showPage("instructionsPage")};
 $("classLetter").addEventListener("input",normalizeIdentification);
 $("listNumber").addEventListener("input",normalizeIdentification);
@@ -1117,7 +1151,7 @@ $("devExport").onclick=exportCSV;
 $("saveConfig").onclick=saveDev;
 $("resetConfig").onclick=()=>{CONFIG={rate:.9,gap:250,betweenTrialsMs:2000,startLength:3,trials:2,maxLength:12};TEST_ORDER=["forward","backward","ascending","descending"];loadDev();$("configSaved").className="feedback ok";$("configSaved").textContent="Valores recomendados restaurados."};
 $("testAudio").onclick=async()=>{const out=$("developerToolResult");try{out.textContent="Reproduciendo 3, 8, 1…";await speakSequence([3,8,1],{textContent:""});out.className="feedback ok";out.textContent="✓ Audio funcionando."}catch(e){out.className="feedback bad";out.textContent="No se pudo reproducir audio."}};
-$("quickTest").onclick=()=>{if(!validateIdentification())return;state.identification=identificationFromForm();state.evaluationId=null;state.saveCompleted=false;state.quick=true;TEST_ORDER=["forward"];CONFIG.startLength=3;CONFIG.trials=1;CONFIG.maxLength=3;if(!$("fullName").value)$("fullName").value="PRUEBA DESARROLLADOR";if(!$("gender").value)$("gender").value="Otro";if(!$("birthDate").value)$("birthDate").value="2014-01-01";state.currentTestIndex=0;state.results=[];state.summaries=[];fillIntro();showPage("introPage")};
+$("quickTest").onclick=()=>{state.identification=identificationFromForm();state.evaluationId=null;state.saveCompleted=false;state.quick=true;TEST_ORDER=["forward"];CONFIG.startLength=3;CONFIG.trials=1;CONFIG.maxLength=3;if(!$("fullName").value)$("fullName").value="PRUEBA DESARROLLADOR";if(!$("gender").value)$("gender").value="Otro";if(!$("birthDate").value)$("birthDate").value="2014-01-01";state.currentTestIndex=0;state.results=[];state.summaries=[];fillIntro();showPage("introPage")};
 $("testGoogle").onclick=googleTest;
 
 if("speechSynthesis" in window) speechSynthesis.getVoices();
