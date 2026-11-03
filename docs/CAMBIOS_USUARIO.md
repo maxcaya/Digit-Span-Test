@@ -90,6 +90,14 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - El botón para continuar se habilita solo después de una reproducción correcta.
 - Esta prueba de audio no cuenta como práctica, no genera resultados y no se guarda en Google Sheets.
 
+## 2026-11-03 — Voz latina y pronunciación más pausada
+
+- Cambio: la velocidad de pronunciación de cada número baja de 1,0 a 0,85 para que se escuche más clara y natural.
+- La selección de voz deja de priorizar cualquier español y pasa a preferir voces latinoamericanas: primero Latinoamérica (es-419), luego México, español de EE. UU. y otras variantes de América Latina.
+- Se evita usar una voz de España (es-ES) como alternativa automática.
+- La pausa entre números permanece exactamente en 250 ms.
+- La prueba de audio previa utiliza la misma voz y velocidad, por lo que permite comprobar cómo sonará la evaluación real.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.

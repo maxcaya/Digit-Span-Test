@@ -86,6 +86,15 @@ Conservar la entrada anterior marcándola como reemplazada, enlazar la nueva dec
 - Alcance: la comprobación reutiliza la misma síntesis y configuración de voz que la evaluación, pero no cuenta como práctica, intento ni resultado y no se incorpora al guardado.
 - No cambia: secuencias evaluadas, puntuación, criterios de finalización, prácticas, payload, CSV ni Google Sheets.
 
+## D-009 — Voz latinoamericana y velocidad 0,85
+
+- Fecha: 2026-11-03 (Chile).
+- Estado: vigente.
+- Decisión: usar velocidad de síntesis 0,85 y priorizar voces de español latinoamericano instaladas en el dispositivo, comenzando por es-419, es-MX y es-US. No usar es-ES como fallback regional automático.
+- Motivo: mejorar claridad y naturalidad de la pronunciación para participantes chilenos/latinoamericanos, evitando una voz percibida como española y una velocidad excesiva.
+- Se conserva: pausa fija de 250 ms entre dígitos, volumen, tono, secuencias, puntuación y lógica de evaluación.
+- Límite técnico: SpeechSynthesis depende de las voces instaladas por navegador/sistema operativo; si no existe una voz latinoamericana explícita, el navegador puede usar su implementación para es-419.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
@@ -95,3 +104,4 @@ Conservar la entrada anterior marcándola como reemplazada, enlazar la nueva dec
 - 2026-11-02 (Chile): D-006 corrige los niveles permitidos de 5°/6° a 4°/5°.
 - 2026-11-03 (Chile): presentación guiada y navegación documentadas; protocolo y lógica de evaluación conservados (D-007).
 - 2026-11-03 (Chile): comprobación de audio previa a la batería incorporada sin afectar resultados (D-008).
+- 2026-11-03 (Chile): voz latinoamericana priorizada y velocidad ajustada a 0,85 (D-009).

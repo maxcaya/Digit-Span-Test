@@ -108,6 +108,15 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - `beginBattery` conserva la fijación de identificación y el reinicio del estado, pero ahora abre `audioCheckPage`; el paso a `introPage` ocurre desde `audioCheckContinue`.
 - La prueba de audio no se agrega a `state.results`, no afecta puntuación, prácticas, span, payload, CSV ni guardado.
 
+## 2026-11-03 — Priorización de voz latinoamericana y rate 0,85
+
+- Archivo: `index.html`.
+- `CONFIG.rate` cambia de `1.0` a `0.85`; el valor inicial de `cfgRate` y “Restaurar recomendados” usan el mismo valor.
+- `CONFIG.gap` permanece en `250` ms.
+- `pickSpanishVoice()` prioriza, en orden, `es-419`, `es-MX`, `es-US` y variantes latinoamericanas disponibles. El fallback de español regional excluye expresamente `es-ES`.
+- `speakDigit()` usa el locale de la voz elegida y, si no existe una voz compatible, solicita `es-419`.
+- La disponibilidad exacta de voces depende del navegador/sistema operativo; el código selecciona la mejor alternativa latinoamericana instalada sin descargar voces externas.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
