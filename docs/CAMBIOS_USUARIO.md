@@ -98,6 +98,14 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - La pausa entre números permanece exactamente en 250 ms.
 - La prueba de audio previa utiliza la misma voz y velocidad, por lo que permite comprobar cómo sonará la evaluación real.
 
+## 2026-11-03 — Selector para elegir la voz
+
+- Cambio: en Desarrolladores → Audio aparece un selector con las voces en español disponibles realmente en el dispositivo y un botón “Probar voz seleccionada”.
+- Funcionamiento: se puede escuchar 3–8–1 con cada voz y elegir la que resulte más natural. “Automática latina” conserva la selección automática actual.
+- Persistencia: la voz elegida se guarda en ese navegador/dispositivo y se usa también en la prueba de audio previa y en toda la evaluación.
+- “Restaurar recomendados” vuelve a Automática latina.
+- La disponibilidad y nombres de las voces dependen del sistema operativo y navegador.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
