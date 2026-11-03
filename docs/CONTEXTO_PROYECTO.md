@@ -9,7 +9,7 @@ Participantes previstos: escolares de aproximadamente 10 a 12 años, de 5.º y 6
 
 ## Identificación y colegios del seminario
 
-La pantalla inicial conserva nombre completo, género y fecha de nacimiento, y exige colegio, nivel (5° o 6°), letra de curso y número de lista. Observaciones no se solicita al participante público; se conserva compatibilidad interna mediante un valor vacío.
+La pantalla inicial conserva nombre completo, género y fecha de nacimiento, y exige colegio, nivel (4° o 5°), letra de curso y número de lista. Observaciones no se solicita al participante público; se conserva compatibilidad interna mediante un valor vacío.
 
 Los únicos colegios admitidos son:
 
@@ -19,7 +19,7 @@ Los únicos colegios admitidos son:
 
 Los desplegables comienzan con «Selecciona tu colegio» y «Selecciona tu nivel», sin valor válido. Letra es texto libre obligatorio: se recortan espacios exteriores, se convierte a mayúscula y se comprueba exactamente una letra; números, símbolos y varias letras se rechazan. Número de lista elimina espacios, acepta solo dígitos y debe representar un entero entre 1 y 99; rechaza cero, negativos, decimales y notación exponencial.
 
-Después de validar se genera internamente COLEGIO-NIVEL+LETRA-NUMERO_LISTA: SC para Santiago College, LIA para Lincoln International Academy Chicureo y CHS para Craighouse School; nivel sin °, letra mayúscula y número con tres dígitos. Ejemplos: SC-5B-012, LIA-6A-007 y CHS-5C-021. No hay campo para escribir, copiar ni consultar el código en la pantalla inicial.
+Después de validar se genera internamente COLEGIO-NIVEL+LETRA-NUMERO_LISTA: SC para Santiago College, LIA para Lincoln International Academy Chicureo y CHS para Craighouse School; nivel sin °, letra mayúscula y número con tres dígitos. Ejemplos: SC-4B-012, LIA-5A-007 y CHS-4C-021. No hay campo para escribir, copiar ni consultar el código en la pantalla inicial.
 
 Los cuatro valores y el código quedan fijados al comenzar la batería, aparecen en el resultado final, se incorporan a cada fila del CSV y al objeto participant del envío actual (school, grade, class_letter, list_number y participant_code). evaluation_id continúa siendo un identificador independiente para cada evaluación; el código de participante puede repetirse al evaluar de nuevo a la misma persona.
 
