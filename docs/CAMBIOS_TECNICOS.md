@@ -83,6 +83,14 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - Implementación: se cambia únicamente el texto visible de `#startEvaluation` de “Comenzar evaluación” a “Siguiente”.
 - El manejador y destino siguen siendo los mismos: avanzar a `participantPage`.
 
+## 2026-11-03 — Bloqueo de avance con identificación incompleta
+
+- Archivo: `index.html`.
+- HTML: `fullName`, `gender` y `birthDate` pasan a declararse `required`; `continueToInstructions` inicia deshabilitado.
+- JavaScript: `participantFormComplete()` verifica los siete campos de identificación y `updateParticipantContinueState()` habilita el botón únicamente cuando todos son válidos. Se actualiza en eventos `input` y `change`.
+- Seguridad funcional: `validateParticipant()` se conserva como segunda validación antes de navegar a instrucciones.
+- Alcance: no se modifican código de participante, evaluación, puntuación, audio, payload, CSV ni Google Sheets.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
