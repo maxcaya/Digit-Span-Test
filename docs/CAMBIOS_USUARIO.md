@@ -44,9 +44,17 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - Qué debería notar el usuario: al entrar a Desarrolladores y pulsar “Prueba rápida”, la prueba comienza directamente. Al terminar indica que fue una prueba interna, sin datos de participante y sin envío a Google Sheets.
 - Qué no cambió: las evaluaciones reales siguen exigiendo todos los datos obligatorios antes de comenzar.
 
+## 2026-11-02 — Corrección de cursos a 4° y 5°
+
+- Qué pidió el usuario: cambiar las opciones de nivel porque la muestra corresponde a 4° y 5°, no a 5° y 6°.
+- Qué cambió: el selector de Nivel ahora ofrece únicamente 4° y 5°. La validación también acepta solo esos dos niveles.
+- Qué debería notar el usuario: ya no aparece 6° y ahora puede seleccionar 4°. El código de participante mantiene el mismo formato; por ejemplo, SC-4B-012 o LIA-5A-007.
+- Qué no cambió: colegios, letra, número de lista, modalidades de Digit Span, puntuación, audio y guardado.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
 - 2026-11-02 (Chile): auditoría local de seguridad documentada sin cambios de funcionamiento; alcance y límites registrados en D-003.
 - 2026-11-02 (Chile): Colegio obligatorio, Observaciones retirado de la pantalla pública y pruebas del recorrido actual; decisión D-004.
 - 2026-11-02 (Chile): identificación común automática, validaciones de curso y lista, datos en resultado/CSV/envío y pruebas; decisión D-005.
+- 2026-11-02 (Chile): niveles corregidos a 4°/5°; decisión D-006.

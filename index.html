@@ -417,8 +417,8 @@ th{background:#f6f6f6}
       <label for="grade">Nivel</label>
       <select id="grade" required>
         <option value="">Selecciona tu nivel</option>
+        <option value="4">4°</option>
         <option value="5">5°</option>
-        <option value="6">6°</option>
       </select>
     </div>
     <div>
@@ -674,14 +674,14 @@ function validListNumber(value){return /^[0-9]+$/.test(value)&&Number(value)>=1&
 function identificationFromForm(){
   normalizeIdentification();
   const school=$("school").value,grade=$("grade").value,classLetter=$("classLetter").value,listValue=$("listNumber").value;
-  const valid=SCHOOLS.includes(school)&&["5","6"].includes(grade)&&validClassLetter(classLetter)&&validListNumber(listValue);
+  const valid=SCHOOLS.includes(school)&&["4","5"].includes(grade)&&validClassLetter(classLetter)&&validListNumber(listValue);
   return {school,grade,classLetter,listNumber:validListNumber(listValue)?Number(listValue):null,
     participantCode:valid?`${SCHOOL_CODES[school]}-${grade}${classLetter}-${String(Number(listValue)).padStart(3,"0")}`:""};
 }
 function validateIdentification(){
   normalizeIdentification();
   if(!SCHOOLS.includes($("school").value)){alert("Selecciona tu colegio para continuar.");$("school").focus();return false}
-  if(!["5","6"].includes($("grade").value)){alert("Selecciona tu nivel para continuar.");$("grade").focus();return false}
+  if(!["4","5"].includes($("grade").value)){alert("Selecciona tu nivel para continuar.");$("grade").focus();return false}
   if(!validClassLetter($("classLetter").value)){alert("Ingresa una sola letra del curso.");$("classLetter").focus();return false}
   if(!validListNumber($("listNumber").value)){alert("Ingresa un número de lista entero entre 1 y 99.");$("listNumber").focus();return false}
   return true;
