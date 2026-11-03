@@ -106,6 +106,14 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - “Restaurar recomendados” vuelve a Automática latina.
 - La disponibilidad y nombres de las voces dependen del sistema operativo y navegador.
 
+## 2026-11-03 — Paulina (es-MX) como voz predeterminada
+
+- Cambio: Paulina en español de México (`es-MX`) pasa a ser la voz predeterminada de toda la aplicación.
+- Se usa por defecto en la prueba de audio previa, prácticas y evaluación real.
+- El selector de Desarrolladores se mantiene: si el evaluador escoge manualmente otra voz, esa elección prevalece en ese dispositivo.
+- Si Paulina no está disponible, la aplicación usa primero otra voz `es-MX` y luego una alternativa latinoamericana para evitar fallos de audio.
+- Velocidad y pausa se mantienen en 0,85 y 250 ms respectivamente.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.

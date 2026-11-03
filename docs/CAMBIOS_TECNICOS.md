@@ -127,6 +127,15 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - La previsualización reutiliza `speakSequence([3,8,1])`; por tanto usa la misma velocidad y pausa que la evaluación.
 - Se corrige también la prueba de audio del panel para pasar un elemento DOM real a `speakSequence()`.
 
+## 2026-11-03 — Paulina es-MX como fallback principal
+
+- Archivo principal: `index.html`.
+- `pickSpanishVoice()` busca primero una `SpeechSynthesisVoice` cuyo nombre contenga “Paulina” y cuyo locale sea exactamente `es-MX`, siempre que no exista una selección manual guardada.
+- Si Paulina no existe, el orden de fallback comienza por cualquier voz `es-MX`, seguido de `es-419`, `es-US` y otras variantes latinoamericanas.
+- La opción vacía del selector pasa de “Automática latina” a “Paulina (es-MX) — predeterminada”.
+- Una voz elegida manualmente por `voiceURI` sigue teniendo prioridad.
+- No cambian `CONFIG.rate=0.85`, `CONFIG.gap=250`, ni la lógica de evaluación.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
