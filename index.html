@@ -365,8 +365,23 @@ th{background:#f6f6f6}
   opacity:1;
   background:#f3f3f3;
 }
-#participantPage{
-  position:relative;
+#participantPage, #welcomePage{position:relative;padding-bottom:64px}
+.guidedContent{max-width:640px;margin:16px auto}
+.guidedContent h1,.guidedContent h2{line-height:1.2;margin-bottom:12px}
+.guidedSubtitle{font-size:20px;margin:0 0 28px;color:var(--muted)}
+.guidedContent .actions{margin-top:32px}
+.generalList{padding-left:22px;margin:0}
+.generalList li+li{margin-top:12px}
+.exampleGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin:24px 0 0}
+.exampleGrid div{min-width:0}
+.exampleGrid dt{font-size:14px;color:var(--muted);margin-bottom:10px}
+.exampleGrid dd{margin:0;font-size:26px;line-height:1.5;font-variant-numeric:tabular-nums;white-space:nowrap}
+@media(max-width:680px){
+  .guidedContent{margin:8px auto}
+  .guidedSubtitle{font-size:18px;margin-bottom:24px}
+  .exampleGrid{grid-template-columns:1fr;gap:18px}
+  .grid>*{min-width:0}
+  input,select{min-width:0;max-width:100%}
 }
 @media(max-width:680px){
   .developerCorner{
@@ -382,7 +397,17 @@ th{background:#f6f6f6}
 <body>
 <div class="shell">
 
-<section id="participantPage" class="page active">
+<section id="welcomePage" class="page active">
+  <div class="guidedContent">
+    <h1>Digit Span Test</h1>
+    <p class="guidedSubtitle">Evaluación de memoria de trabajo</p>
+    <p>Esta evaluación mide la capacidad de recordar y manipular secuencias numéricas. Escucharás una serie de números y deberás responder según la instrucción de cada modalidad. La evaluación contiene distintas secciones y recibirás instrucciones antes de comenzar cada una.</p>
+    <div class="actions"><button id="startEvaluation">Comenzar evaluación</button></div>
+  </div>
+  <button id="welcomeDeveloperAccess" class="developerCorner">Desarrolladores</button>
+</section>
+
+<section id="participantPage" class="page">
   <h1>Digit Span Test</h1>
   <p class="muted">Datos del participante</p>
   <div class="grid">
@@ -437,37 +462,40 @@ th{background:#f6f6f6}
 </section>
 
 <section id="instructionsPage" class="page">
-  <h1>Digit Span Test</h1>
-  <p class="muted">Batería auditiva de memoria numérica</p>
-  <div class="instructions">
-    <h3>Instrucciones generales</h3>
-    <ul>
-      <li>Escucha atentamente los números que se dirán en voz alta.</li>
-      <li>No anotes los números mientras los escuchas.</li>
-      <li>Cuando termine la secuencia, escribe tu respuesta según la instrucción de cada prueba. El campo acepta exactamente la misma cantidad de dígitos que escuchaste.</li>
-      <li>Antes de cada prueba harás una práctica que no cuenta para el resultado.</li>
-      <li>En cada longitud hay <b>2 intentos</b>. Un intento fallado se pierde.</li>
-      <li>Cada prueba termina al acumular <b>2 errores</b> en total.</li>
-      <li>La prueba comienza cuando estés listo y presiones <b>“Empezar test”</b>.</li>
-    </ul>
-  </div>
-  <div class="actions">
-    <button id="beginBattery">Empezar test</button>
-    <button id="backParticipant" class="secondary">Volver</button>
+  <div class="guidedContent">
+    <h1>Instrucciones generales</h1>
+    <div class="instructions">
+      <ul class="generalList">
+        <li>Escucha atentamente cada secuencia de números.</li>
+        <li>Espera a que termine la reproducción antes de responder.</li>
+        <li>Responde siguiendo la instrucción correspondiente a cada sección.</li>
+        <li>Antes de cada modalidad realizarás una práctica.</li>
+        <li>La práctica no forma parte del resultado.</li>
+        <li>Mantén la atención durante toda la evaluación.</li>
+      </ul>
+    </div>
+    <div class="actions">
+      <button id="beginBattery">Entendido, continuar</button>
+      <button id="backParticipant" class="secondary">Volver</button>
+    </div>
   </div>
 </section>
 
 <section id="introPage" class="page">
-  <div id="introProgress" class="progress"></div>
-  <div id="introTag" class="modeTag"></div>
-  <h2 id="introTitle"></h2>
-  <div class="instructions">
-    <h3>Instrucciones</h3>
-    <p id="introInstruction"></p>
-    <p id="introExample"></p>
+  <div class="guidedContent">
+    <div id="introProgress" class="progress"></div>
+    <h2 id="introTitle"></h2>
+    <p id="introTag" class="guidedSubtitle"></p>
+    <div class="instructions">
+      <p id="introInstruction"></p>
+      <dl class="exampleGrid" aria-label="Ejemplo de la modalidad">
+        <div><dt>Escuchas:</dt><dd id="introHeard"></dd></div>
+        <div><dt>Respondes:</dt><dd id="introResponse"></dd></div>
+      </dl>
+    </div>
+    <p class="muted">Primero realizarás una práctica. No forma parte del resultado. Debes responderla correctamente para comenzar la prueba.</p>
+    <div class="actions"><button id="startPractice">Comenzar práctica</button></div>
   </div>
-  <p>Primero harás una práctica. No cuenta para el resultado. Debes responderla correctamente para comenzar la prueba.</p>
-  <button id="startPractice">Comenzar práctica</button>
 </section>
 
 <section id="practicePage" class="page center">
@@ -634,6 +662,7 @@ const SCHOOL_CODES={"Santiago College":"SC","Lincoln International Academy Chicu
 const SCHOOLS=Object.keys(SCHOOL_CODES);
 let TEST_ORDER=["forward","backward","ascending","descending"];
 let CONFIG={rate:.9,gap:250,betweenTrialsMs:2000,startLength:3,trials:2,maxLength:12};
+let developerReturnPage="participantPage";
 let state={
   currentTestIndex:0, practiceIndex:0, length:3, trial:0, levelCorrect:0,
   sequence:[], results:[], summaries:[], responseStart:0, maxSpan:null,
@@ -813,12 +842,22 @@ async function speakSequence(seq,box){
   box.style.minHeight="10px";
 }
 
+// Contenido de presentación separado de INFO para conservar los títulos de resultados.
+const MODE_PRESENTATION={
+  forward:{title:"Digit Span Forward",subtitle:"Mismo orden",instruction:"Escucharás una secuencia de números. Debes ingresarlos en el mismo orden en que los escuchaste.",heard:"3 – 8 – 1",response:"3 – 8 – 1"},
+  backward:{title:"Digit Span Backward",subtitle:"Orden inverso",instruction:"Escucharás una secuencia de números. Debes ingresarlos en el orden inverso al que los escuchaste.",heard:"3 – 8 – 1",response:"1 – 8 – 3"},
+  ascending:{title:"Ordenar de menor a mayor",subtitle:"",instruction:"Escucharás una secuencia de números. Debes ingresar los números ordenados desde el menor hasta el mayor.",heard:"7 – 2 – 5",response:"2 – 5 – 7"},
+  descending:{title:"Ordenar de mayor a menor",subtitle:"",instruction:"Escucharás una secuencia de números. Debes ingresar los números ordenados desde el mayor hasta el menor.",heard:"7 – 2 – 5",response:"7 – 5 – 2"}
+};
 function fillIntro(){
-  $("introProgress").textContent=progressText();
-  $("introTag").textContent=info().tag;
-  $("introTitle").textContent=info().title;
-  $("introInstruction").textContent=info().instruction;
-  $("introExample").textContent=info().example;
+  const presentation=MODE_PRESENTATION[currentMode()];
+  $("introProgress").textContent=`Sección ${state.currentTestIndex+1} de ${TEST_ORDER.length}`;
+  $("introTag").textContent=presentation.subtitle;
+  $("introTag").hidden=!presentation.subtitle;
+  $("introTitle").textContent=presentation.title;
+  $("introInstruction").textContent=presentation.instruction;
+  $("introHeard").textContent=presentation.heard;
+  $("introResponse").textContent=presentation.response;
 }
 function fillReady(){
   $("readyProgress").textContent=progressText();
@@ -1089,6 +1128,8 @@ async function googleTest(){
   catch(e){out.className="feedback bad";out.textContent="No se pudo enviar."}
 }
 
+$("startEvaluation").onclick=()=>showPage("participantPage");
+$("welcomeDeveloperAccess").onclick=()=>{developerReturnPage="welcomePage";showPage("developerLoginPage")};
 $("continueToInstructions").onclick=()=>{if(validateParticipant())showPage("instructionsPage")};
 $("classLetter").addEventListener("input",normalizeIdentification);
 $("listNumber").addEventListener("input",normalizeIdentification);
@@ -1106,15 +1147,15 @@ $("nextMode").onclick=nextMode;
 $("csv").onclick=exportCSV;
 $("restart").onclick=()=>location.reload();
 
-$("developerAccess").onclick=()=>showPage("developerLoginPage");
-$("developerBack").onclick=()=>showPage("participantPage");
+$("developerAccess").onclick=()=>{developerReturnPage="participantPage";showPage("developerLoginPage")};
+$("developerBack").onclick=()=>showPage(developerReturnPage);
 function devLogin(){
   if($("developerPassword").value===DEVELOPER_PASSWORD){$("developerPassword").value="";$("developerError").textContent="";loadDev();showPage("developerPage")}
   else{$("developerError").className="feedback bad";$("developerError").textContent="Contraseña incorrecta."}
 }
 $("developerLogin").onclick=devLogin;
 $("developerPassword").onkeydown=e=>{if(e.key==="Enter")devLogin()};
-$("devExit").onclick=()=>showPage("participantPage");
+$("devExit").onclick=()=>showPage(developerReturnPage);
 $("devExport").onclick=exportCSV;
 $("saveConfig").onclick=saveDev;
 $("resetConfig").onclick=()=>{CONFIG={rate:.9,gap:250,betweenTrialsMs:2000,startLength:3,trials:2,maxLength:12};TEST_ORDER=["forward","backward","ascending","descending"];loadDev();$("configSaved").className="feedback ok";$("configSaved").textContent="Valores recomendados restaurados."};

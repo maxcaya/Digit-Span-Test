@@ -1,7 +1,7 @@
 # Decisiones
 
 Creación: 2026-11-02 (Chile, America/Santiago).
-Última modificación: 2026-11-02 (Chile, America/Santiago).
+Última modificación: 2026-11-03 (Chile, America/Santiago).
 
 ## D-001 — Documentación persistente inicial
 
@@ -67,6 +67,16 @@ Selección final de modalidades; correspondencia de menor a mayor con secuenciac
 
 Conservar la entrada anterior marcándola como reemplazada, enlazar la nueva decisión e indicar fecha y motivo. La nueva entrada debe identificar expresamente qué decisión reemplaza y por qué. Registrar la actualización en ambos registros de cambios.
 
+## D-007 — Presentación guiada sin cambios del protocolo
+
+- Fecha: 2026-11-03 (Chile).
+- Estado: vigente.
+- Decisión: anteponer bienvenida a identificación y presentar instrucciones generales y específicas con ejemplos visuales y progreso discreto antes de cada práctica. Conservar paleta, sobriedad y acceso directo a Desarrolladores.
+- Motivo: facilitar comprensión y orientación del participante con una presentación formal y académica.
+- Alcance: presentación y navegación; contenido de introducciones separado de INFO para conservar los títulos internos de resultados. Se reutilizan las transiciones existentes de las cuatro modalidades, sin modificar prácticas, secuencias, audio, puntuación, finalización, identificación, payload, CSV ni guardado.
+- Reemplaza: ninguna decisión de protocolo. Actualiza la ubicación de la identificación descrita en D-004/D-005: ahora sigue a una bienvenida. D-006 conserva niveles 4°/5°; se mantiene la separación actual de Prueba rápida sin datos ni envío.
+- Autorización de esta tarea: modificar index.html y documentación, nueva rama, commit y push; sin merge a main ni despliegue solicitado.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
@@ -74,3 +84,4 @@ Conservar la entrada anterior marcándola como reemplazada, enlazar la nueva dec
 - 2026-11-02 (Chile): Colegio obligatorio, Observaciones retirado de la pantalla pública y pruebas del recorrido actual; decisión D-004.
 - 2026-11-02 (Chile): D-005 amplía D-004 con identificación común automática y nivel confirmado, sin integrar YAP-SL.
 - 2026-11-02 (Chile): D-006 corrige los niveles permitidos de 5°/6° a 4°/5°.
+- 2026-11-03 (Chile): presentación guiada y navegación documentadas; protocolo y lógica de evaluación conservados (D-007).
