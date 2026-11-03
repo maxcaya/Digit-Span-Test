@@ -91,6 +91,14 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - Seguridad funcional: `validateParticipant()` se conserva como segunda validación antes de navegar a instrucciones.
 - Alcance: no se modifican código de participante, evaluación, puntuación, audio, payload, CSV ni Google Sheets.
 
+## 2026-11-03 — Velocidad de voz por defecto a 1,0
+
+- Archivo: `index.html`.
+- `CONFIG.rate` cambia de `0.9` a `1.0`.
+- El valor inicial de `cfgRate` y “Restaurar recomendados” se actualizan al mismo valor.
+- `CONFIG.gap` permanece sin cambios en `250` ms.
+- No se modifica `speakSequence()`, la separación entre dígitos ni la lógica del test.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
