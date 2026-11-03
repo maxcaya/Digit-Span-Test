@@ -104,6 +104,15 @@ Conservar la entrada anterior marcándola como reemplazada, enlazar la nueva dec
 - Persistencia: guardar únicamente el voiceURI seleccionado en localStorage del dispositivo. No contiene datos de participantes.
 - Alcance: la voz elegida se usa en prueba de audio, prácticas y evaluación; no modifica velocidad 0,85, pausa 250 ms, secuencias, puntuación ni guardado de resultados.
 
+## D-011 — Paulina (es-MX) como voz predeterminada
+
+- Fecha: 2026-11-03 (Chile).
+- Estado: vigente.
+- Decisión: usar Paulina con locale es-MX como voz predeterminada para prueba de audio, prácticas y evaluación real.
+- Prioridad: una voz elegida manualmente desde Desarrolladores conserva prioridad. Sin selección manual, se busca Paulina es-MX; si no está disponible, se usa otra voz es-MX y luego los fallbacks latinoamericanos definidos.
+- Motivo: el usuario seleccionó Paulina es-MX como la voz preferida del proyecto tras comparar las voces disponibles.
+- No cambia: velocidad 0,85, pausa de 250 ms, secuencias, puntuación, protocolo ni guardado de resultados.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
@@ -115,3 +124,4 @@ Conservar la entrada anterior marcándola como reemplazada, enlazar la nueva dec
 - 2026-11-03 (Chile): comprobación de audio previa a la batería incorporada sin afectar resultados (D-008).
 - 2026-11-03 (Chile): voz latinoamericana priorizada y velocidad ajustada a 0,85 (D-009).
 - 2026-11-03 (Chile): selector manual de voz disponible en Desarrolladores (D-010).
+- 2026-11-03 (Chile): Paulina (es-MX) definida como voz predeterminada (D-011).
