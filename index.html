@@ -662,6 +662,7 @@ const SCHOOL_CODES={"Santiago College":"SC","Lincoln International Academy Chicu
 const SCHOOLS=Object.keys(SCHOOL_CODES);
 let TEST_ORDER=["forward","backward","ascending","descending"];
 let CONFIG={rate:.9,gap:250,betweenTrialsMs:2000,startLength:3,trials:2,maxLength:12};
+let developerReturnPage="participantPage";
 let state={
   currentTestIndex:0, practiceIndex:0, length:3, trial:0, levelCorrect:0,
   sequence:[], results:[], summaries:[], responseStart:0, maxSpan:null,
@@ -1128,7 +1129,7 @@ async function googleTest(){
 }
 
 $("startEvaluation").onclick=()=>showPage("participantPage");
-$("welcomeDeveloperAccess").onclick=()=>showPage("developerLoginPage");
+$("welcomeDeveloperAccess").onclick=()=>{developerReturnPage="welcomePage";showPage("developerLoginPage")};
 $("continueToInstructions").onclick=()=>{if(validateParticipant())showPage("instructionsPage")};
 $("classLetter").addEventListener("input",normalizeIdentification);
 $("listNumber").addEventListener("input",normalizeIdentification);
@@ -1146,15 +1147,15 @@ $("nextMode").onclick=nextMode;
 $("csv").onclick=exportCSV;
 $("restart").onclick=()=>location.reload();
 
-$("developerAccess").onclick=()=>showPage("developerLoginPage");
-$("developerBack").onclick=()=>showPage("participantPage");
+$("developerAccess").onclick=()=>{developerReturnPage="participantPage";showPage("developerLoginPage")};
+$("developerBack").onclick=()=>showPage(developerReturnPage);
 function devLogin(){
   if($("developerPassword").value===DEVELOPER_PASSWORD){$("developerPassword").value="";$("developerError").textContent="";loadDev();showPage("developerPage")}
   else{$("developerError").className="feedback bad";$("developerError").textContent="Contraseña incorrecta."}
 }
 $("developerLogin").onclick=devLogin;
 $("developerPassword").onkeydown=e=>{if(e.key==="Enter")devLogin()};
-$("devExit").onclick=()=>showPage("participantPage");
+$("devExit").onclick=()=>showPage(developerReturnPage);
 $("devExport").onclick=exportCSV;
 $("saveConfig").onclick=saveDev;
 $("resetConfig").onclick=()=>{CONFIG={rate:.9,gap:250,betweenTrialsMs:2000,startLength:3,trials:2,maxLength:12};TEST_ORDER=["forward","backward","ascending","descending"];loadDev();$("configSaved").className="feedback ok";$("configSaved").textContent="Valores recomendados restaurados."};
