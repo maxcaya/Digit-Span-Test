@@ -99,6 +99,15 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - `CONFIG.gap` permanece sin cambios en `250` ms.
 - No se modifica `speakSequence()`, la separación entre dígitos ni la lógica del test.
 
+## 2026-11-03 — Comprobación previa de audio
+
+- Archivo principal: `index.html`.
+- Nueva pantalla: `audioCheckPage`, ubicada entre instrucciones generales y la introducción de la primera modalidad.
+- Reutiliza `speakSequence()` con la secuencia ficticia `[5,0,7]`, por lo que usa exactamente `CONFIG.rate`, `CONFIG.gap`, voz, tono y volumen de la evaluación.
+- `audioCheckContinue` permanece deshabilitado hasta que la reproducción termina correctamente; el audio puede repetirse.
+- `beginBattery` conserva la fijación de identificación y el reinicio del estado, pero ahora abre `audioCheckPage`; el paso a `introPage` ocurre desde `audioCheckContinue`.
+- La prueba de audio no se agrega a `state.results`, no afecta puntuación, prácticas, span, payload, CSV ni guardado.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
