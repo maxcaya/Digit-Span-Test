@@ -60,6 +60,11 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - Documentación: contexto actualizado y decisión D-007, preservando el historial anterior.
 - Pruebas: recorridos completos en Chromium con datos ficticios a 1280, 390 y 320 px; cuatro modalidades y Prueba rápida. Audio y temporizadores simulados; envío interceptado sin escribir en Google. No se prueba audio físico ni almacenamiento remoto.
 
+## 2026-11-03 — Bienvenida con texto en viñetas
+
+- Cambio: el texto explicativo de la portada se presenta ahora en tres puntos separados para facilitar la lectura.
+- Alcance: solo cambia la presentación del texto; no modifica navegación, evaluación, lógica ni guardado.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
