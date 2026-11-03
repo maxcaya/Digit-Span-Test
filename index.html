@@ -417,11 +417,11 @@ th{background:#f6f6f6}
   <div class="grid">
     <div style="grid-column:1/-1">
       <label for="fullName">Nombre completo</label>
-      <input id="fullName" type="text" placeholder="Nombre y apellido">
+      <input id="fullName" type="text" required placeholder="Nombre y apellido">
     </div>
     <div>
       <label for="gender">Género</label>
-      <select id="gender">
+      <select id="gender" required>
         <option value="">Seleccionar</option>
         <option>Hombre</option>
         <option>Mujer</option>
@@ -431,7 +431,7 @@ th{background:#f6f6f6}
     </div>
     <div>
       <label for="birthDate">Fecha de nacimiento</label>
-      <input id="birthDate" type="date">
+      <input id="birthDate" type="date" required>
     </div>
     <div style="grid-column:1/-1">
       <label for="school">Colegio</label>
@@ -460,7 +460,7 @@ th{background:#f6f6f6}
     </div>
   </div>
   <div class="actions">
-    <button id="continueToInstructions">Continuar</button>
+    <button id="continueToInstructions" disabled>Continuar</button>
   </div>
   <button id="developerAccess" class="developerCorner">Desarrolladores</button>
 </section>
@@ -721,6 +721,21 @@ function validateIdentification(){
 }
 function participant(){
   return {fullName:$("fullName").value.trim(),gender:$("gender").value,birthDate:$("birthDate").value,age:ageFromBirth($("birthDate").value),...(state.identification??identificationFromForm()),notes:$("notes")?.value.trim()??""};
+}
+function participantFormComplete(){
+  normalizeIdentification();
+  return Boolean(
+    $("fullName").value.trim() &&
+    $("gender").value &&
+    $("birthDate").value &&
+    SCHOOLS.includes($("school").value) &&
+    ["4","5"].includes($("grade").value) &&
+    validClassLetter($("classLetter").value) &&
+    validListNumber($("listNumber").value)
+  );
+}
+function updateParticipantContinueState(){
+  $("continueToInstructions").disabled=!participantFormComplete();
 }
 function validateParticipant(){
   if(!validateIdentification())return false;
@@ -1137,6 +1152,11 @@ $("welcomeDeveloperAccess").onclick=()=>{developerReturnPage="welcomePage";showP
 $("continueToInstructions").onclick=()=>{if(validateParticipant())showPage("instructionsPage")};
 $("classLetter").addEventListener("input",normalizeIdentification);
 $("listNumber").addEventListener("input",normalizeIdentification);
+["fullName","gender","birthDate","school","grade","classLetter","listNumber"].forEach(id=>{
+  $(id).addEventListener("input",updateParticipantContinueState);
+  $(id).addEventListener("change",updateParticipantContinueState);
+});
+updateParticipantContinueState();
 $("backParticipant").onclick=()=>showPage("participantPage");
 $("beginBattery").onclick=()=>{if(!validateParticipant())return;state.identification=identificationFromForm();state.currentTestIndex=0;state.results=[];state.summaries=[];state.evaluationId=null;state.saveCompleted=false;state.quick=false;fillIntro();showPage("introPage")};
 $("startPractice").onclick=()=>{showPage("practicePage");presentPractice()};
