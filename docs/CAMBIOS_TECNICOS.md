@@ -53,9 +53,18 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - Resultado final: `renderFinal()` trata la prueba rápida antes de leer los datos del participante y muestra “Prueba interna de desarrollador / Sin datos de participante”. El flujo rápido mantiene la garantía existente de no llamar a `saveToGoogle()`.
 - Regresión esperada: el flujo normal conserva `validateParticipant()` y `validateIdentification()`, por lo que Colegio, Nivel, Letra, Número de lista, Nombre, Género y Fecha de nacimiento siguen siendo obligatorios para una evaluación real.
 
+## 2026-11-02 — Niveles permitidos 4°/5°
+
+- Archivo principal: `index.html`.
+- Implementación: el selector `grade` cambia de valores 5/6 a 4/5. Tanto `identificationFromForm()` como `validateIdentification()` validan ahora exclusivamente `["4","5"]`.
+- Código de participante: no cambia la construcción; el nivel seleccionado se incorpora al mismo formato existente. Ejemplos vigentes: `SC-4B-012`, `LIA-5A-007`, `CHS-4C-021`.
+- Documentación: se actualiza CONTEXTO_PROYECTO.md y D-006 registra que esta corrección reemplaza solo la parte de niveles de D-005.
+- Regresión esperada: 4° y 5° avanzan con identificación válida; 6° deja de ser una opción y es rechazado si se intenta inyectar manualmente. No se modifican modalidades, puntuación, audio ni estructura del payload.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
 - 2026-11-02 (Chile): auditoría local de seguridad documentada sin cambios de funcionamiento; alcance y límites registrados en D-003.
 - 2026-11-02 (Chile): Colegio obligatorio, Observaciones retirado de la pantalla pública y pruebas del recorrido actual; decisión D-004.
 - 2026-11-02 (Chile): identificación común automática, validaciones de curso y lista, datos en resultado/CSV/envío y pruebas; decisión D-005.
+- 2026-11-02 (Chile): niveles permitidos corregidos a 4°/5°; decisión D-006.
