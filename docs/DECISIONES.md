@@ -95,6 +95,15 @@ Conservar la entrada anterior marcándola como reemplazada, enlazar la nueva dec
 - Se conserva: pausa fija de 250 ms entre dígitos, volumen, tono, secuencias, puntuación y lógica de evaluación.
 - Límite técnico: SpeechSynthesis depende de las voces instaladas por navegador/sistema operativo; si no existe una voz latinoamericana explícita, el navegador puede usar su implementación para es-419.
 
+## D-010 — Voz seleccionable desde Desarrolladores
+
+- Fecha: 2026-11-03 (Chile).
+- Estado: vigente.
+- Decisión: no fijar una única voz de SpeechSynthesis para todos los dispositivos. Permitir que el evaluador escuche y seleccione desde Desarrolladores una de las voces en español disponibles en el navegador; conservar “Automática latina” como opción predeterminada.
+- Motivo: la calidad, timbre y disponibilidad de SpeechSynthesisVoice dependen del navegador y sistema operativo, por lo que una selección automática no garantiza una voz subjetivamente adecuada.
+- Persistencia: guardar únicamente el voiceURI seleccionado en localStorage del dispositivo. No contiene datos de participantes.
+- Alcance: la voz elegida se usa en prueba de audio, prácticas y evaluación; no modifica velocidad 0,85, pausa 250 ms, secuencias, puntuación ni guardado de resultados.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
@@ -105,3 +114,4 @@ Conservar la entrada anterior marcándola como reemplazada, enlazar la nueva dec
 - 2026-11-03 (Chile): presentación guiada y navegación documentadas; protocolo y lógica de evaluación conservados (D-007).
 - 2026-11-03 (Chile): comprobación de audio previa a la batería incorporada sin afectar resultados (D-008).
 - 2026-11-03 (Chile): voz latinoamericana priorizada y velocidad ajustada a 0,85 (D-009).
+- 2026-11-03 (Chile): selector manual de voz disponible en Desarrolladores (D-010).
