@@ -71,6 +71,12 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - Motivo: al pulsarlo todavía no comienza la evaluación; solo se avanza al formulario del participante.
 - Alcance: solo cambia el texto del botón, sin modificar navegación ni lógica.
 
+## 2026-11-03 — Continuar solo con datos completos
+
+- Cambio: el botón “Continuar” de Datos del participante permanece deshabilitado hasta que todos los campos obligatorios estén completos y válidos.
+- Campos exigidos: nombre completo, género, fecha de nacimiento, colegio, nivel, letra y número de lista.
+- Validación: se mantiene además la comprobación al intentar avanzar, por lo que no se modifica el flujo posterior ni la evaluación.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
