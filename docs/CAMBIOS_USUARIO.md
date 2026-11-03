@@ -1,7 +1,7 @@
 # Cambios para el usuario
 
 Creación: 2026-11-02 (Chile, America/Santiago).
-Última modificación: 2026-11-02 (Chile, America/Santiago).
+Última modificación: 2026-11-03 (Chile, America/Santiago).
 
 ## 2026-11-02 — Configuración inicial de documentación
 
@@ -51,6 +51,15 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - Qué debería notar el usuario: ya no aparece 6° y ahora puede seleccionar 4°. El código de participante mantiene el mismo formato; por ejemplo, SC-4B-012 o LIA-5A-007.
 - Qué no cambió: colegios, letra, número de lista, modalidades de Digit Span, puntuación, audio y guardado.
 
+## 2026-11-03 — Presentación guiada de Digit Span
+
+- Pedido y motivo: orientar al participante con una experiencia formal, académica y fácil de entender, conservando los colores y la evaluación actual.
+- Cambio: bienvenida antes de los datos personales; instrucciones generales simplificadas; introducción independiente para cada modalidad con textos solicitados, ejemplos Escuchas/Respondes e indicador Sección 1–4. Los ejemplos se apilan en teléfono para facilitar su lectura.
+- Efecto: Comenzar evaluación lleva a identificación; Continuar a instrucciones generales; Entendido, continuar a la primera modalidad. Cada modalidad mantiene práctica, prueba y pantalla de finalización antes de la siguiente introducción.
+- Conservación: niveles 4°/5°, validaciones y código automático oculto durante identificación; mismo protocolo, puntuación, prácticas, secuencias, audio, resultados, CSV y guardado. Desarrolladores permanece accesible desde bienvenida e identificación, y Prueba rápida no requiere datos ni envía a Google.
+- Documentación: contexto actualizado y decisión D-007, preservando el historial anterior.
+- Pruebas: recorridos completos en Chromium con datos ficticios a 1280, 390 y 320 px; cuatro modalidades y Prueba rápida. Audio y temporizadores simulados; envío interceptado sin escribir en Google. No se prueba audio físico ni almacenamiento remoto.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
@@ -58,3 +67,4 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - 2026-11-02 (Chile): Colegio obligatorio, Observaciones retirado de la pantalla pública y pruebas del recorrido actual; decisión D-004.
 - 2026-11-02 (Chile): identificación común automática, validaciones de curso y lista, datos en resultado/CSV/envío y pruebas; decisión D-005.
 - 2026-11-02 (Chile): niveles corregidos a 4°/5°; decisión D-006.
+- 2026-11-03 (Chile): presentación guiada y navegación documentadas; protocolo y lógica de evaluación conservados (D-007).

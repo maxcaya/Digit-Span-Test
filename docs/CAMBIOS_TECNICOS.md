@@ -1,7 +1,7 @@
 # Cambios técnicos
 
 Creación: 2026-11-02 (Chile, America/Santiago).
-Última modificación: 2026-11-02 (Chile, America/Santiago).
+Última modificación: 2026-11-03 (Chile, America/Santiago).
 
 ## 2026-11-02 — Configuración inicial de documentación
 
@@ -61,6 +61,16 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - Documentación: se actualiza CONTEXTO_PROYECTO.md y D-006 registra que esta corrección reemplaza solo la parte de niveles de D-005.
 - Regresión esperada: 4° y 5° avanzan con identificación válida; 6° deja de ser una opción y es rechazado si se intenta inyectar manualmente. No se modifican modalidades, puntuación, audio ni estructura del payload.
 
+## 2026-11-03 — Presentación y navegación guiadas
+
+- Archivos: index.html, docs/CONTEXTO_PROYECTO.md, docs/DECISIONES.md, docs/CAMBIOS_USUARIO.md y docs/CAMBIOS_TECNICOS.md.
+- Implementación: welcomePage es la única sección activa inicial; startEvaluation abre participantPage. Nuevo acceso a Desarrolladores en bienvenida, sin modificar sus manejadores existentes. Instrucciones generales y botón actualizados; MODE_PRESENTATION alimenta únicamente fillIntro con títulos, subtítulos, texto y ejemplos solicitados, manteniendo INFO y los títulos de resultados intactos. Progreso usa TEST_ORDER para respetar configuración de Desarrolladores. Ejemplos en dl adaptable de dos columnas a una; misma paleta, espaciado y ancho de lectura acotado.
+- Alcance: presentación y navegación exclusivamente; se conservan sin cambios el protocolo, lógica de evaluación, CONFIG, PRACTICE, secuencias, audio, validaciones, código automático, puntuación, criterios de finalización, payload, CSV, Google y funciones de Desarrolladores. Se reutiliza nextMode para mostrar introducciones antes de cada práctica.
+- Decisión: D-007. Sin dependencias nuevas en la aplicación.
+- Verificación: revisión del diff, git diff --check y comparación del JavaScript previo y posterior retirando únicamente fillIntro, MODE_PRESENTATION y los dos nuevos manejadores de navegación.
+- Pruebas: Playwright/Chromium a 1280×900, 390×900 y 320×900; bienvenida sin formulario, bloqueo con identificación incompleta, datos ficticios válidos, instrucciones generales, cuatro introducciones y sus prácticas, prueba real con un acierto y dos errores por modalidad, pantalla completada y resultado. Se comprueban 16 registros, cuatro resúmenes con span 3/un acierto/dos errores, código SC-4B-012 y un envío interceptado. Desde bienvenida se accede al panel mediante login y se completa Prueba rápida con campos vacíos, sin POST ni errores JavaScript. Comprobación de ancho sin desbordamiento en cada pantalla; capturas de escritorio y móvil fuera del repositorio.
+- Límites: voz y temporizadores simulados; solicitudes externas interceptadas. Sin prueba de audio físico ni escritura real en Google; riesgos existentes de SEGURIDAD.md permanecen pendientes. No se modifica el receptor ni se realiza merge o despliegue.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
@@ -68,3 +78,4 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - 2026-11-02 (Chile): Colegio obligatorio, Observaciones retirado de la pantalla pública y pruebas del recorrido actual; decisión D-004.
 - 2026-11-02 (Chile): identificación común automática, validaciones de curso y lista, datos en resultado/CSV/envío y pruebas; decisión D-005.
 - 2026-11-02 (Chile): niveles permitidos corregidos a 4°/5°; decisión D-006.
+- 2026-11-03 (Chile): presentación guiada y navegación documentadas; protocolo y lógica de evaluación conservados (D-007).
