@@ -56,7 +56,7 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - Pedido y motivo: orientar al participante con una experiencia formal, académica y fácil de entender, conservando los colores y la evaluación actual.
 - Cambio: bienvenida antes de los datos personales; instrucciones generales simplificadas; introducción independiente para cada modalidad con textos solicitados, ejemplos Escuchas/Respondes e indicador Sección 1–4. Los ejemplos se apilan en teléfono para facilitar su lectura.
 - Efecto: Comenzar evaluación lleva a identificación; Continuar a instrucciones generales; Entendido, continuar a la primera modalidad. Cada modalidad mantiene práctica, prueba y pantalla de finalización antes de la siguiente introducción.
-- Conservación: niveles 4°/5°, validaciones y código automático oculto durante identificación; mismo protocolo, puntuación, prácticas, secuencias, audio, resultados, CSV y guardado. Desarrolladores permanece accesible desde bienvenida e identificación, y Prueba rápida no requiere datos ni envía a Google.
+- Conservación: niveles 4°/5°, validaciones y código automático oculto durante identificación; mismo protocolo, puntuación, prácticas, secuencias, audio, resultados, CSV y guardado. Desarrolladores permanece accesible desde bienvenida e identificación, y Prueba rápida no requiere datos ni envía a Google. Volver/Salir desde Desarrolladores regresa a la pantalla desde la que se ingresó.
 - Documentación: contexto actualizado y decisión D-007, preservando el historial anterior.
 - Pruebas: recorridos completos en Chromium con datos ficticios a 1280, 390 y 320 px; cuatro modalidades y Prueba rápida. Audio y temporizadores simulados; envío interceptado sin escribir en Google. No se prueba audio físico ni almacenamiento remoto.
 
