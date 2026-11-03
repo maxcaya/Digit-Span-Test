@@ -65,6 +65,12 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - Cambio: el texto explicativo de la portada se presenta ahora en tres puntos separados para facilitar la lectura.
 - Alcance: solo cambia la presentación del texto; no modifica navegación, evaluación, lógica ni guardado.
 
+## 2026-11-03 — Botón de bienvenida renombrado
+
+- Cambio: el botón de la portada pasa de “Comenzar evaluación” a “Siguiente”.
+- Motivo: al pulsarlo todavía no comienza la evaluación; solo se avanza al formulario del participante.
+- Alcance: solo cambia el texto del botón, sin modificar navegación ni lógica.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
