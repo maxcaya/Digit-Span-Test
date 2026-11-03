@@ -614,7 +614,7 @@ th{background:#f6f6f6}
       <div style="grid-column:1/-1">
         <label for="cfgVoice">Voz</label>
         <select id="cfgVoice">
-          <option value="">Automática latina</option>
+          <option value="">Paulina (es-MX) — predeterminada</option>
         </select>
         <button id="previewVoice" type="button" class="secondary" style="margin-top:10px">Probar voz seleccionada</button>
         <div id="voicePreviewStatus" class="feedback"></div>
@@ -871,7 +871,7 @@ function populateVoiceSelect(){
   if(!select)return;
   const voices=spanishVoices();
   const current=SELECTED_VOICE_URI;
-  select.innerHTML='<option value="">Automática latina</option>';
+  select.innerHTML='<option value="">Paulina (es-MX) — predeterminada</option>';
   voices
     .sort((a,b)=>{
       const aSpain=/^es-ES/i.test(a.lang||"")?1:0;
@@ -896,7 +896,17 @@ function pickSpanishVoice(){
     const selected=voices.find(v=>v.voiceURI===SELECTED_VOICE_URI);
     if(selected)return selected;
   }
-  const preferredLocales=["es-419","es-MX","es-US","es-CL","es-CO","es-AR","es-PE","es-UY","es-VE","es-EC","es-BO","es-PY","es-CR","es-GT","es-PA","es-DO","es-PR","es-SV","es-HN","es-NI"];
+
+  // Voz predeterminada del proyecto: Paulina en español de México.
+  const paulinaMx=voices.find(v=>
+    /^es-MX$/i.test(v.lang||"") &&
+    /(^|\s)Paulina(\s|$)/i.test(v.name||"")
+  );
+  if(paulinaMx)return paulinaMx;
+
+  // Si Paulina no está instalada, mantener primero otra voz mexicana
+  // y luego alternativas latinoamericanas para no interrumpir el audio.
+  const preferredLocales=["es-MX","es-419","es-US","es-CL","es-CO","es-AR","es-PE","es-UY","es-VE","es-EC","es-BO","es-PY","es-CR","es-GT","es-PA","es-DO","es-PR","es-SV","es-HN","es-NI"];
   for(const locale of preferredLocales){
     const voice=voices.find(v=>v.lang?.toLowerCase()===locale.toLowerCase());
     if(voice)return voice;
@@ -1286,7 +1296,7 @@ $("developerPassword").onkeydown=e=>{if(e.key==="Enter")devLogin()};
 $("devExit").onclick=()=>showPage(developerReturnPage);
 $("devExport").onclick=exportCSV;
 $("saveConfig").onclick=saveDev;
-$("resetConfig").onclick=()=>{CONFIG={rate:.85,gap:250,betweenTrialsMs:2000,startLength:3,trials:2,maxLength:12};TEST_ORDER=["forward","backward","ascending","descending"];SELECTED_VOICE_URI="";localStorage.removeItem("digitSpanVoiceURI");loadDev();$("configSaved").className="feedback ok";$("configSaved").textContent="Valores recomendados restaurados."};
+$("resetConfig").onclick=()=>{CONFIG={rate:.85,gap:250,betweenTrialsMs:2000,startLength:3,trials:2,maxLength:12};TEST_ORDER=["forward","backward","ascending","descending"];SELECTED_VOICE_URI="";localStorage.removeItem("digitSpanVoiceURI");loadDev();$("configSaved").className="feedback ok";$("configSaved").textContent="Valores recomendados restaurados. Voz predeterminada: Paulina (es-MX)."};
 $("cfgVoice").onchange=()=>{SELECTED_VOICE_URI=$("cfgVoice").value;if(SELECTED_VOICE_URI)localStorage.setItem("digitSpanVoiceURI",SELECTED_VOICE_URI);else localStorage.removeItem("digitSpanVoiceURI")};
 $("previewVoice").onclick=async()=>{const out=$("voicePreviewStatus"),btn=$("previewVoice");btn.disabled=true;out.className="feedback";out.textContent="Reproduciendo 3, 8, 1…";try{await speakSequence([3,8,1],out);out.className="feedback ok";out.textContent="✓ Voz reproducida. Puedes elegir otra y volver a probar."}catch(e){out.className="feedback bad";out.textContent="No se pudo reproducir esta voz."}finally{btn.disabled=false}};
 $("testAudio").onclick=async()=>{const out=$("developerToolResult");try{out.className="feedback";out.textContent="Reproduciendo 3, 8, 1…";await speakSequence([3,8,1],out);out.className="feedback ok";out.textContent="✓ Audio funcionando."}catch(e){out.className="feedback bad";out.textContent="No se pudo reproducir audio."}};
