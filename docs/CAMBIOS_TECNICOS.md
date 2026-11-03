@@ -117,6 +117,16 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - `speakDigit()` usa el locale de la voz elegida y, si no existe una voz compatible, solicita `es-419`.
 - La disponibilidad exacta de voces depende del navegador/sistema operativo; el código selecciona la mejor alternativa latinoamericana instalada sin descargar voces externas.
 
+## 2026-11-03 — Selección manual de SpeechSynthesisVoice
+
+- Archivo principal: `index.html`.
+- Se añade `cfgVoice` y `previewVoice` al panel de Audio de Desarrolladores.
+- `spanishVoices()` obtiene las voces en español devueltas por `speechSynthesis.getVoices()`; `populateVoiceSelect()` las presenta en el selector y se actualiza con `onvoiceschanged`.
+- La opción elegida se identifica mediante `voiceURI` y se persiste en `localStorage` como `digitSpanVoiceURI`.
+- `pickSpanishVoice()` prioriza la voz seleccionada manualmente y solo usa el algoritmo latino automático si no hay selección válida.
+- La previsualización reutiliza `speakSequence([3,8,1])`; por tanto usa la misma velocidad y pausa que la evaluación.
+- Se corrige también la prueba de audio del panel para pasar un elemento DOM real a `speakSequence()`.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
