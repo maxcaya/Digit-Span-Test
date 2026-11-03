@@ -42,16 +42,26 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 ## D-005 — Identificación común mediante código automático
 
 - Fecha: 2026-11-02 (Chile).
-- Estado: vigente.
+- Estado: reemplazada parcialmente por D-006 únicamente respecto de los niveles permitidos.
 - Decisión: ampliar identificación obligatoria con nivel 5°/6°, letra libre normalizada a mayúscula (una sola letra, sin espacios exteriores) y número de lista entero 1–99, además del colegio. Generar automáticamente SC/LIA/CHS-NIVEL+LETRA-NUMERO de tres dígitos, sin campo manual ni visualización en la pantalla inicial. Conservar los demás datos actuales.
 - Motivo: usar posteriormente el mismo código para relacionar Digit Span y YAP-SL sin pedir que el participante lo copie o escriba.
 - Alcance implementado: validación en navegador, identificación fijada al comenzar, resumen final, CSV y contenido enviado mediante la integración actual. evaluation_id se mantiene separado para cada evaluación. La prueba rápida de desarrollo usa identificación válida propia y reinicia su ID, conservando su comportamiento de no enviar al finalizar.
 - Límites: sin integración con YAP-SL ni revisión del formulario, receptor nuevo, servidor, recuperación, Vercel, commit, push ni publicación. No se resuelven por este cambio falsificación, persistencia ni confirmación remota de guardado. Los códigos pueden repetirse entre años y no prueban identidad; el contexto común de estudio/año se definirá antes de cruzar períodos distintos.
 - Decisión reemplazada: amplía y reemplaza parcialmente D-004, que limitaba el cambio a Colegio. Se mantienen aplicación única, ausencia de cuentas, retiro de Observaciones y demás límites. La restricción de D-003 corresponde a la tarea histórica de auditoría.
 
+## D-006 — Corrección de niveles del estudio a 4° y 5°
+
+- Fecha: 2026-11-02 (Chile).
+- Estado: vigente.
+- Decisión: los únicos niveles permitidos en la identificación de participantes son 4° y 5°. Se reemplaza el criterio anterior de 5°/6° definido en D-005.
+- Motivo: corrección del nivel escolar de la muestra informado por el usuario.
+- Alcance: actualizar las opciones visibles del selector, la validación interna y los ejemplos actuales del código de participante. El formato del código no cambia: COLEGIO-NIVEL+LETRA-NUMERO_LISTA, por ejemplo SC-4B-012 o LIA-5A-007.
+- Qué no cambia: colegios, letra, número de lista, formato del código, evaluación, modalidades, puntuación, audio, CSV y estructura del envío.
+- Reemplaza: solo la parte de D-005 que establecía 5°/6°; el resto de D-005 continúa vigente.
+
 ## Pendientes sin decisión definitiva
 
-Selección final de modalidades; correspondencia de menor a mayor con secuenciación; justificación de mayor a menor; incorporación eventual de mano dominante y horas de sueño. El nivel 5°/6° queda confirmado por D-005; integración con YAP-SL y contexto de estudio/año siguen pendientes. Consultar CONTEXTO_PROYECTO.md. Los asuntos de SEGURIDAD.md requieren auditoría y no se consideran resueltos.
+Selección final de modalidades; correspondencia de menor a mayor con secuenciación; justificación de mayor a menor; incorporación eventual de mano dominante y horas de sueño. Los niveles vigentes son 4°/5° según D-006; integración con YAP-SL y contexto de estudio/año siguen pendientes. Consultar CONTEXTO_PROYECTO.md. Los asuntos de SEGURIDAD.md requieren auditoría y no se consideran resueltos.
 
 ## Cómo reemplazar una decisión
 
@@ -63,3 +73,4 @@ Conservar la entrada anterior marcándola como reemplazada, enlazar la nueva dec
 - 2026-11-02 (Chile): auditoría local de seguridad documentada sin cambios de funcionamiento; alcance y límites registrados en D-003.
 - 2026-11-02 (Chile): Colegio obligatorio, Observaciones retirado de la pantalla pública y pruebas del recorrido actual; decisión D-004.
 - 2026-11-02 (Chile): D-005 amplía D-004 con identificación común automática y nivel confirmado, sin integrar YAP-SL.
+- 2026-11-02 (Chile): D-006 corrige los niveles permitidos de 5°/6° a 4°/5°.
