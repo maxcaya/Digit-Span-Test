@@ -77,6 +77,12 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - Campos exigidos: nombre completo, género, fecha de nacimiento, colegio, nivel, letra y número de lista.
 - Validación: se mantiene además la comprobación al intentar avanzar, por lo que no se modifica el flujo posterior ni la evaluación.
 
+## 2026-11-03 — Velocidad de voz normalizada
+
+- Cambio: la velocidad de pronunciación de los números pasa de 0,9 a 1,0, correspondiente a una velocidad normal de síntesis de voz.
+- Se mantiene exactamente la pausa de 250 ms entre números.
+- No se modifican secuencias, puntuación, tiempos entre intentos ni lógica de evaluación.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
