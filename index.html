@@ -485,6 +485,27 @@ th{background:#f6f6f6}
   </div>
 </section>
 
+
+<section id="audioCheckPage" class="page">
+  <div class="guidedContent">
+    <h1>Prueba de audio</h1>
+    <p class="guidedSubtitle">Verifica el volumen antes de comenzar</p>
+    <div class="instructions">
+      <p>Presiona <b>Probar audio</b>. Escucharás tres números de ejemplo con la misma voz y configuración que se usará durante la evaluación.</p>
+      <p class="muted">Ajusta el volumen de tu dispositivo si es necesario. Puedes repetir esta prueba todas las veces que quieras.</p>
+    </div>
+    <div id="audioCheckCue" class="audioCue">🔊 Listo para probar</div>
+    <div id="audioCheckStatus" class="feedback"></div>
+    <div class="actions">
+      <button id="audioCheckPlay">Probar audio</button>
+      <button id="audioCheckContinue" disabled>El audio se escucha bien — Continuar</button>
+    </div>
+    <div class="actions">
+      <button id="audioCheckBack" class="secondary">Volver</button>
+    </div>
+  </div>
+</section>
+
 <section id="introPage" class="page">
   <div class="guidedContent">
     <div id="introProgress" class="progress"></div>
@@ -1158,7 +1179,41 @@ $("listNumber").addEventListener("input",normalizeIdentification);
 });
 updateParticipantContinueState();
 $("backParticipant").onclick=()=>showPage("participantPage");
-$("beginBattery").onclick=()=>{if(!validateParticipant())return;state.identification=identificationFromForm();state.currentTestIndex=0;state.results=[];state.summaries=[];state.evaluationId=null;state.saveCompleted=false;state.quick=false;fillIntro();showPage("introPage")};
+$("beginBattery").onclick=()=>{
+  if(!validateParticipant())return;
+  state.identification=identificationFromForm();
+  state.currentTestIndex=0;
+  state.results=[];
+  state.summaries=[];
+  state.evaluationId=null;
+  state.saveCompleted=false;
+  state.quick=false;
+  $("audioCheckContinue").disabled=true;
+  $("audioCheckStatus").textContent="";
+  $("audioCheckCue").textContent="🔊 Listo para probar";
+  showPage("audioCheckPage");
+};
+$("audioCheckBack").onclick=()=>showPage("instructionsPage");
+$("audioCheckPlay").onclick=async()=>{
+  const play=$("audioCheckPlay"),next=$("audioCheckContinue"),status=$("audioCheckStatus"),cue=$("audioCheckCue");
+  play.disabled=true;
+  next.disabled=true;
+  status.className="feedback";
+  status.textContent="Reproduciendo audio…";
+  try{
+    await speakSequence([5,0,7],cue);
+    status.className="feedback ok";
+    status.textContent="✓ Audio reproducido. Si escuchaste los números con claridad, puedes continuar.";
+    next.disabled=false;
+    play.textContent="Repetir audio";
+  }catch(e){
+    status.className="feedback bad";
+    status.textContent="No se pudo reproducir el audio. Revisa el volumen y vuelve a intentarlo.";
+  }finally{
+    play.disabled=false;
+  }
+};
+$("audioCheckContinue").onclick=()=>{fillIntro();showPage("introPage")};
 $("startPractice").onclick=()=>{showPage("practicePage");presentPractice()};
 $("practiceSubmit").onclick=submitPractice;
 bindHardNumericLimit($("practiceAnswer"));
