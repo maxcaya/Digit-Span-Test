@@ -77,6 +77,12 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - Implementación: el párrafo introductorio de `welcomePage` se reemplaza por una lista de tres elementos reutilizando `generalList`.
 - Alcance: cambio únicamente de marcado/presentación, sin modificar JavaScript ni flujo funcional.
 
+## 2026-11-03 — Etiqueta del botón inicial
+
+- Archivo: `index.html`.
+- Implementación: se cambia únicamente el texto visible de `#startEvaluation` de “Comenzar evaluación” a “Siguiente”.
+- El manejador y destino siguen siendo los mismos: avanzar a `participantPage`.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
