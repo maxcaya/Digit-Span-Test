@@ -166,6 +166,19 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - `updateStudyActivities()` no bloquea `activitiesBack` durante preview, permitiendo revisar libremente la navegación.
 - La Prueba rápida antigua permanece disponible y ahora se etiqueta como “Prueba rápida de Digit Span”.
 
+## 2026-11-09 — Identidad previa y asentimiento asociado al código
+
+- Se añade `identificationPage` antes de `assentPage`.
+- `identificationPage` contiene `school`, `grade`, `classLetter` y `listNumber`; `createParticipantCode` genera y fija `state.identification`.
+- `assentPage` muestra `assentParticipantCode`.
+- `state.assentAt` guarda un timestamp ISO cuando el estudiante selecciona “Sí, quiero participar”.
+- `participantPage` conserva solo nombre completo, género y fecha de nacimiento; la identificación escolar ya no se vuelve a pedir.
+- Cambiar cualquier campo de identificación invalida el código y el asentimiento previos, obligando a regenerarlos.
+- `payload()` añade `assent.accepted`, `assent.accepted_at` y `assent.participant_code`.
+- El CSV añade las columnas `asentimiento` y `fecha_asentimiento`.
+- `beginBattery` deja de recalcular `state.identification`; usa el código ya fijado antes del asentimiento.
+- El backend actual de Apps Script no está versionado en este repositorio, por lo que estos nuevos campos se envían en el payload pero su persistencia en columnas específicas depende de que el script receptor los procese.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
