@@ -89,6 +89,12 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .assentChoices{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:24px}
 .assentChoices .secondary{min-height:54px}
 .studyStep{font-size:14px;color:var(--muted);font-weight:700;margin-bottom:10px}
+.participantCodeBox{
+  margin:14px 0 20px;padding:14px 16px;border:1px solid var(--line);border-radius:10px;
+  background:#fafafa;text-align:center;font-size:22px;font-weight:700;letter-spacing:.04em;
+  font-variant-numeric:tabular-nums;
+}
+.participantCodeInline{font-weight:700;font-variant-numeric:tabular-nums}
 .previewBanner{
   position:sticky;top:8px;z-index:20;margin:0 0 12px;padding:9px 12px;
   border:1px solid #aaa;border-radius:9px;background:#fff;text-align:center;
@@ -442,8 +448,47 @@ th{background:#f6f6f6}
       <p><b>No es una prueba con nota.</b> Lo importante es que respondas de la mejor manera que puedas.</p>
     </div>
     <div class="actions">
-      <button id="continueToAssent">Entendido, continuar</button>
+      <button id="continueToIdentification">Entendido, continuar</button>
       <button id="studyIntroBack" class="secondary">Volver</button>
+    </div>
+  </div>
+</section>
+
+<section id="identificationPage" class="page">
+  <div class="guidedContent">
+    <div class="studyStep">Identificación</div>
+    <h1>Generemos tu código</h1>
+    <p class="guidedSubtitle">Este código nos permite relacionar tus actividades sin confundir tus respuestas con las de otro estudiante.</p>
+    <div class="grid">
+      <div style="grid-column:1/-1">
+        <label for="school">Colegio</label>
+        <select id="school" required>
+          <option value="">Selecciona tu colegio</option>
+          <option>Santiago College</option>
+          <option>Lincoln International Academy Chicureo</option>
+          <option>Craighouse School</option>
+        </select>
+      </div>
+      <div>
+        <label for="grade">Nivel</label>
+        <select id="grade" required>
+          <option value="">Selecciona tu nivel</option>
+          <option value="4">4°</option>
+          <option value="5">5°</option>
+        </select>
+      </div>
+      <div>
+        <label for="classLetter">Letra</label>
+        <input id="classLetter" type="text" required autocomplete="off" autocapitalize="characters" placeholder="Ejemplo: B">
+      </div>
+      <div>
+        <label for="listNumber">Número de lista</label>
+        <input id="listNumber" type="text" inputmode="numeric" pattern="[0-9]*" required autocomplete="off" placeholder="Del 1 al 99">
+      </div>
+    </div>
+    <div class="actions">
+      <button id="createParticipantCode" disabled>Continuar</button>
+      <button id="identificationBack" class="secondary">Volver</button>
     </div>
   </div>
 </section>
@@ -453,6 +498,8 @@ th{background:#f6f6f6}
     <div class="studyStep">Tu decisión</div>
     <h1>¿Quieres participar?</h1>
     <p class="guidedSubtitle">Queremos saber lo que tú decides</p>
+    <p class="small">Tu código de participante es:</p>
+    <div id="assentParticipantCode" class="participantCodeBox">—</div>
     <div class="instructions">
       <ul class="generalList">
         <li>Participar es <b>tu decisión</b>.</li>
@@ -466,7 +513,7 @@ th{background:#f6f6f6}
       <button id="assentYes">Sí, quiero participar</button>
       <button id="assentNo" class="secondary">No quiero participar</button>
     </div>
-    <div class="actions"><button id="assentBack" class="secondary">Volver a la explicación</button></div>
+    <div class="actions"><button id="assentBack" class="secondary">Volver</button></div>
   </div>
 </section>
 
@@ -474,8 +521,8 @@ th{background:#f6f6f6}
   <div class="guidedContent">
     <h1>Gracias por avisarnos</h1>
     <div class="instructions">
-      <p>No participarás en el estudio y no te pediremos tus datos.</p>
-      <p class="muted">Puedes avisarle al adulto que está a cargo.</p>
+      <p>No participarás en el estudio y no te pediremos más datos.</p>
+      <p class="muted">Tu decisión no será guardada como una evaluación. Puedes avisarle al adulto que está a cargo.</p>
     </div>
     <div class="actions"><button id="declineRestart" class="secondary">Volver al inicio</button></div>
   </div>
@@ -483,7 +530,8 @@ th{background:#f6f6f6}
 
 <section id="participantPage" class="page">
   <h1>Datos del participante</h1>
-  <p class="muted">Completa tus datos para continuar con las actividades del estudio.</p>
+  <p class="muted">Tu código ya quedó definido. Completa los datos restantes para continuar.</p>
+  <p>Código de participante: <span id="participantPageCode" class="participantCodeInline">—</span></p>
   <div class="grid">
     <div style="grid-column:1/-1">
       <label for="fullName">Nombre completo</label>
@@ -503,31 +551,6 @@ th{background:#f6f6f6}
       <label for="birthDate">Fecha de nacimiento</label>
       <input id="birthDate" type="date" required>
     </div>
-    <div style="grid-column:1/-1">
-      <label for="school">Colegio</label>
-      <select id="school" required>
-        <option value="">Selecciona tu colegio</option>
-        <option>Santiago College</option>
-        <option>Lincoln International Academy Chicureo</option>
-        <option>Craighouse School</option>
-      </select>
-    </div>
-    <div>
-      <label for="grade">Nivel</label>
-      <select id="grade" required>
-        <option value="">Selecciona tu nivel</option>
-        <option value="4">4°</option>
-        <option value="5">5°</option>
-      </select>
-    </div>
-    <div>
-      <label for="classLetter">Letra</label>
-      <input id="classLetter" type="text" required autocomplete="off" autocapitalize="characters" placeholder="Ejemplo: B">
-    </div>
-    <div>
-      <label for="listNumber">Número de lista</label>
-      <input id="listNumber" type="text" inputmode="numeric" pattern="[0-9]*" required autocomplete="off" placeholder="Del 1 al 99">
-    </div>
   </div>
   <div class="actions">
     <button id="continueToInstructions" disabled>Continuar</button>
@@ -540,13 +563,14 @@ th{background:#f6f6f6}
   <div class="guidedContent">
     <div class="studyStep">Actividades del estudio</div>
     <h1>Tus actividades</h1>
+    <p>Código de participante: <span id="activitiesParticipantCode" class="participantCodeInline">—</span></p>
     <p id="studyProgressText" class="guidedSubtitle">0 de 2 actividades completadas</p>
     <div class="studyCards">
       <div class="studyCard">
         <span id="yapStatus" class="statusPill">Pendiente</span>
         <h3>Cuestionario de actividad física</h3>
         <p>Responderás preguntas sobre las actividades físicas que realizas durante tu semana.</p>
-        <p class="small">El cuestionario YAP-SL se abrirá en una pestaña nueva. Cuando termines, vuelve a esta página.</p>
+        <p class="small">El cuestionario YAP-SL se abrirá en una pestaña nueva. Usa el mismo código de participante si el formulario te lo solicita. Cuando termines, vuelve a esta página.</p>
         <div class="actions">
           <button id="openYapLink">Abrir cuestionario YAP-SL</button>
           <button id="markYapComplete" class="secondary" disabled>Ya completé el cuestionario</button>
@@ -821,7 +845,7 @@ let state={
   currentTestIndex:0, practiceIndex:0, length:3, trial:0, levelCorrect:0,
   sequence:[], results:[], summaries:[], responseStart:0, maxSpan:null,
   correct:0, wrong:0, evaluationId:null, saveCompleted:false, quick:false, previewFlow:false, identification:null,
-  assentGiven:false, yapOpened:false, studyProgress:{yap:false,digitSpan:false}
+  assentGiven:false, assentAt:null, yapOpened:false, studyProgress:{yap:false,digitSpan:false}
 };
 
 const PRACTICE={
@@ -873,23 +897,37 @@ function validateIdentification(){
 function participant(){
   return {fullName:$("fullName").value.trim(),gender:$("gender").value,birthDate:$("birthDate").value,age:ageFromBirth($("birthDate").value),...(state.identification??identificationFromForm()),notes:$("notes")?.value.trim()??""};
 }
-function participantFormComplete(){
+function identificationFormComplete(){
   normalizeIdentification();
   return Boolean(
-    $("fullName").value.trim() &&
-    $("gender").value &&
-    $("birthDate").value &&
     SCHOOLS.includes($("school").value) &&
     ["4","5"].includes($("grade").value) &&
     validClassLetter($("classLetter").value) &&
     validListNumber($("listNumber").value)
   );
 }
+function updateIdentificationContinueState(){
+  $("createParticipantCode").disabled=!identificationFormComplete();
+}
+function participantFormComplete(){
+  return Boolean(
+    state.identification?.participantCode &&
+    $("fullName").value.trim() &&
+    $("gender").value &&
+    $("birthDate").value
+  );
+}
 function updateParticipantContinueState(){
   $("continueToInstructions").disabled=!participantFormComplete();
 }
+function showFixedParticipantCode(){
+  const code=state.identification?.participantCode||"—";
+  $("assentParticipantCode").textContent=code;
+  $("participantPageCode").textContent=code;
+  $("activitiesParticipantCode").textContent=code;
+}
 function validateParticipant(){
-  if(!validateIdentification())return false;
+  if(!state.identification?.participantCode){alert("Primero genera el código del participante.");showPage("identificationPage");return false}
   const p=participant();
   if(!p.fullName||!p.gender||!p.birthDate){alert("Completa nombre, género y fecha de nacimiento.");return false}
   return true;
@@ -1325,6 +1363,7 @@ function payload(){
   return {
     evaluation_id:state.evaluationId,
     participant:{full_name:p.fullName,gender:p.gender,birth_date:p.birthDate,age:p.age,school:p.school,grade:p.grade,class_letter:p.classLetter,list_number:p.listNumber,participant_code:p.participantCode,notes:p.notes},
+    assent:{accepted:state.assentGiven,accepted_at:state.assentAt,participant_code:p.participantCode},
     results:res,
     trials:state.results,
     protocol:{presentation_mode:"audio",voice_source:"browser_speech_synthesis",language:"es-CL",rate:CONFIG.rate,gap_ms:CONFIG.gap,between_trials_ms:CONFIG.betweenTrialsMs,start_length:CONFIG.startLength,trials_per_length:CONFIG.trials,max_length:CONFIG.maxLength,modes:TEST_ORDER}
@@ -1343,13 +1382,14 @@ async function saveToGoogle(){
 function exportCSV(){
   if(!state.results.length){alert("No hay resultados.");return}
   const p=participant();
-  const head=["nombre","genero","fecha_nacimiento","edad","modo","practica","longitud","intento","secuencia","respuesta","esperada","correcto","tr_ms","colegio","nivel","letra","numero_lista","codigo_participante"];
-  const rows=state.results.map(r=>[p.fullName,p.gender,p.birthDate,p.age,r.mode,r.practice?1:0,r.length,r.trial,r.sequence.join(""),r.answer.join(""),r.expected.join(""),r.correct?1:0,r.rt,p.school,p.grade,p.classLetter,p.listNumber,p.participantCode]);
+  const head=["nombre","genero","fecha_nacimiento","edad","modo","practica","longitud","intento","secuencia","respuesta","esperada","correcto","tr_ms","colegio","nivel","letra","numero_lista","codigo_participante","asentimiento","fecha_asentimiento"];
+  const rows=state.results.map(r=>[p.fullName,p.gender,p.birthDate,p.age,r.mode,r.practice?1:0,r.length,r.trial,r.sequence.join(""),r.answer.join(""),r.expected.join(""),r.correct?1:0,r.rt,p.school,p.grade,p.classLetter,p.listNumber,p.participantCode,state.assentGiven?"Sí":"No",state.assentAt||""]);
   const csv=[head,...rows].map(row=>row.map(v=>`"${String(v).replaceAll('"','""')}"`).join(",")).join("\n");
   const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));a.download="digit_span.csv";a.click();
 }
 
 function updateStudyActivities(){
+  showFixedParticipantCode();
   const completed=Number(state.studyProgress.yap)+Number(state.studyProgress.digitSpan);
   $("studyProgressText").textContent=`${completed} de 2 actividades completadas`;
 
@@ -1375,6 +1415,7 @@ function startDeveloperFlowPreview(){
   state.previewFlow=true;
   state.quick=false;
   state.assentGiven=false;
+  state.assentAt=null;
   state.yapOpened=false;
   state.studyProgress={yap:false,digitSpan:false};
   state.identification=null;
@@ -1398,6 +1439,7 @@ function startDeveloperFlowPreview(){
   $("grade").value="4";
   $("classLetter").value="A";
   $("listNumber").value="1";
+  updateIdentificationContinueState();
   updateParticipantContinueState();
 
   $("previewBanner").hidden=false;
@@ -1435,30 +1477,49 @@ async function googleTest(){
 
 $("startStudyIntro").onclick=()=>showPage("studyIntroPage");
 $("studyIntroBack").onclick=()=>showPage("welcomePage");
-$("continueToAssent").onclick=()=>showPage("assentPage");
-$("assentBack").onclick=()=>showPage("studyIntroPage");
-$("assentYes").onclick=()=>{state.assentGiven=true;showPage("participantPage")};
-$("assentNo").onclick=()=>{state.assentGiven=false;showPage("declinePage")};
+$("continueToIdentification").onclick=()=>{updateIdentificationContinueState();showPage("identificationPage")};
+$("identificationBack").onclick=()=>showPage("studyIntroPage");
+$("createParticipantCode").onclick=()=>{
+  if(!validateIdentification())return;
+  state.identification=identificationFromForm();
+  state.assentGiven=false;
+  state.assentAt=null;
+  showFixedParticipantCode();
+  showPage("assentPage");
+};
+$("assentBack").onclick=()=>showPage("identificationPage");
+$("assentYes").onclick=()=>{
+  if(!state.identification?.participantCode){showPage("identificationPage");return}
+  state.assentGiven=true;
+  state.assentAt=new Date().toISOString();
+  showFixedParticipantCode();
+  updateParticipantContinueState();
+  showPage("participantPage");
+};
+$("assentNo").onclick=()=>{state.assentGiven=false;state.assentAt=null;showPage("declinePage")};
 $("declineRestart").onclick=()=>location.reload();
 
 $("welcomeDeveloperAccess").onclick=()=>{developerReturnPage="welcomePage";showPage("developerLoginPage")};
-$("participantBack").onclick=()=>showPage("assentPage");
+$("participantBack").onclick=()=>{showFixedParticipantCode();showPage("assentPage")};
 $("continueToInstructions").onclick=()=>{
-  if(!state.assentGiven){showPage("assentPage");return}
+  if(!state.assentGiven){showFixedParticipantCode();showPage("assentPage");return}
   if(!validateParticipant())return;
-  state.identification=identificationFromForm();
   updateStudyActivities();
   showPage("activitiesPage");
 };
-$("classLetter").addEventListener("input",normalizeIdentification);
-$("listNumber").addEventListener("input",normalizeIdentification);
-["fullName","gender","birthDate","school","grade","classLetter","listNumber"].forEach(id=>{
+$("classLetter").addEventListener("input",()=>{normalizeIdentification();state.identification=null;state.assentGiven=false;state.assentAt=null;updateIdentificationContinueState()});
+$("listNumber").addEventListener("input",()=>{normalizeIdentification();state.identification=null;state.assentGiven=false;state.assentAt=null;updateIdentificationContinueState()});
+["school","grade"].forEach(id=>{
+  $(id).addEventListener("change",()=>{state.identification=null;state.assentGiven=false;state.assentAt=null;updateIdentificationContinueState()});
+});
+["fullName","gender","birthDate"].forEach(id=>{
   $(id).addEventListener("input",updateParticipantContinueState);
   $(id).addEventListener("change",updateParticipantContinueState);
 });
+updateIdentificationContinueState();
 updateParticipantContinueState();
 
-$("activitiesBack").onclick=()=>{state.identification=null;showPage("participantPage")};
+$("activitiesBack").onclick=()=>{showFixedParticipantCode();updateParticipantContinueState();showPage("participantPage")};
 $("openYapLink").onclick=()=>{
   window.open(YAP_SL_URL,"_blank","noopener,noreferrer");
   state.yapOpened=true;
@@ -1482,7 +1543,6 @@ $("backActivitiesFromDigit").onclick=()=>{updateStudyActivities();showPage("acti
 $("beginBattery").onclick=()=>{
   if(!state.assentGiven){showPage("assentPage");return}
   if(!validateParticipant())return;
-  state.identification=identificationFromForm();
   state.currentTestIndex=0;
   state.results=[];
   state.summaries=[];
