@@ -123,6 +123,7 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - El YAP-SL abre el Google Form proporcionado por el usuario en una pestaña nueva; al volver, el participante confirma que lo completó.
 - El Digit Span conserva su protocolo, prueba de audio, prácticas, modalidades y guardado. Al terminar, vuelve al panel del estudio sin mostrar puntajes al participante.
 - El estudio solo puede finalizar cuando ambas actividades están marcadas como completadas.
+- Los datos del participante pueden corregirse desde el panel mientras no se haya iniciado ninguna actividad. Al abrir YAP-SL o completar Digit Span quedan fijados para evitar mezclar resultados de personas distintas.
 - El formulario YAP-SL todavía no recibe automáticamente el código de participante porque no se conoce el identificador interno de su campo en Google Forms.
 
 ## Historial breve
