@@ -113,6 +113,18 @@ Conservar la entrada anterior marcándola como reemplazada, enlazar la nueva dec
 - Motivo: el usuario seleccionó Paulina es-MX como la voz preferida del proyecto tras comparar las voces disponibles.
 - No cambia: velocidad 0,85, pausa de 250 ms, secuencias, puntuación, protocolo ni guardado de resultados.
 
+## D-012 — Portal del estudio, asentimiento previo y YAP-SL como segundo módulo
+
+- Fecha: 2026-11-09 (Chile).
+- Estado: vigente.
+- Decisión: presentar la aplicación como “Estudio de Actividad Física y Memoria” y ubicar Digit Span y YAP-SL como dos actividades del mismo estudio.
+- Flujo aprobado: bienvenida → explicación general → asentimiento del estudiante → identificación → actividades → cierre.
+- Asentimiento: ocurre antes de pedir datos y antes de mostrar los tests. Si el estudiante rechaza participar, no se solicitan datos ni se ejecuta guardado.
+- YAP-SL: se usa el Google Form ya existente y se abre en una pestaña nueva. Su finalización se confirma manualmente porque el Form no entrega a esta web un callback de envío.
+- Digit Span: conserva protocolo, audio, práctica, modalidades, puntuación y guardado. Los resultados resumidos no se muestran al participante real al terminar; permanecen disponibles en el flujo de prueba/desarrollo.
+- Pendiente: automatizar el código de participante hacia YAP-SL cuando se disponga del identificador interno de una pregunta compatible/prellenada.
+- Reemplaza parcialmente D-007 en la portada y navegación inicial; D-007 sigue vigente para la presentación interna del Digit Span.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
@@ -125,3 +137,4 @@ Conservar la entrada anterior marcándola como reemplazada, enlazar la nueva dec
 - 2026-11-03 (Chile): voz latinoamericana priorizada y velocidad ajustada a 0,85 (D-009).
 - 2026-11-03 (Chile): selector manual de voz disponible en Desarrolladores (D-010).
 - 2026-11-03 (Chile): Paulina (es-MX) definida como voz predeterminada (D-011).
+- 2026-11-09 (Chile): portal general del estudio, asentimiento previo y YAP-SL incorporados como flujo (D-012).
