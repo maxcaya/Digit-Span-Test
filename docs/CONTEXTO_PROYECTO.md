@@ -76,3 +76,10 @@ Digit Span conserva sus instrucciones, prueba de audio, prácticas, cuatro modal
 ## Vista previa de desarrollador — 2026-11-09
 
 El panel de Desarrolladores incluye una “Vista previa desde el inicio” para revisar la experiencia pública sin ingresar datos reales. Este modo comienza en la bienvenida, precarga una identidad ficticia válida y permite recorrer explicación, asentimiento, identificación, panel de actividades, enlace YAP-SL e inicio de Digit Span. Para acelerar la revisión, Digit Span se limita a Forward, longitud 3, un intento. El modo se identifica visualmente y no ejecuta guardado de resultados en Google Sheets. Es distinto de la Prueba rápida de Digit Span, que continúa saltando directamente a la prueba.
+
+
+## Código y asentimiento — 2026-11-09
+
+El código de participante debe existir antes del asentimiento y ser el identificador común del estudio. El recorrido pasa a ser bienvenida → explicación → identificación mínima (colegio, nivel, letra, número de lista) → generación de código → asentimiento asociado a ese código → datos personales restantes → YAP-SL/Digit Span.
+
+El asentimiento muestra el código y, al aceptar, la aplicación conserva `assentGiven=true` y un timestamp `assentAt`. Nombre, género y fecha de nacimiento se solicitan después. El mismo código se muestra en el panel de actividades para mantener la correspondencia con YAP-SL y Digit Span. El payload de Digit Span contiene un objeto `assent` con código y fecha/hora; como el Apps Script receptor no forma parte del repositorio, debe verificarse/actualizarse aparte si se requiere almacenar esos campos en columnas propias de Google Sheets.
