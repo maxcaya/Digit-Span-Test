@@ -114,6 +114,18 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - Si Paulina no está disponible, la aplicación usa primero otra voz `es-MX` y luego una alternativa latinoamericana para evitar fallos de audio.
 - Velocidad y pausa se mantienen en 0,85 y 250 ms respectivamente.
 
+## 2026-11-09 — Portal general del estudio, asentimiento y YAP-SL
+
+- La portada deja de presentar únicamente “Digit Span Test” y pasa a “Estudio de Actividad Física y Memoria”.
+- Nuevo recorrido inicial: bienvenida → explicación general del estudio → asentimiento del estudiante → datos del participante → panel de actividades.
+- El asentimiento aparece antes de solicitar datos personales o mostrar las actividades. “No quiero participar” lleva a una pantalla de cierre y no solicita datos.
+- El panel “Tus actividades” contiene dos módulos: cuestionario de actividad física (YAP-SL) y actividad de memoria (Digit Span).
+- El YAP-SL abre el Google Form proporcionado por el usuario en una pestaña nueva; al volver, el participante confirma que lo completó.
+- El Digit Span conserva su protocolo, prueba de audio, prácticas, modalidades y guardado. Al terminar, vuelve al panel del estudio sin mostrar puntajes al participante.
+- El estudio solo puede finalizar cuando ambas actividades están marcadas como completadas.
+- Los datos del participante pueden corregirse desde el panel mientras no se haya iniciado ninguna actividad. Al abrir YAP-SL o completar Digit Span quedan fijados para evitar mezclar resultados de personas distintas.
+- El formulario YAP-SL todavía no recibe automáticamente el código de participante porque no se conoce el identificador interno de su campo en Google Forms.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.

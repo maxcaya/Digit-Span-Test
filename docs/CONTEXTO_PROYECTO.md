@@ -60,3 +60,14 @@ La presentación conserva la paleta actual y usa ejemplos separados en Escuchas/
 - 2026-11-02 (Chile): requisito aprobado de una única aplicación pública; tres colegios documentados, Colegio obligatorio y Observaciones retirado de la pantalla inicial.
 - 2026-11-02 (Chile): nivel, letra y número de lista obligatorios; código interno común previsto para Digit Span y YAP-SL, con ID independiente por evaluación y sin integrar todavía los instrumentos.
 - 2026-11-03 (Chile): presentación guiada y navegación documentadas; protocolo y lógica de evaluación conservados (D-007).
+
+
+## Portal general del estudio — 2026-11-09
+
+La aplicación deja de ser una portada exclusiva de Digit Span y pasa a presentarse como “Estudio de Actividad Física y Memoria”. El flujo público vigente es: bienvenida → explicación del estudio → asentimiento → identificación → panel de actividades.
+
+El asentimiento del estudiante ocurre antes de solicitar nombre, fecha de nacimiento, colegio u otros datos. Si el estudiante selecciona “No quiero participar”, se muestra una pantalla de cierre y no se ejecuta ningún guardado. El texto está redactado en lenguaje simple para 4° y 5° básico; su versión definitiva debe mantenerse alineada con el protocolo ético aprobado y no sustituye el consentimiento del apoderado cuando corresponda.
+
+Después de aceptar y completar la identificación, “Tus actividades” presenta dos módulos: (1) cuestionario de actividad física YAP-SL mediante el Google Form proporcionado y (2) actividad de memoria mediante el Digit Span existente. El Form se abre en una pestaña nueva para que el participante pueda volver al portal. Como todavía no existe integración de callbacks ni se conoce el entry id del código de participante, la web no puede comprobar por sí sola el envío del Form ni prellenar el código; el participante confirma manualmente su finalización.
+
+Digit Span conserva sus instrucciones, prueba de audio, prácticas, cuatro modalidades, CONFIG, puntuación y guardado. Al finalizar una evaluación real, sus puntajes no se muestran al estudiante; el módulo se marca como completado y se vuelve al panel de actividades. La prueba rápida de Desarrolladores conserva la salida técnica.
