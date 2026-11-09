@@ -142,6 +142,17 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - Ningún resultado de esta vista previa se envía a Google Sheets.
 - Dentro de la vista previa se puede volver a los datos aunque se haya abierto YAP-SL, facilitando la revisión de navegación.
 
+## 2026-11-09 — Código de participante antes del asentimiento
+
+- El flujo cambia a: bienvenida → explicación → identificación mínima → código de participante → asentimiento → datos restantes → actividades.
+- Antes del asentimiento solo se solicitan colegio, nivel, letra y número de lista, porque son los datos necesarios para generar el código.
+- El asentimiento muestra explícitamente el código generado, por ejemplo `SC-4B-007`.
+- Al aceptar, se registra en la sesión la fecha/hora del asentimiento y se asocia al mismo código.
+- Nombre completo, género y fecha de nacimiento se solicitan después de aceptar.
+- El código queda fijo y visible también en Datos del participante y Tus actividades.
+- El payload y el CSV de Digit Span incluyen asentimiento, fecha del asentimiento y código de participante.
+- YAP-SL sigue siendo un Google Form externo; la página muestra el código para usar el mismo identificador si el Form lo solicita. El prellenado automático sigue pendiente porque no conocemos el `entry id` del campo correspondiente.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
