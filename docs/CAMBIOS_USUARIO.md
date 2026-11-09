@@ -126,6 +126,12 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - Los datos del participante pueden corregirse desde el panel mientras no se haya iniciado ninguna actividad. Al abrir YAP-SL o completar Digit Span quedan fijados para evitar mezclar resultados de personas distintas.
 - El formulario YAP-SL todavía no recibe automáticamente el código de participante porque no se conoce el identificador interno de su campo en Google Forms.
 
+## 2026-11-09 — Volver desde datos del participante
+
+- Se añade un botón “Volver” en la pantalla de Datos del participante.
+- El botón regresa al asentimiento.
+- Los datos que ya se hayan escrito permanecen en pantalla si el estudiante vuelve a entrar a Datos del participante.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
