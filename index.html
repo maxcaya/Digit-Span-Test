@@ -525,6 +525,7 @@ th{background:#f6f6f6}
   </div>
   <div class="actions">
     <button id="continueToInstructions" disabled>Continuar</button>
+    <button id="participantBack" class="secondary">Volver</button>
   </div>
   <button id="developerAccess" class="developerCorner">Desarrolladores</button>
 </section>
@@ -1385,6 +1386,7 @@ $("assentNo").onclick=()=>{state.assentGiven=false;showPage("declinePage")};
 $("declineRestart").onclick=()=>location.reload();
 
 $("welcomeDeveloperAccess").onclick=()=>{developerReturnPage="welcomePage";showPage("developerLoginPage")};
+$("participantBack").onclick=()=>showPage("assentPage");
 $("continueToInstructions").onclick=()=>{
   if(!state.assentGiven){showPage("assentPage");return}
   if(!validateParticipant())return;
