@@ -150,6 +150,12 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - No se cambian CONFIG, PRACTICE, algoritmos de puntuación, criterios de finalización, secuencias ni síntesis de voz del Digit Span.
 - No se implementa aún prellenado del código de participante en Google Forms.
 
+## 2026-11-09 — Navegación de regreso desde identificación
+
+- Archivo: `index.html`.
+- Se añade el botón `participantBack` junto a `continueToInstructions`.
+- `participantBack` ejecuta `showPage("assentPage")` sin limpiar los campos de identificación ni modificar `state.assentGiven`.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
