@@ -156,6 +156,16 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - Se añade el botón `participantBack` junto a `continueToInstructions`.
 - `participantBack` ejecuta `showPage("assentPage")` sin limpiar los campos de identificación ni modificar `state.assentGiven`.
 
+## 2026-11-09 — Modo preview del flujo público
+
+- Se añade `state.previewFlow`, independiente de `state.quick`.
+- `startDeveloperFlowPreview()` reinicia el progreso del estudio, carga datos ficticios válidos, limita `TEST_ORDER` a Forward y usa `startLength=3`, `trials=1`, `maxLength=3`.
+- La vista previa comienza en `welcomePage`, por lo que atraviesa el mismo flujo público de introducción, asentimiento, identificación y actividades.
+- Se añade `previewBanner` como indicador persistente de que no se guardarán datos.
+- `renderFinal()` detecta `previewFlow`, marca el módulo de memoria como completado para navegación, pero omite `saveToGoogle()`.
+- `updateStudyActivities()` no bloquea `activitiesBack` durante preview, permitiendo revisar libremente la navegación.
+- La Prueba rápida antigua permanece disponible y ahora se etiqueta como “Prueba rápida de Digit Span”.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
