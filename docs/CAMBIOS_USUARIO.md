@@ -132,6 +132,16 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - El botón regresa al asentimiento.
 - Los datos que ya se hayan escrito permanecen en pantalla si el estudiante vuelve a entrar a Datos del participante.
 
+## 2026-11-09 — Vista previa completa desde Desarrolladores
+
+- En Desarrolladores → Herramientas se añade “Vista previa desde el inicio”.
+- La vista previa comienza en la bienvenida y permite recorrer introducción, asentimiento, datos, panel de actividades, YAP-SL y el primer Digit Span.
+- Los datos del participante se rellenan automáticamente con información ficticia para no tener que escribirlos.
+- Se muestra una franja “Vista previa de desarrollador · No se guardarán datos”.
+- El Digit Span de esta vista previa se acorta a Forward, longitud 3 y un intento, para revisar rápidamente el flujo hasta el primer test.
+- Ningún resultado de esta vista previa se envía a Google Sheets.
+- Dentro de la vista previa se puede volver a los datos aunque se haya abierto YAP-SL, facilitando la revisión de navegación.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
