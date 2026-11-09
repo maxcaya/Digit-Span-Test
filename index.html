@@ -1519,7 +1519,7 @@ $("listNumber").addEventListener("input",()=>{normalizeIdentification();state.id
 updateIdentificationContinueState();
 updateParticipantContinueState();
 
-$("activitiesBack").onclick=()=>{state.identification=null;showPage("participantPage")};
+$("activitiesBack").onclick=()=>{showFixedParticipantCode();updateParticipantContinueState();showPage("participantPage")};
 $("openYapLink").onclick=()=>{
   window.open(YAP_SL_URL,"_blank","noopener,noreferrer");
   state.yapOpened=true;
