@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#111111">
-<title>Digit Span Test</title>
+<title>Estudio de Actividad Física y Memoria</title>
 <style>
 :root{
   --bg:#f3f3f3; --card:#fff; --text:#111; --muted:#666;
@@ -79,6 +79,16 @@ button:disabled{opacity:.45;cursor:not-allowed}
   display:flex;justify-content:space-between;gap:15px;border:1px solid var(--line);
   border-radius:10px;padding:14px;background:#fafafa
 }
+.studyCards{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:22px 0}
+.studyCard{border:1px solid var(--line);background:#fafafa;border-radius:12px;padding:20px;display:flex;flex-direction:column}
+.studyCard h3{margin:0 0 8px}
+.studyCard p{margin:0 0 14px}
+.studyCard .actions{margin-top:auto;display:grid}
+.statusPill{display:inline-block;align-self:flex-start;padding:5px 9px;border:1px solid #bbb;border-radius:999px;font-size:13px;margin-bottom:14px;background:#fff;color:#555}
+.statusPill.complete{border-color:#8db99b;color:var(--ok)}
+.assentChoices{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:24px}
+.assentChoices .secondary{min-height:54px}
+.studyStep{font-size:14px;color:var(--muted);font-weight:700;margin-bottom:10px}
 table{width:100%;border-collapse:collapse;font-size:14px}
 th,td{padding:9px;border-bottom:1px solid #ddd;text-align:left}
 th{background:#f6f6f6}
@@ -90,6 +100,7 @@ th{background:#f6f6f6}
     padding:24px 18px calc(24px + env(safe-area-inset-bottom));box-shadow:none
   }
   .grid{grid-template-columns:1fr}
+  .studyCards,.assentChoices{grid-template-columns:1fr}
   .stats{grid-template-columns:repeat(2,1fr)}
   .actions,.answerRow{flex-direction:column}
   .answerRow button{width:100%}
@@ -399,21 +410,74 @@ th{background:#f6f6f6}
 
 <section id="welcomePage" class="page active">
   <div class="guidedContent">
-    <h1>Digit Span Test</h1>
-    <p class="guidedSubtitle">Evaluación de memoria de trabajo</p>
-    <ul class="generalList welcomePoints">
-      <li>Esta evaluación mide la capacidad de recordar y manipular secuencias numéricas.</li>
-      <li>Escucharás una serie de números y deberás responder según la instrucción de cada modalidad.</li>
-      <li>La evaluación contiene distintas secciones y recibirás instrucciones antes de comenzar cada una.</li>
-    </ul>
-    <div class="actions"><button id="startEvaluation">Siguiente</button></div>
+    <div class="studyStep">Bienvenida</div>
+    <h1>Estudio de Actividad Física y Memoria</h1>
+    <p class="guidedSubtitle">Investigación en estudiantes escolares</p>
+    <div class="instructions">
+      <p><b>¡Hola!</b> Estamos realizando un estudio para conocer más sobre la actividad física y la memoria en estudiantes como tú.</p>
+      <p>Antes de comenzar te explicaremos en qué consiste. Después podrás decidir si quieres participar.</p>
+    </div>
+    <div class="actions"><button id="startStudyIntro">Conocer el estudio</button></div>
   </div>
   <button id="welcomeDeveloperAccess" class="developerCorner">Desarrolladores</button>
 </section>
 
+<section id="studyIntroPage" class="page">
+  <div class="guidedContent">
+    <div class="studyStep">Sobre el estudio</div>
+    <h1>¿De qué se trata este estudio?</h1>
+    <div class="instructions">
+      <p>Queremos conocer mejor la relación entre la <b>actividad física</b> y algunas habilidades de <b>memoria</b> en estudiantes.</p>
+      <p>Si decides participar, realizarás dos actividades:</p>
+      <ul class="generalList">
+        <li><b>Un cuestionario sobre actividad física</b>, con preguntas sobre las actividades que realizas durante tu semana.</li>
+        <li><b>Una actividad de memoria</b>, en la que escucharás números y responderás siguiendo distintas instrucciones.</li>
+      </ul>
+      <p><b>No es una prueba con nota.</b> Lo importante es que respondas de la mejor manera que puedas.</p>
+    </div>
+    <div class="actions">
+      <button id="continueToAssent">Entendido, continuar</button>
+      <button id="studyIntroBack" class="secondary">Volver</button>
+    </div>
+  </div>
+</section>
+
+<section id="assentPage" class="page">
+  <div class="guidedContent">
+    <div class="studyStep">Tu decisión</div>
+    <h1>¿Quieres participar?</h1>
+    <p class="guidedSubtitle">Queremos saber lo que tú decides</p>
+    <div class="instructions">
+      <ul class="generalList">
+        <li>Participar es <b>tu decisión</b>.</li>
+        <li>Puedes preguntar si hay algo que no entiendes.</li>
+        <li>Esto no tiene nota y no hay que competir con otros estudiantes.</li>
+        <li>Si en algún momento no quieres continuar, puedes decirlo.</li>
+      </ul>
+      <p>Si estás de acuerdo y quieres participar en el estudio, selecciona <b>“Sí, quiero participar”</b>.</p>
+    </div>
+    <div class="assentChoices">
+      <button id="assentYes">Sí, quiero participar</button>
+      <button id="assentNo" class="secondary">No quiero participar</button>
+    </div>
+    <div class="actions"><button id="assentBack" class="secondary">Volver a la explicación</button></div>
+  </div>
+</section>
+
+<section id="declinePage" class="page center">
+  <div class="guidedContent">
+    <h1>Gracias por avisarnos</h1>
+    <div class="instructions">
+      <p>No participarás en el estudio y no te pediremos tus datos.</p>
+      <p class="muted">Puedes avisarle al adulto que está a cargo.</p>
+    </div>
+    <div class="actions"><button id="declineRestart" class="secondary">Volver al inicio</button></div>
+  </div>
+</section>
+
 <section id="participantPage" class="page">
-  <h1>Digit Span Test</h1>
-  <p class="muted">Datos del participante</p>
+  <h1>Datos del participante</h1>
+  <p class="muted">Completa tus datos para continuar con las actividades del estudio.</p>
   <div class="grid">
     <div style="grid-column:1/-1">
       <label for="fullName">Nombre completo</label>
@@ -465,9 +529,54 @@ th{background:#f6f6f6}
   <button id="developerAccess" class="developerCorner">Desarrolladores</button>
 </section>
 
+<section id="activitiesPage" class="page">
+  <div class="guidedContent">
+    <div class="studyStep">Actividades del estudio</div>
+    <h1>Tus actividades</h1>
+    <p id="studyProgressText" class="guidedSubtitle">0 de 2 actividades completadas</p>
+    <div class="studyCards">
+      <div class="studyCard">
+        <span id="yapStatus" class="statusPill">Pendiente</span>
+        <h3>Cuestionario de actividad física</h3>
+        <p>Responderás preguntas sobre las actividades físicas que realizas durante tu semana.</p>
+        <p class="small">El cuestionario YAP-SL se abrirá en una pestaña nueva. Cuando termines, vuelve a esta página.</p>
+        <div class="actions">
+          <button id="openYapLink">Abrir cuestionario YAP-SL</button>
+          <button id="markYapComplete" class="secondary" disabled>Ya completé el cuestionario</button>
+        </div>
+      </div>
+      <div class="studyCard">
+        <span id="digitSpanStatus" class="statusPill">Pendiente</span>
+        <h3>Actividad de memoria</h3>
+        <p>Escucharás secuencias de números y responderás según las instrucciones de cada sección.</p>
+        <p class="small">Antes de comenzar podrás comprobar el volumen y realizarás una práctica.</p>
+        <div class="actions">
+          <button id="startDigitSpan">Comenzar actividad de memoria</button>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <button id="finishStudy" disabled>Finalizar estudio</button>
+      <button id="activitiesBack" class="secondary">Volver a mis datos</button>
+    </div>
+  </div>
+</section>
+
+<section id="studyCompletePage" class="page center">
+  <div class="guidedContent">
+    <h1>¡Gracias por participar!</h1>
+    <div class="instructions">
+      <p>Has completado las actividades del estudio.</p>
+      <p class="muted">Tus respuestas serán utilizadas para ayudarnos a estudiar la relación entre la actividad física y la memoria.</p>
+    </div>
+    <div class="actions"><button id="newParticipant" class="secondary">Finalizar</button></div>
+  </div>
+</section>
+
 <section id="instructionsPage" class="page">
   <div class="guidedContent">
-    <h1>Instrucciones generales</h1>
+    <div class="studyStep">Actividad de memoria</div>
+    <h1>Antes de comenzar</h1>
     <div class="instructions">
       <ul class="generalList">
         <li>Escucha atentamente cada secuencia de números.</li>
@@ -475,12 +584,12 @@ th{background:#f6f6f6}
         <li>Responde siguiendo la instrucción correspondiente a cada sección.</li>
         <li>Antes de cada modalidad realizarás una práctica.</li>
         <li>La práctica no forma parte del resultado.</li>
-        <li>Mantén la atención durante toda la evaluación.</li>
+        <li>Mantén la atención durante toda la actividad.</li>
       </ul>
     </div>
     <div class="actions">
       <button id="beginBattery">Entendido, continuar</button>
-      <button id="backParticipant" class="secondary">Volver</button>
+      <button id="backActivitiesFromDigit" class="secondary">Volver a mis actividades</button>
     </div>
   </div>
 </section>
@@ -573,21 +682,22 @@ th{background:#f6f6f6}
 <section id="completePage" class="page center">
   <div id="completeProgress" class="progress"></div>
   <div id="completeTag" class="modeTag"></div>
-  <h2>Test completado</h2>
+  <h2>Sección completada</h2>
   <p id="completeText">Cuando estés listo, continúa con la siguiente prueba.</p>
   <button id="nextMode" style="max-width:360px" disabled>Continuar</button>
 </section>
 
 <section id="finalPage" class="page">
-  <h2>Batería completada</h2>
-  <p class="muted">Resultados resumidos</p>
+  <h2 id="finalHeading">Actividad de memoria completada</h2>
+  <p id="finalSubtitle" class="muted">Terminaste esta actividad.</p>
   <p id="resultSchool" class="muted"></p>
   <p id="resultParticipant" class="small"></p>
-  <div id="saveStatus" class="instructions"><b>Guardando resultados…</b></div>
+  <div id="saveStatus" class="instructions"><b>Guardando actividad…</b></div>
   <div id="summary" class="summary"></div>
   <div class="actions">
-    <button id="csv">Exportar CSV</button>
-    <button id="restart" class="secondary">Nueva batería</button>
+    <button id="returnToActivities">Volver a tus actividades</button>
+    <button id="csv" style="display:none">Exportar CSV</button>
+    <button id="restart" class="secondary" style="display:none">Nueva batería</button>
   </div>
 </section>
 
@@ -690,6 +800,7 @@ th{background:#f6f6f6}
 const $=id=>document.getElementById(id);
 const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbxnE-VrTDGeODgIL3_635-ZaO2V7ueFTZkqMRnC3xXiB16zxZyjpUoS2Y2F5GJIkO85/exec";
 const DEVELOPER_PASSWORD="demonunab";
+const YAP_SL_URL="https://docs.google.com/forms/d/1tuOKJEoRlqOaWi7_tpgu2lodOxHHc-sexFAMOT2wiK0/viewform?edit_requested=true";
 
 const SCHOOL_CODES={"Santiago College":"SC","Lincoln International Academy Chicureo":"LIA","Craighouse School":"CHS"};
 const SCHOOLS=Object.keys(SCHOOL_CODES);
@@ -700,7 +811,8 @@ let developerReturnPage="participantPage";
 let state={
   currentTestIndex:0, practiceIndex:0, length:3, trial:0, levelCorrect:0,
   sequence:[], results:[], summaries:[], responseStart:0, maxSpan:null,
-  correct:0, wrong:0, evaluationId:null, saveCompleted:false, quick:false, identification:null
+  correct:0, wrong:0, evaluationId:null, saveCompleted:false, quick:false, identification:null,
+  assentGiven:false, yapOpened:false, studyProgress:{yap:false,digitSpan:false}
 };
 
 const PRACTICE={
@@ -1130,7 +1242,7 @@ function finishCurrent(){
     ? "Has completado la última prueba."
     : "Cuando estés listo, continúa con la siguiente prueba.";
 
-  $("nextMode").textContent=isLast ? "Finalizar evaluación" : "Continuar";
+  $("nextMode").textContent=isLast ? "Terminar actividad" : "Continuar";
   $("nextMode").disabled=true;
 
   showPage("completePage");
@@ -1152,15 +1264,30 @@ function renderFinal(){
     d.innerHTML=`<span><b>${s.title}</b><br><span class="muted">${s.correct} aciertos · ${s.wrong} errores</span></span><span><b>Span ${s.maxSpan??"—"}</b></span>`;
     $("summary").appendChild(d);
   });
+
   if(state.quick){
+    $("finalHeading").textContent="Prueba rápida completada";
+    $("finalSubtitle").textContent="Resultados resumidos";
     $("resultSchool").textContent="Prueba interna de desarrollador";
     $("resultParticipant").textContent="Sin datos de participante";
+    $("summary").style.display="";
+    $("returnToActivities").style.display="none";
+    $("csv").style.display="";
+    $("restart").style.display="";
     $("saveStatus").innerHTML="<b>Prueba rápida completada.</b><br><span class='small'>No fue enviada a Google Sheets.</span>";
     state.quick=false;return;
   }
-  const p=participant();
-  $("resultSchool").textContent=`Colegio: ${p.school}`;
-  $("resultParticipant").textContent=`Curso: ${p.grade}°${p.classLetter} · Número de lista: ${p.listNumber} · Código del participante: ${p.participantCode}`;
+
+  state.studyProgress.digitSpan=true;
+  updateStudyActivities();
+  $("finalHeading").textContent="Actividad de memoria completada";
+  $("finalSubtitle").textContent="¡Muy bien! Terminaste la actividad de memoria.";
+  $("resultSchool").textContent="";
+  $("resultParticipant").textContent="";
+  $("summary").style.display="none";
+  $("returnToActivities").style.display="";
+  $("csv").style.display="none";
+  $("restart").style.display="none";
   saveToGoogle();
 }
 
@@ -1180,13 +1307,13 @@ function payload(){
   };
 }
 async function saveToGoogle(){
-  $("saveStatus").innerHTML="<b>Guardando resultados…</b>";
+  $("saveStatus").innerHTML="<b>Guardando actividad…</b>";
   try{
     await fetch(GOOGLE_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload()),mode:"no-cors"});
     state.saveCompleted=true;
-    $("saveStatus").innerHTML=`<b>✓ Resultados enviados a Google Sheets.</b><br><span class="small">ID: ${state.evaluationId}</span>`;
+    $("saveStatus").innerHTML="<b>✓ Actividad de memoria guardada.</b>";
   }catch(e){
-    $("saveStatus").innerHTML="<b class='bad'>No se pudieron enviar los resultados.</b>";
+    $("saveStatus").innerHTML="<b class='bad'>No se pudo guardar la actividad. Avísale al adulto a cargo.</b>";
   }
 }
 function exportCSV(){
@@ -1196,6 +1323,24 @@ function exportCSV(){
   const rows=state.results.map(r=>[p.fullName,p.gender,p.birthDate,p.age,r.mode,r.practice?1:0,r.length,r.trial,r.sequence.join(""),r.answer.join(""),r.expected.join(""),r.correct?1:0,r.rt,p.school,p.grade,p.classLetter,p.listNumber,p.participantCode]);
   const csv=[head,...rows].map(row=>row.map(v=>`"${String(v).replaceAll('"','""')}"`).join(",")).join("\n");
   const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));a.download="digit_span.csv";a.click();
+}
+
+function updateStudyActivities(){
+  const completed=Number(state.studyProgress.yap)+Number(state.studyProgress.digitSpan);
+  $("studyProgressText").textContent=`${completed} de 2 actividades completadas`;
+
+  $("yapStatus").textContent=state.studyProgress.yap?"Completada":(state.yapOpened?"Abierta":"Pendiente");
+  $("yapStatus").className="statusPill"+(state.studyProgress.yap?" complete":"");
+  $("openYapLink").textContent=state.studyProgress.yap?"Abrir cuestionario nuevamente":"Abrir cuestionario YAP-SL";
+  $("markYapComplete").disabled=!state.yapOpened||state.studyProgress.yap;
+  $("markYapComplete").textContent=state.studyProgress.yap?"Cuestionario completado":"Ya completé el cuestionario";
+
+  $("digitSpanStatus").textContent=state.studyProgress.digitSpan?"Completada":"Pendiente";
+  $("digitSpanStatus").className="statusPill"+(state.studyProgress.digitSpan?" complete":"");
+  $("startDigitSpan").disabled=state.studyProgress.digitSpan;
+  $("startDigitSpan").textContent=state.studyProgress.digitSpan?"Actividad de memoria completada":"Comenzar actividad de memoria";
+
+  $("finishStudy").disabled=completed<2;
 }
 
 function loadDev(){
@@ -1227,9 +1372,22 @@ async function googleTest(){
   catch(e){out.className="feedback bad";out.textContent="No se pudo enviar."}
 }
 
-$("startEvaluation").onclick=()=>showPage("participantPage");
+$("startStudyIntro").onclick=()=>showPage("studyIntroPage");
+$("studyIntroBack").onclick=()=>showPage("welcomePage");
+$("continueToAssent").onclick=()=>showPage("assentPage");
+$("assentBack").onclick=()=>showPage("studyIntroPage");
+$("assentYes").onclick=()=>{state.assentGiven=true;showPage("participantPage")};
+$("assentNo").onclick=()=>{state.assentGiven=false;showPage("declinePage")};
+$("declineRestart").onclick=()=>location.reload();
+
 $("welcomeDeveloperAccess").onclick=()=>{developerReturnPage="welcomePage";showPage("developerLoginPage")};
-$("continueToInstructions").onclick=()=>{if(validateParticipant())showPage("instructionsPage")};
+$("continueToInstructions").onclick=()=>{
+  if(!state.assentGiven){showPage("assentPage");return}
+  if(!validateParticipant())return;
+  state.identification=identificationFromForm();
+  updateStudyActivities();
+  showPage("activitiesPage");
+};
 $("classLetter").addEventListener("input",normalizeIdentification);
 $("listNumber").addEventListener("input",normalizeIdentification);
 ["fullName","gender","birthDate","school","grade","classLetter","listNumber"].forEach(id=>{
@@ -1237,8 +1395,30 @@ $("listNumber").addEventListener("input",normalizeIdentification);
   $(id).addEventListener("change",updateParticipantContinueState);
 });
 updateParticipantContinueState();
-$("backParticipant").onclick=()=>showPage("participantPage");
+
+$("activitiesBack").onclick=()=>{state.identification=null;showPage("participantPage")};
+$("openYapLink").onclick=()=>{
+  window.open(YAP_SL_URL,"_blank","noopener,noreferrer");
+  state.yapOpened=true;
+  updateStudyActivities();
+};
+$("markYapComplete").onclick=()=>{
+  if(!state.yapOpened)return;
+  state.studyProgress.yap=true;
+  updateStudyActivities();
+};
+$("startDigitSpan").onclick=()=>{
+  if(state.studyProgress.digitSpan)return;
+  showPage("instructionsPage");
+};
+$("finishStudy").onclick=()=>{
+  if(state.studyProgress.yap&&state.studyProgress.digitSpan)showPage("studyCompletePage");
+};
+$("newParticipant").onclick=()=>location.reload();
+
+$("backActivitiesFromDigit").onclick=()=>{updateStudyActivities();showPage("activitiesPage")};
 $("beginBattery").onclick=()=>{
+  if(!state.assentGiven){showPage("assentPage");return}
   if(!validateParticipant())return;
   state.identification=identificationFromForm();
   state.currentTestIndex=0;
@@ -1282,6 +1462,7 @@ $("submit").onclick=submitTest;
 bindHardNumericLimit($("answer"));
 $("answer").onkeydown=e=>{if(e.key==="Enter")submitTest()};
 $("nextMode").onclick=nextMode;
+$("returnToActivities").onclick=()=>{updateStudyActivities();showPage("activitiesPage")};
 $("csv").onclick=exportCSV;
 $("restart").onclick=()=>location.reload();
 
