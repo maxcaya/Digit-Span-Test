@@ -136,6 +136,19 @@ Conservar la entrada anterior marcándola como reemplazada, enlazar la nueva dec
 - Rapidez: la parte de Digit Span se reduce solo dentro de la vista previa a Forward, longitud 3, un intento.
 - Diferencia con Prueba rápida: la Prueba rápida sigue siendo una herramienta directa de Digit Span; la Vista previa sirve para revisar navegación y experiencia completa.
 
+## D-014 — Generar el código antes del asentimiento
+
+- Fecha: 2026-11-09 (Chile).
+- Estado: vigente.
+- Decisión: el asentimiento debe estar directamente asociado al código del participante.
+- Flujo: bienvenida → explicación → identificación mínima → código → asentimiento → datos restantes → actividades.
+- Identificación mínima: colegio, nivel, letra y número de lista, exclusivamente los datos usados para construir el código `COLEGIO-NIVEL+LETRA-NUMERO_LISTA`.
+- Asentimiento: la pantalla muestra el código; al aceptar se registra un timestamp en la sesión y el payload de Digit Span incluye código, aceptación y fecha/hora.
+- Integridad: si cambia cualquier componente del código antes de aceptar, se invalida la identificación y cualquier asentimiento previo.
+- Datos restantes: nombre, género y fecha de nacimiento se solicitan solo después del “Sí, quiero participar”.
+- YAP-SL: se muestra el mismo código en el panel, pero el prellenado del Form continúa pendiente hasta conocer el identificador interno del campo de código.
+- Persistencia: el frontend envía el objeto `assent`; el almacenamiento en columnas separadas requiere compatibilidad del Apps Script receptor.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
@@ -150,3 +163,4 @@ Conservar la entrada anterior marcándola como reemplazada, enlazar la nueva dec
 - 2026-11-03 (Chile): Paulina (es-MX) definida como voz predeterminada (D-011).
 - 2026-11-09 (Chile): portal general del estudio, asentimiento previo y YAP-SL incorporados como flujo (D-012).
 - 2026-11-09 (Chile): vista previa completa del flujo público disponible desde Desarrolladores (D-013).
+- 2026-11-09 (Chile): código generado antes del asentimiento y asentimiento asociado al mismo identificador (D-014).
