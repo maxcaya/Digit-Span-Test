@@ -89,6 +89,11 @@ button:disabled{opacity:.45;cursor:not-allowed}
 .assentChoices{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:24px}
 .assentChoices .secondary{min-height:54px}
 .studyStep{font-size:14px;color:var(--muted);font-weight:700;margin-bottom:10px}
+.previewBanner{
+  position:sticky;top:8px;z-index:20;margin:0 0 12px;padding:9px 12px;
+  border:1px solid #aaa;border-radius:9px;background:#fff;text-align:center;
+  font-size:13px;font-weight:700;
+}
 table{width:100%;border-collapse:collapse;font-size:14px}
 th,td{padding:9px;border-bottom:1px solid #ddd;text-align:left}
 th{background:#f6f6f6}
@@ -407,6 +412,7 @@ th{background:#f6f6f6}
 </head>
 <body>
 <div class="shell">
+<div id="previewBanner" class="previewBanner" hidden>Vista previa de desarrollador · No se guardarán datos</div>
 
 <section id="welcomePage" class="page active">
   <div class="guidedContent">
@@ -774,9 +780,11 @@ th{background:#f6f6f6}
 
   <div class="instructions">
     <h3>Herramientas</h3>
+    <p class="small">La vista previa completa usa datos ficticios, recorre el estudio desde la bienvenida y no guarda resultados.</p>
     <div class="actions">
-      <button id="testAudio">Probar audio</button>
-      <button id="quickTest" class="secondary">Prueba rápida</button>
+      <button id="previewFullFlow">Vista previa desde el inicio</button>
+      <button id="testAudio" class="secondary">Probar audio</button>
+      <button id="quickTest" class="secondary">Prueba rápida de Digit Span</button>
       <button id="testGoogle" class="secondary">Probar Google Sheets</button>
     </div>
     <div id="developerToolResult" class="feedback"></div>
@@ -812,7 +820,7 @@ let developerReturnPage="participantPage";
 let state={
   currentTestIndex:0, practiceIndex:0, length:3, trial:0, levelCorrect:0,
   sequence:[], results:[], summaries:[], responseStart:0, maxSpan:null,
-  correct:0, wrong:0, evaluationId:null, saveCompleted:false, quick:false, identification:null,
+  correct:0, wrong:0, evaluationId:null, saveCompleted:false, quick:false, previewFlow:false, identification:null,
   assentGiven:false, yapOpened:false, studyProgress:{yap:false,digitSpan:false}
 };
 
@@ -1279,6 +1287,21 @@ function renderFinal(){
     state.quick=false;return;
   }
 
+  if(state.previewFlow){
+    state.studyProgress.digitSpan=true;
+    updateStudyActivities();
+    $("finalHeading").textContent="Primer test completado";
+    $("finalSubtitle").textContent="Vista previa de desarrollador terminada.";
+    $("resultSchool").textContent="";
+    $("resultParticipant").textContent="";
+    $("summary").style.display="none";
+    $("returnToActivities").style.display="";
+    $("csv").style.display="none";
+    $("restart").style.display="none";
+    $("saveStatus").innerHTML="<b>Vista previa:</b> no se enviaron datos a Google Sheets.";
+    return;
+  }
+
   state.studyProgress.digitSpan=true;
   updateStudyActivities();
   $("finalHeading").textContent="Actividad de memoria completada";
@@ -1343,9 +1366,42 @@ function updateStudyActivities(){
 
   $("finishStudy").disabled=completed<2;
 
-  const identityLocked=state.yapOpened||state.studyProgress.yap||state.studyProgress.digitSpan;
+  const identityLocked=!state.previewFlow&&(state.yapOpened||state.studyProgress.yap||state.studyProgress.digitSpan);
   $("activitiesBack").disabled=identityLocked;
   $("activitiesBack").textContent=identityLocked?"Datos fijados para estas actividades":"Volver a mis datos";
+}
+
+function startDeveloperFlowPreview(){
+  state.previewFlow=true;
+  state.quick=false;
+  state.assentGiven=false;
+  state.yapOpened=false;
+  state.studyProgress={yap:false,digitSpan:false};
+  state.identification=null;
+  state.evaluationId=null;
+  state.saveCompleted=false;
+  state.currentTestIndex=0;
+  state.results=[];
+  state.summaries=[];
+
+  // Recorrido corto: solo la primera modalidad y una secuencia de longitud 3.
+  TEST_ORDER=["forward"];
+  CONFIG.startLength=3;
+  CONFIG.trials=1;
+  CONFIG.maxLength=3;
+
+  // Datos ficticios para poder recorrer el flujo sin escribir información real.
+  $("fullName").value="PRUEBA DESARROLLADOR";
+  $("gender").value="Prefiero no responder";
+  $("birthDate").value="2016-01-01";
+  $("school").value="Santiago College";
+  $("grade").value="4";
+  $("classLetter").value="A";
+  $("listNumber").value="1";
+  updateParticipantContinueState();
+
+  $("previewBanner").hidden=false;
+  showPage("welcomePage");
 }
 
 function loadDev(){
@@ -1486,8 +1542,9 @@ $("saveConfig").onclick=saveDev;
 $("resetConfig").onclick=()=>{CONFIG={rate:.85,gap:250,betweenTrialsMs:2000,startLength:3,trials:2,maxLength:12};TEST_ORDER=["forward","backward","ascending","descending"];SELECTED_VOICE_URI="";localStorage.removeItem("digitSpanVoiceURI");loadDev();$("configSaved").className="feedback ok";$("configSaved").textContent="Valores recomendados restaurados. Voz predeterminada: Paulina (es-MX)."};
 $("cfgVoice").onchange=()=>{SELECTED_VOICE_URI=$("cfgVoice").value;if(SELECTED_VOICE_URI)localStorage.setItem("digitSpanVoiceURI",SELECTED_VOICE_URI);else localStorage.removeItem("digitSpanVoiceURI")};
 $("previewVoice").onclick=async()=>{const out=$("voicePreviewStatus"),btn=$("previewVoice");btn.disabled=true;out.className="feedback";out.textContent="Reproduciendo 3, 8, 1…";try{await speakSequence([3,8,1],out);out.className="feedback ok";out.textContent="✓ Voz reproducida. Puedes elegir otra y volver a probar."}catch(e){out.className="feedback bad";out.textContent="No se pudo reproducir esta voz."}finally{btn.disabled=false}};
+$("previewFullFlow").onclick=startDeveloperFlowPreview;
 $("testAudio").onclick=async()=>{const out=$("developerToolResult");try{out.className="feedback";out.textContent="Reproduciendo 3, 8, 1…";await speakSequence([3,8,1],out);out.className="feedback ok";out.textContent="✓ Audio funcionando."}catch(e){out.className="feedback bad";out.textContent="No se pudo reproducir audio."}};
-$("quickTest").onclick=()=>{state.identification={school:"",grade:"",classLetter:"",listNumber:null,participantCode:""};state.evaluationId=null;state.saveCompleted=false;state.quick=true;TEST_ORDER=["forward"];CONFIG.startLength=3;CONFIG.trials=1;CONFIG.maxLength=3;state.currentTestIndex=0;state.results=[];state.summaries=[];fillIntro();showPage("introPage")};
+$("quickTest").onclick=()=>{state.previewFlow=false;$("previewBanner").hidden=true;state.identification={school:"",grade:"",classLetter:"",listNumber:null,participantCode:""};state.evaluationId=null;state.saveCompleted=false;state.quick=true;TEST_ORDER=["forward"];CONFIG.startLength=3;CONFIG.trials=1;CONFIG.maxLength=3;state.currentTestIndex=0;state.results=[];state.summaries=[];fillIntro();showPage("introPage")};
 $("testGoogle").onclick=googleTest;
 
 if("speechSynthesis" in window){

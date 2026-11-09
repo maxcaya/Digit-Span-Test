@@ -125,6 +125,17 @@ Conservar la entrada anterior marcándola como reemplazada, enlazar la nueva dec
 - Pendiente: automatizar el código de participante hacia YAP-SL cuando se disponga del identificador interno de una pregunta compatible/prellenada.
 - Reemplaza parcialmente D-007 en la portada y navegación inicial; D-007 sigue vigente para la presentación interna del Digit Span.
 
+## D-013 — Vista previa completa para desarrolladores
+
+- Fecha: 2026-11-09 (Chile).
+- Estado: vigente.
+- Decisión: permitir revisar el flujo público completo desde Desarrolladores sin ingresar datos reales ni generar registros.
+- Inicio: la vista previa parte en la bienvenida y utiliza datos ficticios precargados.
+- Alcance: introducción, asentimiento, identificación, panel YAP-SL/Digit Span y primer test de memoria.
+- Seguridad de datos: `previewFlow` nunca llama a `saveToGoogle()`.
+- Rapidez: la parte de Digit Span se reduce solo dentro de la vista previa a Forward, longitud 3, un intento.
+- Diferencia con Prueba rápida: la Prueba rápida sigue siendo una herramienta directa de Digit Span; la Vista previa sirve para revisar navegación y experiencia completa.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
@@ -138,3 +149,4 @@ Conservar la entrada anterior marcándola como reemplazada, enlazar la nueva dec
 - 2026-11-03 (Chile): selector manual de voz disponible en Desarrolladores (D-010).
 - 2026-11-03 (Chile): Paulina (es-MX) definida como voz predeterminada (D-011).
 - 2026-11-09 (Chile): portal general del estudio, asentimiento previo y YAP-SL incorporados como flujo (D-012).
+- 2026-11-09 (Chile): vista previa completa del flujo público disponible desde Desarrolladores (D-013).

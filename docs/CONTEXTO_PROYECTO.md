@@ -71,3 +71,8 @@ El asentimiento del estudiante ocurre antes de solicitar nombre, fecha de nacimi
 Después de aceptar y completar la identificación, “Tus actividades” presenta dos módulos: (1) cuestionario de actividad física YAP-SL mediante el Google Form proporcionado y (2) actividad de memoria mediante el Digit Span existente. El Form se abre en una pestaña nueva para que el participante pueda volver al portal. Como todavía no existe integración de callbacks ni se conoce el entry id del código de participante, la web no puede comprobar por sí sola el envío del Form ni prellenar el código; el participante confirma manualmente su finalización.
 
 Digit Span conserva sus instrucciones, prueba de audio, prácticas, cuatro modalidades, CONFIG, puntuación y guardado. Al finalizar una evaluación real, sus puntajes no se muestran al estudiante; el módulo se marca como completado y se vuelve al panel de actividades. La prueba rápida de Desarrolladores conserva la salida técnica.
+
+
+## Vista previa de desarrollador — 2026-11-09
+
+El panel de Desarrolladores incluye una “Vista previa desde el inicio” para revisar la experiencia pública sin ingresar datos reales. Este modo comienza en la bienvenida, precarga una identidad ficticia válida y permite recorrer explicación, asentimiento, identificación, panel de actividades, enlace YAP-SL e inicio de Digit Span. Para acelerar la revisión, Digit Span se limita a Forward, longitud 3, un intento. El modo se identifica visualmente y no ejecuta guardado de resultados en Google Sheets. Es distinto de la Prueba rápida de Digit Span, que continúa saltando directamente a la prueba.
