@@ -144,6 +144,7 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - El flujo público exige `state.assentGiven=true` antes de identificación/actividades. El rechazo no escribe datos ni ejecuta guardados.
 - Se añade `YAP_SL_URL` con el formulario de respuesta proporcionado. Se abre con `window.open(..., "_blank")` para conservar el estado de la aplicación.
 - `state.studyProgress` mantiene `yap` y `digitSpan`; `updateStudyActivities()` actualiza progreso, estados y disponibilidad del cierre.
+- `activitiesBack` se bloquea en cuanto YAP-SL ha sido abierto o alguna actividad se completa, evitando cambiar la identificación en mitad de una participación.
 - Debido a que no existe callback de envío desde el Google Form, la finalización de YAP-SL se confirma manualmente tras haber abierto el formulario.
 - Para participantes reales, `renderFinal()` marca Digit Span como completado, guarda sus resultados y oculta resumen/CSV; la prueba rápida de Desarrolladores conserva el resumen técnico.
 - No se cambian CONFIG, PRACTICE, algoritmos de puntuación, criterios de finalización, secuencias ni síntesis de voz del Digit Span.
