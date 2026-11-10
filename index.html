@@ -95,6 +95,17 @@ button:disabled{opacity:.45;cursor:not-allowed}
   font-variant-numeric:tabular-nums;
 }
 .participantCodeInline{font-weight:700;font-variant-numeric:tabular-nums}
+.yapFrameWrap{
+  width:100%;margin:18px 0;border:1px solid var(--line);border-radius:12px;
+  overflow:hidden;background:#f7f7f7;
+}
+.yapFrame{
+  width:100%;height:760px;border:0;display:block;background:#fff;
+}
+#yapPage .guidedContent{max-width:920px}
+@media(max-width:680px){
+  .yapFrame{height:72dvh;min-height:620px}
+}
 .previewBanner{
   position:sticky;top:8px;z-index:20;margin:0 0 12px;padding:9px 12px;
   border:1px solid #aaa;border-radius:9px;background:#fff;text-align:center;
@@ -570,10 +581,9 @@ th{background:#f6f6f6}
         <span id="yapStatus" class="statusPill">Pendiente</span>
         <h3>Cuestionario de actividad física</h3>
         <p>Responderás preguntas sobre las actividades físicas que realizas durante tu semana.</p>
-        <p class="small">El cuestionario YAP-SL se abrirá en una pestaña nueva. Usa el mismo código de participante si el formulario te lo solicita. Cuando termines, vuelve a esta página.</p>
+        <p class="small">El cuestionario YAP-SL se responderá aquí mismo, sin salir de esta página.</p>
         <div class="actions">
-          <button id="openYapLink">Abrir cuestionario YAP-SL</button>
-          <button id="markYapComplete" class="secondary" disabled>Ya completé el cuestionario</button>
+          <button id="openYapLink">Completar cuestionario YAP-SL</button>
         </div>
       </div>
       <div class="studyCard">
@@ -589,6 +599,32 @@ th{background:#f6f6f6}
     <div class="actions">
       <button id="finishStudy" disabled>Finalizar estudio</button>
       <button id="activitiesBack" class="secondary">Volver a mis datos</button>
+    </div>
+  </div>
+</section>
+
+<section id="yapPage" class="page">
+  <div class="guidedContent">
+    <div class="studyStep">Cuestionario de actividad física</div>
+    <h1>YAP-SL</h1>
+    <p>Código de participante: <span id="yapParticipantCode" class="participantCodeInline">—</span></p>
+    <p class="guidedSubtitle">Responde el cuestionario dentro de esta misma página.</p>
+    <div class="instructions">
+      <p>Contesta pensando en tus actividades habituales y siguiendo las instrucciones del formulario.</p>
+      <p class="small">Cuando hayas enviado el formulario y aparezca el mensaje de confirmación de Google Forms, pulsa “Ya envié el cuestionario”.</p>
+    </div>
+    <div class="yapFrameWrap">
+      <iframe
+        id="yapFrame"
+        class="yapFrame"
+        title="Cuestionario YAP-SL"
+        loading="lazy"
+        src="about:blank">
+      </iframe>
+    </div>
+    <div class="actions">
+      <button id="markYapComplete">Ya envié el cuestionario</button>
+      <button id="yapBack" class="secondary">Volver a mis actividades</button>
     </div>
   </div>
 </section>
@@ -833,7 +869,8 @@ th{background:#f6f6f6}
 const $=id=>document.getElementById(id);
 const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbxnE-VrTDGeODgIL3_635-ZaO2V7ueFTZkqMRnC3xXiB16zxZyjpUoS2Y2F5GJIkO85/exec";
 const DEVELOPER_PASSWORD="demonunab";
-const YAP_SL_URL="https://docs.google.com/forms/d/1tuOKJEoRlqOaWi7_tpgu2lodOxHHc-sexFAMOT2wiK0/viewform?edit_requested=true";
+const YAP_SL_URL="https://docs.google.com/forms/d/1tuOKJEoRlqOaWi7_tpgu2lodOxHHc-sexFAMOT2wiK0/viewform";
+const YAP_SL_EMBED_URL=YAP_SL_URL+"?embedded=true";
 
 const SCHOOL_CODES={"Santiago College":"SC","Lincoln International Academy Chicureo":"LIA","Craighouse School":"CHS"};
 const SCHOOLS=Object.keys(SCHOOL_CODES);
@@ -925,6 +962,7 @@ function showFixedParticipantCode(){
   $("assentParticipantCode").textContent=code;
   $("participantPageCode").textContent=code;
   $("activitiesParticipantCode").textContent=code;
+  $("yapParticipantCode").textContent=code;
 }
 function validateParticipant(){
   if(!state.identification?.participantCode){alert("Primero genera el código del participante.");showPage("identificationPage");return false}
@@ -1393,11 +1431,9 @@ function updateStudyActivities(){
   const completed=Number(state.studyProgress.yap)+Number(state.studyProgress.digitSpan);
   $("studyProgressText").textContent=`${completed} de 2 actividades completadas`;
 
-  $("yapStatus").textContent=state.studyProgress.yap?"Completada":(state.yapOpened?"Abierta":"Pendiente");
+  $("yapStatus").textContent=state.studyProgress.yap?"Completada":(state.yapOpened?"En curso":"Pendiente");
   $("yapStatus").className="statusPill"+(state.studyProgress.yap?" complete":"");
-  $("openYapLink").textContent=state.studyProgress.yap?"Abrir cuestionario nuevamente":"Abrir cuestionario YAP-SL";
-  $("markYapComplete").disabled=!state.yapOpened||state.studyProgress.yap;
-  $("markYapComplete").textContent=state.studyProgress.yap?"Cuestionario completado":"Ya completé el cuestionario";
+  $("openYapLink").textContent=state.studyProgress.yap?"Revisar cuestionario YAP-SL":"Completar cuestionario YAP-SL";
 
   $("digitSpanStatus").textContent=state.studyProgress.digitSpan?"Completada":"Pendiente";
   $("digitSpanStatus").className="statusPill"+(state.studyProgress.digitSpan?" complete":"");
@@ -1521,14 +1557,18 @@ updateParticipantContinueState();
 
 $("activitiesBack").onclick=()=>{showFixedParticipantCode();updateParticipantContinueState();showPage("participantPage")};
 $("openYapLink").onclick=()=>{
-  window.open(YAP_SL_URL,"_blank","noopener,noreferrer");
   state.yapOpened=true;
+  showFixedParticipantCode();
+  if($("yapFrame").src==="about:blank")$("yapFrame").src=YAP_SL_EMBED_URL;
   updateStudyActivities();
+  showPage("yapPage");
 };
+$("yapBack").onclick=()=>{updateStudyActivities();showPage("activitiesPage")};
 $("markYapComplete").onclick=()=>{
   if(!state.yapOpened)return;
   state.studyProgress.yap=true;
   updateStudyActivities();
+  showPage("activitiesPage");
 };
 $("startDigitSpan").onclick=()=>{
   if(state.studyProgress.digitSpan)return;

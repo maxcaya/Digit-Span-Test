@@ -149,6 +149,16 @@ Conservar la entrada anterior marcándola como reemplazada, enlazar la nueva dec
 - YAP-SL: se muestra el mismo código en el panel, pero el prellenado del Form continúa pendiente hasta conocer el identificador interno del campo de código.
 - Persistencia: el frontend envía el objeto `assent`; el almacenamiento en columnas separadas requiere compatibilidad del Apps Script receptor.
 
+## D-015 — Mantener el Google Form YAP-SL embebido dentro del portal
+
+- Fecha: 2026-11-09 (Chile).
+- Estado: vigente.
+- Decisión: presentar el Google Form YAP-SL dentro de una pantalla del mismo portal, en lugar de abrirlo en una pestaña nueva.
+- Razón: mantener una experiencia continua bajo el mismo enlace y conservar exactamente las preguntas, alternativas y formato ya configurados en Google Forms.
+- Implementación: iframe con la URL pública `viewform?embedded=true`, código de participante visible y confirmación manual “Ya envié el cuestionario”.
+- Restricción: por aislamiento cross-origin no se inspecciona el contenido del Form ni se detecta automáticamente el envío.
+- Pendiente: obtener `entry.*` de un enlace prellenado para autocompletar los datos que el portal ya conoce y eliminar la doble digitación.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
@@ -164,3 +174,4 @@ Conservar la entrada anterior marcándola como reemplazada, enlazar la nueva dec
 - 2026-11-09 (Chile): portal general del estudio, asentimiento previo y YAP-SL incorporados como flujo (D-012).
 - 2026-11-09 (Chile): vista previa completa del flujo público disponible desde Desarrolladores (D-013).
 - 2026-11-09 (Chile): código generado antes del asentimiento y asentimiento asociado al mismo identificador (D-014).
+- 2026-11-09 (Chile): YAP-SL embebido dentro del mismo portal usando el Form original (D-015).

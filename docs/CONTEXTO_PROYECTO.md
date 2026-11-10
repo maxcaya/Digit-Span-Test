@@ -83,3 +83,10 @@ El panel de Desarrolladores incluye una “Vista previa desde el inicio” para 
 El código de participante debe existir antes del asentimiento y ser el identificador común del estudio. El recorrido pasa a ser bienvenida → explicación → identificación mínima (colegio, nivel, letra, número de lista) → generación de código → asentimiento asociado a ese código → datos personales restantes → YAP-SL/Digit Span.
 
 El asentimiento muestra el código y, al aceptar, la aplicación conserva `assentGiven=true` y un timestamp `assentAt`. Nombre, género y fecha de nacimiento se solicitan después. El mismo código se muestra en el panel de actividades para mantener la correspondencia con YAP-SL y Digit Span. El payload de Digit Span contiene un objeto `assent` con código y fecha/hora; como el Apps Script receptor no forma parte del repositorio, debe verificarse/actualizarse aparte si se requiere almacenar esos campos en columnas propias de Google Sheets.
+
+
+## YAP-SL embebido — 2026-11-09
+
+El YAP-SL se presenta dentro del mismo portal mediante el Google Form original embebido, en vez de abrir una pestaña externa. Esto conserva el contenido y formato exactos del formulario y mantiene al estudiante bajo la misma URL del estudio. La página muestra el código de participante sobre el Form y el estudiante marca manualmente que ya lo envió después de ver la confirmación de Google Forms.
+
+El Form es de origen Google y por seguridad del navegador no puede manipularse desde el frontend del portal. El autocompletado de género, fecha de nacimiento, colegio/curso u otros campos dependerá de obtener los parámetros `entry.*` mediante un enlace prellenado del Form; hasta entonces esos campos siguen dependiendo de la configuración actual del Form.
