@@ -197,6 +197,17 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - `yapPrevious` se mantiene deshabilitado cuando `state.yapIndex===0`.
 - El retorno a `activitiesPage` ocurre únicamente desde `completeYap()`.
 
+## 2026-11-09 — Puente YAP-SL hacia Google Sheets sin cambiar Apps Script
+
+- Se mantiene el mismo `GOOGLE_SCRIPT_URL` y el mismo receptor existente.
+- `yapNotesForSheet()` serializa las 19 respuestas como `YAPSL|respuesta1|...|respuesta19` dentro de `participant.notes`, campo que el receptor ya guarda en `Participantes!G`.
+- `saveStudyIfReady()` retrasa el único POST hasta que `studyProgress.yap` y `studyProgress.digitSpan` sean verdaderos.
+- Se añade `saveInProgress` para impedir envíos simultáneos o dobles.
+- La pestaña `YAP-SL` contiene en A3 una fórmula que filtra registros `YAPSL|` desde Participantes, reutiliza identificación/demografía y distribuye las 19 respuestas entre I:AA.
+- La fila 2 existente se conserva; los nuevos registros nativos comienzan desde la fila 3.
+- La pestaña YAP-SL se amplió a 1000 filas y conserva el formato existente.
+- No se modifica el Apps Script desplegado ni la estructura de Base Digit Span, Participantes, Intentos, Dashboard, Resumen o Control.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.

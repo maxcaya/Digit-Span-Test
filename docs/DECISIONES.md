@@ -169,6 +169,16 @@ Conservar la entrada anterior marcándola como reemplazada, enlazar la nueva dec
 - Navegación permitida: avanzar a la pregunta siguiente o volver a la pregunta anterior.
 - Salida: el sistema vuelve al panel de actividades sólo después de completar las 19 preguntas.
 
+## D-017 — Vincular YAP-SL al Sheet mediante el guardado existente
+
+- Fecha: 2026-11-09 (Chile).
+- Estado: vigente.
+- Decisión: usar el mismo Google Sheet y el mismo Apps Script ya desplegado para transportar los resultados YAP-SL, sin modificar el receptor.
+- Mecanismo: las 19 respuestas se serializan en `participant.notes`; la pestaña `YAP-SL` las distribuye automáticamente mediante fórmula.
+- Guardado: un solo POST cuando ambas actividades están completas, independientemente del orden.
+- Integridad: se conserva el mismo código de participante en YAP-SL y Digit Span.
+- Compatibilidad: las funciones y pestañas existentes de Digit Span permanecen sin cambios funcionales.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.

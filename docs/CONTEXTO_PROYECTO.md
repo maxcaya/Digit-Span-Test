@@ -90,3 +90,10 @@ El asentimiento muestra el código y, al aceptar, la aplicación conserva `assen
 El YAP-SL se aplica directamente en el portal, sin Google Forms. Se reutilizan los datos de identificación y demográficos ya recogidos, y el estudiante responde únicamente las 4 preguntas generales y los 15 ítems del instrumento. Las respuestas se mantienen en el estado de la evaluación bajo el mismo código de participante y se incluyen en el payload junto a Digit Span. La UI presenta una pregunta por vez con navegación Anterior/Siguiente y no permite finalizar con ítems pendientes.
 
 Por ahora se almacenan respuestas crudas (índice de alternativa y texto). No se calcula automáticamente un puntaje total YAP-SL hasta documentar la regla de puntuación/calibración que utilizará el estudio. El Apps Script receptor debe actualizarse por separado si se requieren columnas específicas para YAP-SL en Google Sheets.
+
+
+## Integración YAP-SL → Google Sheets — 2026-11-09
+
+La pestaña existente `YAP-SL` del archivo `Prueba digit span` se usa como salida de los resultados del cuestionario nativo. Para evitar modificar el Apps Script ya desplegado, las 19 respuestas YAP-SL se serializan en `participant.notes`, que el receptor actual ya almacena en la columna Observaciones de `Participantes`. La pestaña `YAP-SL` filtra esas filas y reconstruye automáticamente una fila con marca temporal, código, colegio, curso, letra, número de lista, género, fecha de nacimiento y las 19 respuestas.
+
+El POST al backend ocurre una sola vez cuando ambas actividades estén completas. Si el estudiante termina YAP-SL primero, el guardado se realiza al finalizar Digit Span; si termina Digit Span primero, se realiza al finalizar YAP-SL. Esto permite conservar el receptor actual y evita duplicar evaluaciones.

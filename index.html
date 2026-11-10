@@ -880,7 +880,7 @@ let developerReturnPage="participantPage";
 let state={
   currentTestIndex:0, practiceIndex:0, length:3, trial:0, levelCorrect:0,
   sequence:[], results:[], summaries:[], responseStart:0, maxSpan:null,
-  correct:0, wrong:0, evaluationId:null, saveCompleted:false, quick:false, previewFlow:false, identification:null,
+  correct:0, wrong:0, evaluationId:null, saveCompleted:false, saveInProgress:false, quick:false, previewFlow:false, identification:null,
   assentGiven:false, assentAt:null, yapOpened:false, yapIndex:0, yapResponses:{}, yapCompletedAt:null,
   studyProgress:{yap:false,digitSpan:false}
 };
@@ -968,8 +968,14 @@ function validateIdentification(){
   if(!validListNumber($("listNumber").value)){alert("Ingresa un número de lista entero entre 1 y 99.");$("listNumber").focus();return false}
   return true;
 }
+function yapNotesForSheet(){
+  if(!state.studyProgress.yap || Object.keys(state.yapResponses).length!==YAP_QUESTIONS.length)return "";
+  const clean=value=>String(value??"").replaceAll("|","/").replace(/[\r\n]+/g," ").trim();
+  const answers=YAP_QUESTIONS.map(q=>clean(state.yapResponses[q.id]?.answer));
+  return "YAPSL|"+answers.join("|");
+}
 function participant(){
-  return {fullName:$("fullName").value.trim(),gender:$("gender").value,birthDate:$("birthDate").value,age:ageFromBirth($("birthDate").value),...(state.identification??identificationFromForm()),notes:$("notes")?.value.trim()??""};
+  return {fullName:$("fullName").value.trim(),gender:$("gender").value,birthDate:$("birthDate").value,age:ageFromBirth($("birthDate").value),...(state.identification??identificationFromForm()),notes:yapNotesForSheet()};
 }
 function identificationFormComplete(){
   normalizeIdentification();
@@ -1053,6 +1059,7 @@ function completeYap(){
   state.studyProgress.yap=true;
   state.yapCompletedAt=new Date().toISOString();
   updateStudyActivities();
+  saveStudyIfReady();
   showPage("activitiesPage");
 }
 function validateParticipant(){
@@ -1479,7 +1486,7 @@ function renderFinal(){
   $("returnToActivities").style.display="";
   $("csv").style.display="none";
   $("restart").style.display="none";
-  saveToGoogle();
+  saveStudyIfReady();
 }
 
 function evaluationId(){
@@ -1506,14 +1513,24 @@ function payload(){
     protocol:{presentation_mode:"audio",voice_source:"browser_speech_synthesis",language:"es-CL",rate:CONFIG.rate,gap_ms:CONFIG.gap,between_trials_ms:CONFIG.betweenTrialsMs,start_length:CONFIG.startLength,trials_per_length:CONFIG.trials,max_length:CONFIG.maxLength,modes:TEST_ORDER}
   };
 }
+function saveStudyIfReady(){
+  if(state.previewFlow||state.quick)return;
+  if(!state.studyProgress.yap||!state.studyProgress.digitSpan)return;
+  if(state.saveCompleted||state.saveInProgress)return;
+  saveToGoogle();
+}
 async function saveToGoogle(){
-  $("saveStatus").innerHTML="<b>Guardando actividad…</b>";
+  if(state.saveCompleted||state.saveInProgress)return;
+  state.saveInProgress=true;
+  $("saveStatus").innerHTML="<b>Guardando resultados del estudio…</b>";
   try{
     await fetch(GOOGLE_SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload()),mode:"no-cors"});
     state.saveCompleted=true;
-    $("saveStatus").innerHTML="<b>✓ Actividad de memoria guardada.</b>";
+    $("saveStatus").innerHTML="<b>✓ Resultados guardados.</b>";
   }catch(e){
-    $("saveStatus").innerHTML="<b class='bad'>No se pudo guardar la actividad. Avísale al adulto a cargo.</b>";
+    $("saveStatus").innerHTML="<b class='bad'>No se pudieron guardar los resultados. Avísale al adulto a cargo.</b>";
+  }finally{
+    state.saveInProgress=false;
   }
 }
 function exportCSV(){
@@ -1560,6 +1577,7 @@ function startDeveloperFlowPreview(){
   state.identification=null;
   state.evaluationId=null;
   state.saveCompleted=false;
+  state.saveInProgress=false;
   state.currentTestIndex=0;
   state.results=[];
   state.summaries=[];
@@ -1691,6 +1709,7 @@ $("beginBattery").onclick=()=>{
   state.summaries=[];
   state.evaluationId=null;
   state.saveCompleted=false;
+  state.saveInProgress=false;
   state.quick=false;
   $("audioCheckContinue").disabled=true;
   $("audioCheckStatus").textContent="";
