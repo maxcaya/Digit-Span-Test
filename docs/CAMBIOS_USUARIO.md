@@ -163,6 +163,13 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - Al responder la pregunta 19, el YAP-SL se marca automáticamente como completado; no existe un botón manual para saltarse preguntas.
 - Una vez completado, el YAP-SL queda bloqueado para evitar cambios posteriores.
 
+## 2026-11-09 — YAP-SL sin salida intermedia
+
+- Una vez iniciado el YAP-SL, se elimina la opción de volver a “Tus actividades”.
+- El estudiante sólo puede avanzar o volver a la pregunta anterior.
+- En la primera pregunta, “Pregunta anterior” permanece deshabilitado.
+- Al completar las 19 preguntas, recién se vuelve automáticamente al panel de actividades.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
