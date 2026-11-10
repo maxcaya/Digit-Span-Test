@@ -170,6 +170,15 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - En la primera pregunta, “Pregunta anterior” permanece deshabilitado.
 - Al completar las 19 preguntas, recién se vuelve automáticamente al panel de actividades.
 
+## 2026-11-09 — Resultados YAP-SL vinculados a la pestaña YAP-SL
+
+- Las respuestas del YAP-SL quedan vinculadas al mismo Google Sheet que ya recibe Digit Span.
+- Se conserva la pestaña existente `YAP-SL` y sus columnas actuales.
+- Código, colegio, curso, letra, número de lista, género y fecha de nacimiento se reutilizan desde los datos del participante.
+- Las 19 respuestas del YAP-SL aparecen automáticamente en sus columnas correspondientes.
+- El envío al backend existente se realiza una sola vez cuando YAP-SL y Digit Span están completos, sin importar cuál se realizó primero.
+- No se modifica el protocolo de Digit Span, la vista previa de Desarrolladores ni las demás pestañas del archivo.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
