@@ -149,15 +149,17 @@ Conservar la entrada anterior marcándola como reemplazada, enlazar la nueva dec
 - YAP-SL: se muestra el mismo código en el panel, pero el prellenado del Form continúa pendiente hasta conocer el identificador interno del campo de código.
 - Persistencia: el frontend envía el objeto `assent`; el almacenamiento en columnas separadas requiere compatibilidad del Apps Script receptor.
 
-## D-015 — Mantener el Google Form YAP-SL embebido dentro del portal
+## D-015 — Aplicar YAP-SL directamente dentro del portal
 
 - Fecha: 2026-11-09 (Chile).
-- Estado: vigente.
-- Decisión: presentar el Google Form YAP-SL dentro de una pantalla del mismo portal, en lugar de abrirlo en una pestaña nueva.
-- Razón: mantener una experiencia continua bajo el mismo enlace y conservar exactamente las preguntas, alternativas y formato ya configurados en Google Forms.
-- Implementación: iframe con la URL pública `viewform?embedded=true`, código de participante visible y confirmación manual “Ya envié el cuestionario”.
-- Restricción: por aislamiento cross-origin no se inspecciona el contenido del Form ni se detecta automáticamente el envío.
-- Pendiente: obtener `entry.*` de un enlace prellenado para autocompletar los datos que el portal ya conoce y eliminar la doble digitación.
+- Estado: vigente; reemplaza la decisión anterior de incrustar Google Forms.
+- Decisión: no usar Google Forms en la experiencia del participante. Las preguntas YAP-SL se implementan de forma nativa en la web.
+- Fuente del contenido: versión YAP-SL para Latinoamérica publicada por PROFITH.
+- Datos ya conocidos: código, colegio, nivel, género y fecha de nacimiento se reutilizan y no se vuelven a pedir.
+- Integridad: el YAP-SL sólo se completa con 19/19 respuestas y, una vez completado, queda bloqueado.
+- Almacenamiento: las respuestas crudas se incluyen en el payload bajo el mismo código de participante.
+- Puntuación: no se calcula un score automático hasta documentar la regla de puntuación/calibración usada por el estudio.
+- Persistencia: el Apps Script receptor requiere actualización separada si se desean columnas YAP-SL en Sheets.
 
 ## Historial breve
 
@@ -174,4 +176,4 @@ Conservar la entrada anterior marcándola como reemplazada, enlazar la nueva dec
 - 2026-11-09 (Chile): portal general del estudio, asentimiento previo y YAP-SL incorporados como flujo (D-012).
 - 2026-11-09 (Chile): vista previa completa del flujo público disponible desde Desarrolladores (D-013).
 - 2026-11-09 (Chile): código generado antes del asentimiento y asentimiento asociado al mismo identificador (D-014).
-- 2026-11-09 (Chile): YAP-SL embebido dentro del mismo portal usando el Form original (D-015).
+- 2026-11-09 (Chile): YAP-SL implementado de forma nativa dentro del portal; se elimina Google Forms de la experiencia del participante (D-015).
