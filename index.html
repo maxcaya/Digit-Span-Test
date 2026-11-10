@@ -625,8 +625,7 @@ th{background:#f6f6f6}
     <div class="actions">
       <button id="yapNext" disabled>Siguiente</button>
       <button id="yapPreviewFill" class="secondary" hidden>Rellenar YAP de prueba</button>
-      <button id="yapPrevious" class="secondary">Anterior</button>
-      <button id="yapBack" class="secondary">Volver a mis actividades</button>
+      <button id="yapPrevious" class="secondary">Pregunta anterior</button>
     </div>
   </div>
 </section>
@@ -1661,7 +1660,6 @@ updateParticipantContinueState();
 
 $("activitiesBack").onclick=()=>{showFixedParticipantCode();updateParticipantContinueState();showPage("participantPage")};
 $("openYapLink").onclick=()=>{if(!state.studyProgress.yap)startYap()};
-$("yapBack").onclick=()=>{updateStudyActivities();showPage("activitiesPage")};
 $("yapPrevious").onclick=()=>{if(state.yapIndex>0){state.yapIndex--;renderYapQuestion()}};
 $("yapPreviewFill").onclick=()=>{
   if(!state.previewFlow)return;
