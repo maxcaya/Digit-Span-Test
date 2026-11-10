@@ -624,6 +624,7 @@ th{background:#f6f6f6}
     </div>
     <div class="actions">
       <button id="yapNext" disabled>Siguiente</button>
+      <button id="yapPreviewFill" class="secondary" hidden>Rellenar YAP de prueba</button>
       <button id="yapPrevious" class="secondary">Anterior</button>
       <button id="yapBack" class="secondary">Volver a mis actividades</button>
     </div>
@@ -902,7 +903,7 @@ const YAP_SECTIONS={
   sedentary:"Hábitos sedentarios"
 };
 const YAP_SECTION_INTROS={
-  general:"Responde estas preguntas generales sobre tus oportunidades y disfrute de la actividad física.",
+  general:"El YAP-SL pregunta por el tiempo que permaneces haciendo actividad física y por el tiempo que dedicas a actividades sedentarias. En la mayoría de las preguntas debes responder pensando en los últimos 7 días. Debes ser honesto: no hay respuestas malas ni buenas.",
   school:"Piensa en la actividad física que hiciste en el colegio durante los últimos 7 días. Esto incluye Educación Física, recreos, el camino al colegio y la vuelta a casa.",
   outside:"Piensa en la actividad física que hiciste fuera del colegio durante los últimos 7 días. Incluye deportes organizados, jugar con amigos, bailar y tareas de la casa.",
   sedentary:"Piensa en el tiempo que pasaste descansando o sentado durante estas actividades en los últimos 7 días, sólo en los días de colegio."
@@ -919,16 +920,16 @@ const YAP_QUESTIONS=[
   {id:"q4",section:"school",text:"Actividad durante el descanso para comer: durante el descanso para comer (almorzar), ¿con qué frecuencia estuviste moviéndote, caminando o jugando?",help:"Si no tienes descanso para comer en el colegio porque no hay clases por la tarde, elige “No tuve descanso para comer”.",options:["No tuve descanso para comer","Muy poco tiempo","Poco tiempo","Más o menos la mitad del tiempo","Mucho tiempo","Casi todo el tiempo"]},
   {id:"q5",section:"school",text:"Volver del colegio: ¿cuántos días volviste del colegio caminando o en bicicleta?",help:"Si no lo recuerdas con exactitud, intenta señalar la respuesta más adecuada.",options:["0 días (ningún día)","1 día","2 días","3 días","4-5 días (todos los días)"]},
 
-  {id:"q6",section:"outside",text:"Actividad antes del colegio: antes de empezar el colegio (entre las 6:00 y las 8:00 de la mañana), ¿cuántos días hiciste actividad física durante al menos 10 minutos?",help:"Incluye actividades realizadas en casa, colegio u otro lugar, pero NO incluye ir caminando o en bicicleta al colegio.",options:["0 días (ningún día)","1 día","2 días","3 días","4-5 días (todos los días)"]},
-  {id:"q7",section:"outside",text:"Actividad después del colegio: después del horario de clases de tu colegio (y hasta las 18:00 hrs.), ¿cuántos días hiciste actividad física durante al menos 10 minutos?",help:"Incluye jugar con amigos o familia, deportes de equipo o talleres deportivos, pero NO la vuelta del colegio caminando o en bicicleta.",options:["0 días (ningún día)","1 día","2 días","3 días","4-5 días (todos los días)"]},
-  {id:"q8",section:"outside",text:"Actividad por las tardes: entre las 18:00 y las 22:00, ¿cuántos días hiciste actividad física durante al menos 10 minutos?",help:"Incluye jugar con amigos o familia, deportes de equipo o clases como danza o natación, pero NO la vuelta del colegio caminando o en bicicleta.",options:["0 días (ningún día)","1 día","2 días","3 días","4-5 días (todos los días)"]},
-  {id:"q9",section:"outside",text:"Actividad en sábados: ¿cuánta actividad física hiciste el sábado pasado?",help:"Incluye ejercicio físico, tareas de la casa, paseos con la familia, deportes, baile o juegos.",options:["Nada de actividad física (0 minutos)","Muy poca actividad física (1-30 minutos)","Una cantidad media de actividad física (31-59 minutos)","Mucha actividad física (1-2 horas)","Una gran cantidad de actividad física (más de dos horas)"]},
-  {id:"q10",section:"outside",text:"Actividad en domingos: ¿cuánta actividad física hiciste el domingo pasado?",help:"Incluye ejercicio, trabajos, paseos con la familia, deportes, baile o juegos.",options:["Nada de actividad física (0 minutos)","Muy poca actividad física (1-30 minutos)","Una cantidad moderada de actividad física (31-59 minutos)","Mucha actividad física (1-2 horas)","Una gran cantidad de actividad física (más de dos horas)"]},
+  {id:"q6",section:"outside",text:"Actividad antes del colegio: antes de empezar el colegio (entre las 6:00 y las 8:00 de la mañana), ¿cuántos días hiciste actividad física durante al menos 10 minutos?",help:"Aquí se incluyen actividades realizadas en casa, colegio u otro lugar, pero NO incluye el ir caminando o en bicicleta al colegio.",options:["0 días (ningún día)","1 día","2 días","3 días","4-5 días (todos los días)"]},
+  {id:"q7",section:"outside",text:"Actividad después del colegio: después del horario de clases de tu colegio (y hasta las 18:00 hrs.), ¿cuántos días hiciste actividad física durante al menos 10 minutos?",help:"Se incluyen actividades como jugar con amigos/familia, deportes de equipo o clases en las que hagas actividad física (como talleres deportivos), pero NO la vuelta del colegio andando o en bicicleta.",options:["0 días (ningún día)","1 día","2 días","3 días","4-5 días (todos los días)"]},
+  {id:"q8",section:"outside",text:"Actividad por las tardes: entre las 18:00 y las 22:00, ¿cuántos días hiciste actividad física durante al menos 10 minutos?",help:"Se incluyen actividades como jugar con amigos/familia, deportes de equipo o clases en las que hagas actividad física (como danza, natación u otras), pero NO la vuelta del colegio caminando o en bicicleta.",options:["0 días (ningún día)","1 día","2 días","3 días","4-5 días (todos los días)"]},
+  {id:"q9",section:"outside",text:"Actividad en sábados: ¿cuánta actividad física hiciste el sábado pasado?",help:"Se incluye ejercicio físico, tareas de la casa, excursiones (paseos) con la familia, deportes, baile o juegos. Si no lo recuerdas con exactitud, intenta señalar la respuesta más adecuada.",options:["Nada de actividad física (0 minutos)","Muy poca actividad física (1-30 minutos)","Una cantidad media de actividad física (31-59 minutos)","Mucha actividad física (1-2 horas)","Una gran cantidad de actividad física (más de dos horas)"]},
+  {id:"q10",section:"outside",text:"Actividad en domingos: ¿cuánta actividad física hiciste el domingo pasado?",help:"Se incluye ejercicio, trabajos, excursiones (paseos) con la familia, deportes, baile o juegos. Si no lo recuerdas con exactitud, intenta señalar la respuesta más adecuada.",options:["Nada de actividad física (0 minutos)","Muy poca actividad física (1-30 minutos)","Una cantidad moderada de actividad física (31-59 minutos)","Mucha actividad física (1-2 horas)","Una gran cantidad de actividad física (más de dos horas)"]},
 
-  {id:"q11",section:"sedentary",text:"Tiempo viendo televisión: ¿cuánto tiempo estuviste viendo la televisión fuera del colegio?",help:"Incluye películas, dibujos animados o deportes, pero NO jugar a videojuegos.",options:["No vi nada la televisión","Vi la televisión menos de 1 hora al día","Vi la televisión entre 1-2 horas al día","Vi la televisión más de 2 horas y hasta 3 horas al día","Vi la televisión más de 3 horas al día"]},
-  {id:"q12",section:"sedentary",text:"Tiempo con videojuegos: ¿cuánto tiempo estuviste jugando a videojuegos fuera del colegio?",help:"Incluye consolas, teléfono móvil, tablets/iPad u otras consolas. NO incluir juegos con computador.",options:["No jugué nada con consolas","Jugué menos de 1 hora al día","Jugué entre 1-2 horas al día","Jugué más de 2 horas y hasta 3 horas al día","Jugué más de 3 horas al día"]},
-  {id:"q13",section:"sedentary",text:"Tiempo con computador: ¿cuánto tiempo estuviste usando el computador fuera del colegio?",help:"NO incluye usarlo para tareas, pero SÍ internet, chat, redes sociales, videojuegos o juegos online.",options:["No usé el computador para estas actividades","Usé el computador menos de 1 hora al día","Usé el computador entre 1-2 horas al día","Usé el computador más de 2 horas y hasta 3 horas al día","Usé el computador más de 3 horas al día"]},
-  {id:"q14",section:"sedentary",text:"Tiempo con teléfono móvil: ¿cuánto tiempo estuviste usando tu teléfono móvil (celular) fuera del colegio?",help:"Incluye hablar por teléfono y escribir mensajes. Si no tienes teléfono y no usas el de otra persona, elige “No usé nunca el teléfono móvil”.",options:["No usé nunca el teléfono móvil","Usé el teléfono móvil menos de 1 hora al día","Usé el teléfono móvil entre 1-2 horas al día","Usé el teléfono móvil más de 2 horas y hasta 3 horas al día","Usé el teléfono móvil más de 3 horas al día"]},
+  {id:"q11",section:"sedentary",text:"Tiempo viendo televisión: ¿cuánto tiempo estuviste viendo la televisión fuera del colegio?",help:"Incluye el tiempo que estuviste viendo películas (dibujos animados) o deportes, pero NO jugando a videojuegos.",options:["No vi nada la televisión","Vi la televisión menos de 1 hora al día","Vi la televisión entre 1-2 horas al día","Vi la televisión más de 2 horas y hasta 3 horas al día","Vi la televisión más de 3 horas al día"]},
+  {id:"q12",section:"sedentary",text:"Tiempo con videojuegos: ¿cuánto tiempo estuviste jugando a videojuegos fuera del colegio?",help:"Incluye jugar a Nintendo DS, Wii, Xbox, PlayStation, juegos en tu teléfono móvil (celular), tablets/iPad u otras consolas. NO incluir juegos con computador (ordenador, portátil).",options:["No jugué nada con consolas","Jugué menos de 1 hora al día","Jugué entre 1-2 horas al día","Jugué más de 2 horas y hasta 3 horas al día","Jugué más de 3 horas al día"]},
+  {id:"q13",section:"sedentary",text:"Tiempo con computador: ¿cuánto tiempo estuviste usando el computador fuera del colegio?",help:"NO se incluye el uso para hacer tareas (deberes), pero SÍ el tiempo en Facebook, usando internet, chateando, jugando a videojuegos o juegos online.",options:["No usé el computador para estas actividades","Usé el computador menos de 1 hora al día","Usé el computador entre 1-2 horas al día","Usé el computador más de 2 horas y hasta 3 horas al día","Usé el computador más de 3 horas al día"]},
+  {id:"q14",section:"sedentary",text:"Tiempo con teléfono móvil: ¿cuánto tiempo estuviste usando tu teléfono móvil (celular) fuera del colegio?",help:"Esto incluye el tiempo hablando por teléfono y escribiendo mensajes. Si no tienes teléfono y no usas nunca el de tus padres o algún amigo, elige “No usé nunca el teléfono móvil”.",options:["No usé nunca el teléfono móvil","Usé el teléfono móvil menos de 1 hora al día","Usé el teléfono móvil entre 1-2 horas al día","Usé el teléfono móvil más de 2 horas y hasta 3 horas al día","Usé el teléfono móvil más de 3 horas al día"]},
   {id:"q15",section:"sedentary",text:"Hábitos sedentarios en una semana normal (NO sólo la última semana): ¿cuál de las siguientes frases define mejor tus hábitos sedentarios en casa?",options:["Apenas estoy sentado en mi tiempo libre","Estoy sentado durante poco tiempo en mi tiempo libre","Estoy sentado una cantidad media de tiempo en mi tiempo libre","Estoy sentado mucho tiempo en mi tiempo libre","Estoy sentado casi todo el tiempo en mi tiempo libre"]}
 ];
 
@@ -1032,6 +1033,7 @@ function renderYapQuestion(){
     box.appendChild(option);
   });
   $("yapPrevious").disabled=state.yapIndex===0;
+  $("yapPreviewFill").hidden=!state.previewFlow;
   $("yapNext").disabled=!state.yapResponses[q.id];
   $("yapNext").textContent=state.yapIndex===YAP_QUESTIONS.length-1?"Finalizar YAP-SL":"Siguiente";
 }
@@ -1661,6 +1663,12 @@ $("activitiesBack").onclick=()=>{showFixedParticipantCode();updateParticipantCon
 $("openYapLink").onclick=()=>{if(!state.studyProgress.yap)startYap()};
 $("yapBack").onclick=()=>{updateStudyActivities();showPage("activitiesPage")};
 $("yapPrevious").onclick=()=>{if(state.yapIndex>0){state.yapIndex--;renderYapQuestion()}};
+$("yapPreviewFill").onclick=()=>{
+  if(!state.previewFlow)return;
+  YAP_QUESTIONS.forEach(q=>{state.yapResponses[q.id]={selected_index:1,answer:q.options[0]}});
+  state.yapIndex=YAP_QUESTIONS.length-1;
+  renderYapQuestion();
+};
 $("yapNext").onclick=()=>{
   const q=currentYapQuestion();
   if(!q||!state.yapResponses[q.id])return;
