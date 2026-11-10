@@ -161,6 +161,14 @@ Conservar la entrada anterior marcándola como reemplazada, enlazar la nueva dec
 - Puntuación: no se calcula un score automático hasta documentar la regla de puntuación/calibración usada por el estudio.
 - Persistencia: el Apps Script receptor requiere actualización separada si se desean columnas YAP-SL en Sheets.
 
+## D-016 — YAP-SL como flujo cerrado hasta finalizar
+
+- Fecha: 2026-11-09 (Chile).
+- Estado: vigente.
+- Decisión: una vez iniciado el YAP-SL, el participante no puede volver al panel principal de actividades.
+- Navegación permitida: avanzar a la pregunta siguiente o volver a la pregunta anterior.
+- Salida: el sistema vuelve al panel de actividades sólo después de completar las 19 preguntas.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
