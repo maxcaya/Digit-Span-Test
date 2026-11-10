@@ -179,15 +179,16 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - `beginBattery` deja de recalcular `state.identification`; usa el código ya fijado antes del asentimiento.
 - El backend actual de Apps Script no está versionado en este repositorio, por lo que estos nuevos campos se envían en el payload pero su persistencia en columnas específicas depende de que el script receptor los procese.
 
-## 2026-11-09 — Google Form YAP-SL embebido
+## 2026-11-09 — YAP-SL nativo
 
-- Se añade `yapPage` con un `iframe#yapFrame`.
-- El iframe carga la URL pública del Form con `?embedded=true`.
-- `openYapLink` ya no usa `window.open`; cambia a la página interna `yapPage`.
-- `markYapComplete` queda dentro de `yapPage` y al activarse marca `state.studyProgress.yap=true` y vuelve al panel de actividades.
-- `showFixedParticipantCode()` actualiza también `yapParticipantCode`.
-- El Form sigue siendo cross-origin; la aplicación no intenta leer ni modificar su DOM ni afirmar automáticamente que el envío fue exitoso.
-- Para eliminar la repetición de datos mediante prefill falta obtener los identificadores `entry.*` del Form original.
+- Se elimina el iframe y toda dependencia de Google Forms.
+- `YAP_QUESTIONS` contiene las 4 preguntas generales y 15 ítems del YAP-SL, organizados en general, actividad escolar, actividad fuera del colegio y sedentarismo.
+- `state.yapResponses` almacena por ítem `selected_index` y texto de respuesta.
+- `renderYapQuestion()` presenta una pregunta por pantalla y conserva respuestas al navegar atrás/adelante.
+- `completeYap()` exige 19/19 respuestas antes de marcar el cuestionario como completado.
+- `payload()` incorpora un objeto `yap_sl` asociado al código, incluyendo datos demográficos ya disponibles y respuestas crudas.
+- No se implementa todavía un puntaje YAP calculado: se guardan respuestas crudas para no inventar una regla de puntuación no especificada en el proyecto.
+- La persistencia en columnas específicas de Google Sheets sigue dependiendo del Apps Script receptor, que no está versionado en este repositorio.
 
 ## Historial breve
 

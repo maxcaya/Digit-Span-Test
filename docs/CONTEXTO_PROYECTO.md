@@ -85,8 +85,8 @@ El código de participante debe existir antes del asentimiento y ser el identifi
 El asentimiento muestra el código y, al aceptar, la aplicación conserva `assentGiven=true` y un timestamp `assentAt`. Nombre, género y fecha de nacimiento se solicitan después. El mismo código se muestra en el panel de actividades para mantener la correspondencia con YAP-SL y Digit Span. El payload de Digit Span contiene un objeto `assent` con código y fecha/hora; como el Apps Script receptor no forma parte del repositorio, debe verificarse/actualizarse aparte si se requiere almacenar esos campos en columnas propias de Google Sheets.
 
 
-## YAP-SL embebido — 2026-11-09
+## YAP-SL nativo — 2026-11-09
 
-El YAP-SL se presenta dentro del mismo portal mediante el Google Form original embebido, en vez de abrir una pestaña externa. Esto conserva el contenido y formato exactos del formulario y mantiene al estudiante bajo la misma URL del estudio. La página muestra el código de participante sobre el Form y el estudiante marca manualmente que ya lo envió después de ver la confirmación de Google Forms.
+El YAP-SL se aplica directamente en el portal, sin Google Forms. Se reutilizan los datos de identificación y demográficos ya recogidos, y el estudiante responde únicamente las 4 preguntas generales y los 15 ítems del instrumento. Las respuestas se mantienen en el estado de la evaluación bajo el mismo código de participante y se incluyen en el payload junto a Digit Span. La UI presenta una pregunta por vez con navegación Anterior/Siguiente y no permite finalizar con ítems pendientes.
 
-El Form es de origen Google y por seguridad del navegador no puede manipularse desde el frontend del portal. El autocompletado de género, fecha de nacimiento, colegio/curso u otros campos dependerá de obtener los parámetros `entry.*` mediante un enlace prellenado del Form; hasta entonces esos campos siguen dependiendo de la configuración actual del Form.
+Por ahora se almacenan respuestas crudas (índice de alternativa y texto). No se calcula automáticamente un puntaje total YAP-SL hasta documentar la regla de puntuación/calibración que utilizará el estudio. El Apps Script receptor debe actualizarse por separado si se requieren columnas específicas para YAP-SL en Google Sheets.

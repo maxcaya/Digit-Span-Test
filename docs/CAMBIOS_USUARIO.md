@@ -153,15 +153,15 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - El payload y el CSV de Digit Span incluyen asentimiento, fecha del asentimiento y código de participante.
 - YAP-SL sigue siendo un Google Form externo; la página muestra el código para usar el mismo identificador si el Form lo solicita. El prellenado automático sigue pendiente porque no conocemos el `entry id` del campo correspondiente.
 
-## 2026-11-09 — YAP-SL dentro del mismo portal
+## 2026-11-09 — YAP-SL nativo dentro del portal
 
-- El cuestionario YAP-SL deja de abrirse en una pestaña nueva.
-- Desde “Tus actividades”, el botón “Completar cuestionario YAP-SL” abre una pantalla del propio portal.
-- En esa pantalla se incrusta el Google Form original, conservando exactamente su apariencia, preguntas y alternativas.
-- El código de participante permanece visible arriba del cuestionario.
-- Después de enviar el Form, el estudiante pulsa “Ya envié el cuestionario” y vuelve automáticamente a “Tus actividades”.
-- Se conserva la posibilidad de revisar el cuestionario si ya fue marcado como completado.
-- Esta integración mantiene el Form original como fuente de respuestas; el autocompletado de los datos personales todavía requiere conocer los identificadores `entry.*` del Google Form.
+- Se elimina el Google Form incrustado.
+- Las 4 preguntas generales y los 15 ítems del YAP-SL se responden directamente dentro de la página del estudio.
+- El cuestionario se presenta una pregunta por pantalla, con progreso visible y el mismo diseño del portal.
+- No se vuelven a solicitar código, colegio, nivel, género ni fecha de nacimiento; se reutilizan los datos ya ingresados.
+- Las respuestas quedan asociadas al mismo código de participante.
+- Al responder la pregunta 19, el YAP-SL se marca automáticamente como completado; no existe un botón manual para saltarse preguntas.
+- Una vez completado, el YAP-SL queda bloqueado para evitar cambios posteriores.
 
 ## Historial breve
 
