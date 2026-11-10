@@ -190,6 +190,13 @@ Creación: 2026-11-02 (Chile, America/Santiago).
 - No se implementa todavía un puntaje YAP calculado: se guardan respuestas crudas para no inventar una regla de puntuación no especificada en el proyecto.
 - La persistencia en columnas específicas de Google Sheets sigue dependiendo del Apps Script receptor, que no está versionado en este repositorio.
 
+## 2026-11-09 — Bloqueo de salida durante YAP-SL
+
+- Se elimina el botón `yapBack` y su handler.
+- La navegación del YAP queda restringida a `yapPrevious` y `yapNext`.
+- `yapPrevious` se mantiene deshabilitado cuando `state.yapIndex===0`.
+- El retorno a `activitiesPage` ocurre únicamente desde `completeYap()`.
+
 ## Historial breve
 
 - 2026-11-02 (Chile): creación de la configuración documental inicial solicitada.
